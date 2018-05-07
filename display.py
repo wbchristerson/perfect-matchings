@@ -8,9 +8,12 @@ class Pan(games.Sprite):
 #        self.was_clicked = False
 #        self.x = x_coor
 #        self.y = y_coor
-    pan = games.load_image("hovered-vertex.png")
+    pan = games.load_image("vertex.png")
+    hovered_pan = games.load_image("hovered-vertex.png")
     def update(self):
         if (len(self.overlapping_sprites) > 0):
+            self.image = self.hovered_pan
+        else:
             self.image = self.pan
 #        for event in pygame.event.get():
 #            if (event.type == pygame.MOUSEBUTTONDOWN):
@@ -29,9 +32,15 @@ def main():
     games.screen.background = wall_image
     pizza_image = games.load_image("vertex.png")
     phantom_pizza_image = games.load_image("phantom-pizza.bmp")
+    pizza_list = []
+    for i in range(5):
+        for j in range(2):
+            pizza_list.append(Pan(image = pizza_image, x = 200 + 240 * j,
+                                  y = 80 * i + 80))
     pizza = Pan(image = pizza_image, x = 320, y = 240)
     pm = PhantomMouse(image = phantom_pizza_image)
-    games.screen.add(pizza)
+    for pizza in pizza_list:
+        games.screen.add(pizza)
     games.screen.add(pm)
     games.screen.mainloop()
 
