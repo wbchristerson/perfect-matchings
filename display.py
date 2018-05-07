@@ -2,16 +2,15 @@ from livewires import games
 
 games.init(screen_width = 640, screen_height = 480, fps = 50)
 
-class Pan(games.Sprite):
+class Vertex(games.Sprite):
     def __init__(self, sprite_image, x_coor, y_coor):
-        super(Pan, self).__init__(image = sprite_image, x = x_coor, y = y_coor)
+        super(Vertex, self).__init__(image = sprite_image, x = x_coor,
+                                     y = y_coor)
         self.is_selected = False
+        # set when to initiate the counter
         self.set_counter = False
         # count number of steps since a change in vertex color
         self.step_count = 0
-#        self.was_clicked = False
-#        self.x = x_coor
-#        self.y = y_coor
     pan = games.load_image("vertex.png")
     hovered_pan = games.load_image("hovered-vertex.png")
     selected_pan = games.load_image("selected-vertex.png")
@@ -54,7 +53,7 @@ def main():
     pizza_list = []
     for i in range(5):
         for j in range(2):
-            pizza_list.append(Pan(pizza_image, 200 + 240 * j, 80 * i + 80))
+            pizza_list.append(Vertex(pizza_image, 200 + 240 * j, 80 * i + 80))
     pm = PhantomMouse(image = phantom_pizza_image)
     for pizza in pizza_list:
         games.screen.add(pizza)
