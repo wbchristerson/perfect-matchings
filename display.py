@@ -6,6 +6,9 @@ class Pan(games.Sprite):
     def __init__(self, sprite_image, x_coor, y_coor):
         super(Pan, self).__init__(image = sprite_image, x = x_coor, y = y_coor)
         self.is_selected = False
+        self.set_counter = False
+        # count number of steps since a change in vertex color
+        self.step_count = 0
 #        self.was_clicked = False
 #        self.x = x_coor
 #        self.y = y_coor
@@ -14,10 +17,24 @@ class Pan(games.Sprite):
     selected_pan = games.load_image("selected-vertex.png")
     
     def update(self):
+        if (self.set_counter and (self.step_count == 19)):
+            self.step_count = 0
+            self.set_counter = False
+        elif (self.set_counter):
+            self.step_count += 1
+            
         if ((len(self.overlapping_sprites) > 0) and (not self.is_selected) and
-            (games.keyboard.is_pressed(games.K_SPACE))):
+            (games.keyboard.is_pressed(games.K_SPACE)) and
+            (not self.set_counter)):
+            self.set_counter = True
             self.image = self.selected_pan
             self.is_selected = True
+        elif ((len(self.overlapping_sprites) > 0) and self.is_selected and
+              (games.keyboard.is_pressed(games.K_SPACE)) and
+              (not self.set_counter)):
+            self.set_counter = True
+            self.image = self.pan
+            self.is_selected = False
         elif ((len(self.overlapping_sprites) > 0) and (not self.is_selected)):
             self.image = self.hovered_pan
         elif (not self.is_selected):
