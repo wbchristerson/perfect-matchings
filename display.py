@@ -3,23 +3,25 @@ from livewires import games
 games.init(screen_width = 640, screen_height = 480, fps = 50)
 
 class Pan(games.Sprite):
-#    def __init__(self, sprite_image, x_coor, y_coor):
-#        super(Pan, self).__init__(image = sprite_image, x = x_coor, y = y_coor)
+    def __init__(self, sprite_image, x_coor, y_coor):
+        super(Pan, self).__init__(image = sprite_image, x = x_coor, y = y_coor)
+        self.is_selected = False
 #        self.was_clicked = False
 #        self.x = x_coor
 #        self.y = y_coor
     pan = games.load_image("vertex.png")
     hovered_pan = games.load_image("hovered-vertex.png")
+    selected_pan = games.load_image("selected-vertex.png")
+    
     def update(self):
-        if (len(self.overlapping_sprites) > 0):
+        if ((len(self.overlapping_sprites) > 0) and (not self.is_selected) and
+            (games.keyboard.is_pressed(games.K_SPACE))):
+            self.image = self.selected_pan
+            self.is_selected = True
+        elif ((len(self.overlapping_sprites) > 0) and (not self.is_selected)):
             self.image = self.hovered_pan
-        else:
+        elif (not self.is_selected):
             self.image = self.pan
-#        for event in pygame.event.get():
-#            if (event.type == pygame.MOUSEBUTTONDOWN):
-#                print('Click')
-#        self.x = games.mouse.x
-#        self.y = games.mouse.y
 
 # check mouse hovers by having an imageless sprite follow the mouse
 class PhantomMouse(games.Sprite):
@@ -35,9 +37,7 @@ def main():
     pizza_list = []
     for i in range(5):
         for j in range(2):
-            pizza_list.append(Pan(image = pizza_image, x = 200 + 240 * j,
-                                  y = 80 * i + 80))
-    pizza = Pan(image = pizza_image, x = 320, y = 240)
+            pizza_list.append(Pan(pizza_image, 200 + 240 * j, 80 * i + 80))
     pm = PhantomMouse(image = phantom_pizza_image)
     for pizza in pizza_list:
         games.screen.add(pizza)
