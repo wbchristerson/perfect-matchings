@@ -1,6 +1,7 @@
 from livewires import games
 
-games.init(screen_width = 640, screen_height = 480, fps = 50)
+# 640, 480
+games.init(screen_width = 832, screen_height = 624, fps = 50)
 
 class Vertex(games.Sprite):
     def __init__(self, sprite_image, x_coor, y_coor):
@@ -46,14 +47,17 @@ class PhantomMouse(games.Sprite):
         self.y = games.mouse.y
 
 def main():
-    wall_image = games.load_image("wall.jpg", transparent = False)
+    wall_image = games.load_image("wall-large.jpg", transparent = False)
     games.screen.background = wall_image
     pizza_image = games.load_image("vertex.png")
     phantom_pizza_image = games.load_image("phantom-pizza.bmp")
     pizza_list = []
-    for i in range(5):
+    #for i in range(5):
+    #    for j in range(2):
+    #        pizza_list.append(Vertex(pizza_image, 200 + 240 * j, 80 * i + 80))
+    for i in range(10):
         for j in range(2):
-            pizza_list.append(Vertex(pizza_image, 200 + 240 * j, 80 * i + 80))
+            pizza_list.append(Vertex(pizza_image, 200 + 240 * j, 70 * i + 30))
     pm = PhantomMouse(image = phantom_pizza_image)
     for pizza in pizza_list:
         games.screen.add(pizza)
