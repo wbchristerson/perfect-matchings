@@ -113,9 +113,9 @@ class MyText(games.Text):
 # create a class for buttons
 class MyButton(ClickableSprite):
     def __init__(self, new_image, new_x, new_y, new_hovered_image,
-                 new_text = ''):
+                 new_selected_image, new_text = ''):
         super(MyButton, self).__init__(new_image, new_x, new_y,
-                                       new_hovered_image, None)
+                                       new_hovered_image, new_selected_image)
         self.id = 3
         self.text = new_text        
 
@@ -143,11 +143,13 @@ def main():
     games.screen.add(left_choice_text)
     button_image = games.load_image("button.png")
     hovered_button_image = games.load_image("hovered-button.png")
+    selected_button_image = games.load_image("selected-button.png")
     button_list = []
     text_list = []
     for i in range(10):
         button_list.append(MyButton(button_image, 600, 90 + 55 * i,
-                                    hovered_button_image, str(i+1)))
+                                    hovered_button_image, selected_button_image,
+                                    str(i+1)))
         text_list.append(MyText(str(i+1), 20, color.black, 600, 90 + 55 * i))
     for b in button_list:
         games.screen.add(b)
