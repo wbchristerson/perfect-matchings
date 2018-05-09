@@ -67,6 +67,12 @@ class MyText(games.Text):
                                      color = new_color, x = new_x, y = new_y)
         self.id = 2
 
+# create a class for buttons
+class MyButton(games.Sprite):
+    def __init__(self, new_image, new_x, new_y):
+        super(MyButton, self).__init__(image = new_image, x = new_x, y = new_y)
+        self.id = 3
+
 def main():
     wall_image = games.load_image("wall-large.jpg", transparent = False)
     games.screen.background = wall_image
@@ -84,9 +90,13 @@ def main():
         games.screen.add(pizza)
     games.screen.add(pm)
 
-    left_choice_text = MyText('Left branch size', 30, color.black, 550, 30)
+    left_choice_text = MyText('Left branch size:', 30, color.black, 600, 30)
     games.screen.add(left_choice_text)
 
+    button_image = games.load_image("button-rectangle.png")
+    button = MyButton(button_image, 600, 200)
+    games.screen.add(button)
+    
     games.screen.mainloop()
 
 main()
