@@ -12,36 +12,48 @@ class Vertex(games.Sprite):
         self.set_counter = False
         # count number of steps since a change in vertex color
         self.step_count = 0
+        self.id = 0
+        
     pan = games.load_image("vertex.png")
     hovered_pan = games.load_image("hovered-vertex.png")
     selected_pan = games.load_image("selected-vertex.png")
     
     def update(self):
+        is_chosen = False
         if (self.set_counter and (self.step_count == 19)):
             self.step_count = 0
             self.set_counter = False
         elif (self.set_counter):
             self.step_count += 1
-            
-        if ((len(self.overlapping_sprites) > 0) and (not self.is_selected) and
+
+        for item in self.overlapping_sprites:
+            if (item.id == 1):
+                is_chosen = True
+                break
+          
+        if (is_chosen and (not self.is_selected) and
             (games.keyboard.is_pressed(games.K_SPACE)) and
             (not self.set_counter)):
             self.set_counter = True
             self.image = self.selected_pan
             self.is_selected = True
-        elif ((len(self.overlapping_sprites) > 0) and self.is_selected and
+        elif (is_chosen and self.is_selected and
               (games.keyboard.is_pressed(games.K_SPACE)) and
               (not self.set_counter)):
             self.set_counter = True
             self.image = self.pan
             self.is_selected = False
-        elif ((len(self.overlapping_sprites) > 0) and (not self.is_selected)):
+        elif (is_chosen and (not self.is_selected)):
             self.image = self.hovered_pan
         elif (not self.is_selected):
             self.image = self.pan
 
 # check mouse hovers by having an imageless sprite follow the mouse
 class PhantomMouse(games.Sprite):
+    def __init__(self, sprite_image):
+        super(PhantomMouse, self).__init__(image = sprite_image)
+        self.id = 1
+        
     def update(self):
         self.x = games.mouse.x
         self.y = games.mouse.y
@@ -58,10 +70,11 @@ def main():
     for i in range(10):
         for j in range(2):
             pizza_list.append(Vertex(pizza_image, 200 + 240 * j, 70 * i + 30))
-    pm = PhantomMouse(image = phantom_pizza_image)
+    pm = PhantomMouse(phantom_pizza_image)
     for pizza in pizza_list:
         games.screen.add(pizza)
     games.screen.add(pm)
+
     games.screen.mainloop()
 
 main()
