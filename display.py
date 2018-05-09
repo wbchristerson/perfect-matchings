@@ -4,12 +4,12 @@ from livewires import games, color
 games.init(screen_width = 832, screen_height = 624, fps = 50)
 
 class ClickableSprite(games.Sprite):
-    def __init__(self, sprite_image, x_coor, y_coor, new_hovered_image,
-                 new_selected_image):
-        super(ClickableSprite, self).__init__(sprite_image, x_coor, y_coor)
+    def __init__(self, sprite_image, x, y, hovered_image, selected_image):
+        super(ClickableSprite, self).__init__(image = sprite_image, x = x,
+                                              y = y)
         self.plain_image = sprite_image
-        self.hovered_image = new_hovered_image
-        self.selected_image = new_selected_image
+        self.hovered_image = hovered_image
+        self.selected_image = selected_image
         self.is_selected = False
         # set when to initiate the counter
         self.set_counter = False
@@ -141,7 +141,6 @@ def main():
 
     left_choice_text = MyText('Left branch size:', 30, color.black, 600, 30)
     games.screen.add(left_choice_text)
-
     button_image = games.load_image("button.png")
     hovered_button_image = games.load_image("hovered-button.png")
     button_list = []
