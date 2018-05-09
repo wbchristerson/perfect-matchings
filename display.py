@@ -1,4 +1,4 @@
-from livewires import games
+from livewires import games, color
 
 # 640, 480
 games.init(screen_width = 832, screen_height = 624, fps = 50)
@@ -48,6 +48,7 @@ class Vertex(games.Sprite):
         elif (not self.is_selected):
             self.image = self.pan
 
+
 # check mouse hovers by having an imageless sprite follow the mouse
 class PhantomMouse(games.Sprite):
     def __init__(self, sprite_image):
@@ -57,6 +58,14 @@ class PhantomMouse(games.Sprite):
     def update(self):
         self.x = games.mouse.x
         self.y = games.mouse.y
+
+
+# extend Text object to include an id
+class MyText(games.Text):
+    def __init__(self, new_value, new_size, new_color, new_x, new_y):
+        super(MyText, self).__init__(value = new_value, size = new_size,
+                                     color = new_color, x = new_x, y = new_y)
+        self.id = 2
 
 def main():
     wall_image = games.load_image("wall-large.jpg", transparent = False)
@@ -69,11 +78,14 @@ def main():
     #        pizza_list.append(Vertex(pizza_image, 200 + 240 * j, 80 * i + 80))
     for i in range(10):
         for j in range(2):
-            pizza_list.append(Vertex(pizza_image, 200 + 240 * j, 70 * i + 30))
+            pizza_list.append(Vertex(pizza_image, 100 + 340 * j, 70 * i + 30))
     pm = PhantomMouse(phantom_pizza_image)
     for pizza in pizza_list:
         games.screen.add(pizza)
     games.screen.add(pm)
+
+    left_choice_text = MyText('Left branch size', 30, color.black, 550, 30)
+    games.screen.add(left_choice_text)
 
     games.screen.mainloop()
 
