@@ -146,11 +146,16 @@ def main():
     selected_button_image = games.load_image("selected-button.png")
     button_list = []
     text_list = []
-    for i in range(10):
-        button_list.append(MyButton(button_image, 600, 90 + 55 * i,
+    for i in range(5):
+        button_list.append(MyButton(button_image, 550, 90 + 55 * i,
                                     hovered_button_image, selected_button_image,
                                     str(i+1)))
-        text_list.append(MyText(str(i+1), 20, color.black, 600, 90 + 55 * i))
+        text_list.append(MyText(str(i+1), 20, color.black, 550, 90 + 55 * i))
+    for i in range(5):
+        button_list.append(MyButton(button_image, 700, 90 + 55 * i,
+                                    hovered_button_image, selected_button_image,
+                                    str(i+6)))
+        text_list.append(MyText(str(i+6), 20, color.black, 700, 90 + 55 * i))
     for b in button_list:
         games.screen.add(b)
     for t in text_list:
