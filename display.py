@@ -6,7 +6,7 @@ games.init(screen_width = 832, screen_height = 624, fps = 50)
 
 class ClickableSprite(games.Sprite):
     def __init__(self, sprite_image, x, y, hovered_image, selected_image,
-                 responder):
+                 responder, number_status = 0):
         super(ClickableSprite, self).__init__(image = sprite_image, x = x,
                                               y = y)
         self.plain_image = sprite_image
@@ -18,6 +18,7 @@ class ClickableSprite(games.Sprite):
         # count number of steps since a change in vertex color
         self.step_count = 0
         self.responder = responder
+        self.number_status = number_status
 
     def update(self):
         is_chosen = False
@@ -32,13 +33,15 @@ class ClickableSprite(games.Sprite):
                 break
 
         if (is_chosen and (not self.is_selected) and
-            (games.keyboard.is_pressed(games.K_SPACE)) and
+            games.keyboard.is_pressed(games.K_SPACE) and
             (not self.set_counter)):
             self.set_counter = True
             self.image = self.selected_image
             self.is_selected = True
+            # transition to next step of query
+            self.responder.advance(self.number_status)
         elif (is_chosen and self.is_selected and
-              (games.keyboard.is_pressed(games.K_SPACE)) and
+              games.keyboard.is_pressed(games.K_SPACE) and
               (not self.set_counter)):
             self.set_counter = True
             self.image = self.plain_image
@@ -80,10 +83,10 @@ class MyText(games.Text):
 # create a class for buttons
 class MyButton(ClickableSprite):
     def __init__(self, new_image, new_x, new_y, new_hovered_image,
-                 new_selected_image, responder, new_text = ''):
+                 new_selected_image, responder, number_status, new_text = ''):
         super(MyButton, self).__init__(new_image, new_x, new_y,
                                        new_hovered_image, new_selected_image,
-                                       responder)
+                                       responder, number_status)
         self.id = 3
         self.text = new_text
 
@@ -114,39 +117,62 @@ class Responses(object):
         for i in range(5):
             self.button_list.append(MyButton(button_image, 550, 90 + 55 * i,
                                              hovered_button_image,
-                                             selected_button_image, self,
+                                             selected_button_image, self, i+1,
                                              str(i+1)))
             self.text_list.append(MyText(str(i+1), 20, color.black, 550,
                                          90 + 55 * i))
         for i in range(5):
             self.button_list.append(MyButton(button_image, 700, 90 + 55 * i,
                                              hovered_button_image,
-                                             selected_button_image, str(i+6),
-                                             self))
+                                             selected_button_image, self, i+6,
+                                             str(i+6)))
             self.text_list.append(MyText(str(i+6), 20, color.black, 700,
                                          90 + 55 * i))
         for b in self.button_list:
             games.screen.add(b)
         for t in self.text_list:
             games.screen.add(t)
-        #vertex = games.load_image("vertex.png")
-        #hovered_vertex = games.load_image("hovered-vertex.png")
-        #selected_vertex = games.load_image("selected-vertex.png")
+
+    # add a request number of vertices to the screen in one of the two branches;
+    # also set the appropriate list attribute for the Responses object
+    def add_vertices(self, branch, branch_size):
+        vertex = games.load_image("vertex.png")
+        hovered_vertex = games.load_image("hovered-vertex.png")
+        selected_vertex = games.load_image("selected-vertex.png")
+        if (branch == 'left'):
+            # place middle vertex at vertical position 310
+            for i in range(branch_size):
+                self.left_branch.append(Vertex(vertex, 100, 70 * i + 30,
+                                               hovered_vertex, selected_vertex,
+                                               self))
+            for vertex in self.left_branch:
+                games.screen.add(vertex)
         #for i in range(10):
         #    for j in range(2):
         #        self.button_list.append(Vertex(vertex, 100 + 340 * j,
         #                                       70 * i + 30, hovered_vertex,
         #                                       selected_vertex))
 
-    def advance(self):
+    def set_right_branch_query(self, number_status):
+        self.main_text_sprite.set_value('Right branch size:')
+        for button in self.button_list:
+            button.image = button.plain_image
+        self.left_size = number_status
+        self.add_vertices('left', self.left_size)
+
+    # number_status describes the answers to button queries, for example, the
+    # number of vertices chosen for a particular branch
+    def advance(self, number_status):
         self.state += 1
         if (self.state == 1):
             self.set_left_branch_query()
+        elif (self.state == 2):
+            self.set_right_branch_query(number_status)
 
     def play(self):
         wall_image = games.load_image("wall-large.jpg")
         games.screen.background = wall_image
-        self.advance()
+        self.advance(0)
         games.screen.mainloop()
 
 
