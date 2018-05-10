@@ -133,9 +133,9 @@ class Responses(object):
         #self.random_button_text = None # Text object for random_button
         #self.manual_button = None # Button for choosing set of edges manually
         #self.manual_button_text = None # Text object for manual_button
-        self.button_image = games.load_image("button.png")
-        self.hovered_button_image = games.load_image("hovered-button.png")
-        self.selected_button_image = games.load_image("selected-button.png")
+        self.button_image = games.load_image("images/button.png")
+        self.hovered_button_image = games.load_image("images/hovered-button.png")
+        self.selected_button_image = games.load_image("images/selected-button.png")
 
     # render all buttons and all text on buttons
     def render_buttons(self):
@@ -191,9 +191,9 @@ class Responses(object):
     # also set the appropriate list attribute for the Responses object; also
     # add text button suggesting to go back
     def add_vertices(self, branch, branch_size):
-        vertex_image = games.load_image("vertex.png")
-        hovered_vertex = games.load_image("hovered-vertex.png")
-        selected_vertex = games.load_image("selected-vertex.png")
+        vertex_image = games.load_image("images/vertex.png")
+        hovered_vertex = games.load_image("images/hovered-vertex.png")
+        selected_vertex = games.load_image("images/selected-vertex.png")
         # place middle vertex at vertical position 310
         start = 310 - 60 * ((branch_size - 1) / 2)
         if (branch == 'left'):
@@ -343,14 +343,14 @@ class Responses(object):
             self.set_execution_query()
 
     def play(self):
-        wall_image = games.load_image("wall-large.jpg")
+        wall_image = games.load_image("images/wall-large.jpg")
         games.screen.background = wall_image
         self.advance(0, 1)
         games.screen.mainloop()
 
 
 def main():
-    phantom_mouse_image = games.load_image("phantom-pizza.bmp")
+    phantom_mouse_image = games.load_image("images/phantom-pizza.bmp")
     pm = PhantomMouse(phantom_mouse_image)
     games.screen.add(pm)
 
