@@ -50,7 +50,8 @@ class ClickableSprite(games.Sprite):
             # transition to next step of query
             if (self.button_type == 4):
                 self.responder.advance(self.number_status, -1)
-            else:
+                #self.is_selected = False
+            elif (self.button_type == 3):
                 self.responder.advance(self.number_status, 1)
         elif (is_chosen and self.is_selected and
               games.keyboard.is_pressed(games.K_SPACE) and
@@ -140,32 +141,33 @@ class Responses(object):
             self.back_button_text.destroy()
             self.back_button_text = None
 
-        for i in range(5):
-            self.button_list.append(MyButton(self.button_image, 550,
-                                             90 + 55 * i,
-                                             self.hovered_button_image,
-                                             self.selected_button_image, self,
-                                             i+1, 3, str(i+1)))
-            self.text_list.append(MyText(str(i+1), 20, color.black, 550,
-                                         90 + 55 * i))
-        for i in range(5):
-            self.button_list.append(MyButton(self.button_image, 700,
-                                             90 + 55 * i,
-                                             self.hovered_button_image,
-                                             self.selected_button_image, self,
-                                             i+6, 3, str(i+6)))
-            self.text_list.append(MyText(str(i+6), 20, color.black, 700,
-                                         90 + 55 * i))
-        for b in self.button_list:
-            games.screen.add(b)
-        for t in self.text_list:
-            games.screen.add(t)
+        if (len(self.button_list) == 0):
+            for i in range(5):
+                self.button_list.append(MyButton(self.button_image, 550,
+                                                 90 + 55 * i,
+                                                 self.hovered_button_image,
+                                                 self.selected_button_image,
+                                                 self, i+1, 3, str(i+1)))
+                self.text_list.append(MyText(str(i+1), 20, color.black, 550,
+                                             90 + 55 * i))
+            for i in range(5):
+                self.button_list.append(MyButton(self.button_image, 700,
+                                                 90 + 55 * i,
+                                                 self.hovered_button_image,
+                                                 self.selected_button_image,
+                                                 self, i+6, 3, str(i+6)))
+                self.text_list.append(MyText(str(i+6), 20, color.black, 700,
+                                             90 + 55 * i))
+            for b in self.button_list:
+                games.screen.add(b)
+            for t in self.text_list:
+                games.screen.add(t)
 
     # add a request number of vertices to the screen in one of the two branches;
     # also set the appropriate list attribute for the Responses object; also
     # add text button suggesting to go back
     def add_vertices(self, branch, branch_size):
-        vertex = games.load_image("vertex.png")
+        vertex_image = games.load_image("vertex.png")
         hovered_vertex = games.load_image("hovered-vertex.png")
         selected_vertex = games.load_image("selected-vertex.png")
         # place middle vertex at vertical position 310
@@ -176,14 +178,16 @@ class Responses(object):
                 vertex.destroy()
             self.left_branch = []
 
-            m = Vertex(vertex, 100, start, hovered_vertex, selected_vertex,self)
+            #m = Vertex(vertex_image, 100, start, hovered_vertex,
+            #           selected_vertex,self)
+            #games.screen.add(m)
             #self.left_branch.append(m)
-            #for i in range(branch_size):
-            #    self.left_branch.append(Vertex(vertex, 100, 60 * i + start,
-            #                                   hovered_vertex, selected_vertex,
-            #                                   self))
-            #for vertex in self.left_branch:
-            #    games.screen.add(vertex)
+            for i in range(branch_size):
+                self.left_branch.append(Vertex(vertex_image, 100,
+                                               60 * i + start, hovered_vertex,
+                                               selected_vertex, self))
+            for vertex in self.left_branch:
+                games.screen.add(vertex)
         else:
             # Remove any currently present right vertices
             for vertex in self.right_branch:
@@ -191,9 +195,9 @@ class Responses(object):
             self.right_branch = []
             
             for i in range(branch_size):
-                self.right_branch.append(Vertex(vertex, 440, 60 * i + start,
-                                                hovered_vertex, selected_vertex,
-                                                self))
+                self.right_branch.append(Vertex(vertex_image, 440,
+                                                60 * i + start, hovered_vertex,
+                                                selected_vertex, self))
             for vertex in self.right_branch:
                 games.screen.add(vertex)
         # set a back button
