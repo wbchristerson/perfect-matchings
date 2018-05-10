@@ -125,6 +125,29 @@ class Responses(object):
         self.hovered_button_image = games.load_image("hovered-button.png")
         self.selected_button_image = games.load_image("selected-button.png")
 
+    # set up the display of all number buttons and update the appropriate
+    # attributes of the Responses object
+    def set_number_buttons(self):
+        for i in range(5):
+            self.button_list.append(MyButton(self.button_image, 550,
+                                             90 + 55 * i,
+                                             self.hovered_button_image,
+                                             self.selected_button_image, self,
+                                             i+1, 3, str(i+1)))
+            self.text_list.append(MyText(str(i+1), 20, color.black, 550,
+                                         90 + 55 * i))
+        for i in range(5):
+            self.button_list.append(MyButton(self.button_image, 700,
+                                             90 + 55 * i,
+                                             self.hovered_button_image,
+                                             self.selected_button_image, self,
+                                             i+6, 3, str(i+6)))
+            self.text_list.append(MyText(str(i+6), 20, color.black, 700,
+                                         90 + 55 * i))
+        for b in self.button_list:
+            games.screen.add(b)
+        for t in self.text_list:
+            games.screen.add(t)
 
     def set_left_branch_query(self):
         if (self.main_text_sprite):
@@ -134,7 +157,7 @@ class Responses(object):
                                            color.black, 600, 30)
             games.screen.add(self.main_text_sprite)
 
-        # if the back button is present remove it
+        # if the back button is present, remove it
         if (self.back_button):
             self.back_button.destroy()
             self.back_button = None
@@ -142,26 +165,27 @@ class Responses(object):
             self.back_button_text = None
 
         if (len(self.button_list) == 0):
-            for i in range(5):
-                self.button_list.append(MyButton(self.button_image, 550,
-                                                 90 + 55 * i,
-                                                 self.hovered_button_image,
-                                                 self.selected_button_image,
-                                                 self, i+1, 3, str(i+1)))
-                self.text_list.append(MyText(str(i+1), 20, color.black, 550,
-                                             90 + 55 * i))
-            for i in range(5):
-                self.button_list.append(MyButton(self.button_image, 700,
-                                                 90 + 55 * i,
-                                                 self.hovered_button_image,
-                                                 self.selected_button_image,
-                                                 self, i+6, 3, str(i+6)))
-                self.text_list.append(MyText(str(i+6), 20, color.black, 700,
-                                             90 + 55 * i))
-            for b in self.button_list:
-                games.screen.add(b)
-            for t in self.text_list:
-                games.screen.add(t)
+            self.set_number_buttons()
+            #for i in range(5):
+            #    self.button_list.append(MyButton(self.button_image, 550,
+            #                                     90 + 55 * i,
+            #                                     self.hovered_button_image,
+            #                                     self.selected_button_image,
+            #                                     self, i+1, 3, str(i+1)))
+            #    self.text_list.append(MyText(str(i+1), 20, color.black, 550,
+            #                                 90 + 55 * i))
+            #for i in range(5):
+            #    self.button_list.append(MyButton(self.button_image, 700,
+            #                                     90 + 55 * i,
+            #                                     self.hovered_button_image,
+            #                                     self.selected_button_image,
+            #                                     self, i+6, 3, str(i+6)))
+            #    self.text_list.append(MyText(str(i+6), 20, color.black, 700,
+            #                                 90 + 55 * i))
+            #for b in self.button_list:
+            #    games.screen.add(b)
+            #for t in self.text_list:
+            #    games.screen.add(t)
 
     # add a request number of vertices to the screen in one of the two branches;
     # also set the appropriate list attribute for the Responses object; also
@@ -200,26 +224,38 @@ class Responses(object):
                                                 selected_vertex, self))
             for vertex in self.right_branch:
                 games.screen.add(vertex)
-        # set a back button
-        self.back_button = MyButton(self.button_image, 625, 400,
-                                    self.hovered_button_image,
-                                    self.selected_button_image,
-                                    self, -1, 4, 'Go Back')
-        games.screen.add(self.back_button)
-        self.back_button_text = MyText('Go Back', 25, color.black, 625, 400)
-        games.screen.add(self.back_button_text)
+        # set a back button if it is not present
+        if (not self.back_button):
+            self.back_button = MyButton(self.button_image, 625, 400,
+                                        self.hovered_button_image,
+                                        self.selected_button_image,
+                                        self, -1, 4, 'Go Back')
+            games.screen.add(self.back_button)
+            self.back_button_text = MyText('Go Back', 25, color.black, 625, 400)
+            games.screen.add(self.back_button_text)
+       # else:
+       #     self.back_button.image = self.back_button.plain_image
         #for i in range(10):
         #    for j in range(2):
         #        self.button_list.append(Vertex(vertex, 100 + 340 * j,
         #                                       70 * i + 30, hovered_vertex,
         #                                       selected_vertex))
 
+    def reset_right_query_display(self):
+        print("hello")
+        self.back_button.image = self.back_button.plain_image
+        self.back_button.is_selected = False
+        self.set_number_buttons()
+
     def set_right_branch_query(self, number_status):
         self.main_text_sprite.set_value('Right branch size:')
         for button in self.button_list:
             button.image = button.plain_image
-        self.left_size = number_status
-        self.add_vertices('left', self.left_size)
+        if (number_status == -1):
+            self.reset_right_query_display()
+        else:
+            self.left_size = number_status
+            self.add_vertices('left', self.left_size)
 
     # choose whether you want a random edge set or the ability to choose which
     # edges are present
@@ -245,6 +281,7 @@ class Responses(object):
         if (self.state == 1):
             self.set_left_branch_query()
         elif (self.state == 2):
+            print(number_status)
             self.set_right_branch_query(number_status)
         elif (self.state == 3):
             self.set_edge_choice_query(number_status)
