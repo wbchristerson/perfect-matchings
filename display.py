@@ -243,6 +243,7 @@ class Responses(object):
 
     def reset_right_query_display(self):
         print("hello")
+        self.main_text_sprite.set_x(600)
         self.back_button.image = self.back_button.plain_image
         self.back_button.is_selected = False
         self.set_number_buttons()
@@ -261,7 +262,7 @@ class Responses(object):
     # edges are present
     def set_edge_choice_query(self, number_status):
         self.main_text_sprite.set_value('How do you want to choose edges?')
-        self.main_text_sprite.set_x(self.main_text_sprite.get_x() + 50)
+        self.main_text_sprite.set_x(650)
         for button in self.button_list:
             button.destroy()
         self.button_list = []
