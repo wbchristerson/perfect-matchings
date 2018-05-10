@@ -5,7 +5,8 @@ games.init(screen_width = 832, screen_height = 624, fps = 50)
 
 
 class ClickableSprite(games.Sprite):
-    def __init__(self, sprite_image, x, y, hovered_image, selected_image):
+    def __init__(self, sprite_image, x, y, hovered_image, selected_image,
+                 responder):
         super(ClickableSprite, self).__init__(image = sprite_image, x = x,
                                               y = y)
         self.plain_image = sprite_image
@@ -16,6 +17,7 @@ class ClickableSprite(games.Sprite):
         self.set_counter = False
         # count number of steps since a change in vertex color
         self.step_count = 0
+        self.responder = responder
 
     def update(self):
         is_chosen = False
@@ -28,6 +30,7 @@ class ClickableSprite(games.Sprite):
             if (item.id == 1):
                 is_chosen = True
                 break
+
         if (is_chosen and (not self.is_selected) and
             (games.keyboard.is_pressed(games.K_SPACE)) and
             (not self.set_counter)):
@@ -48,9 +51,10 @@ class ClickableSprite(games.Sprite):
 
 class Vertex(ClickableSprite):
     def __init__(self, sprite_image, x_coor, y_coor, new_hovered_image,
-                 new_selected_image):
+                 new_selected_image, responder):
         super(Vertex, self).__init__(sprite_image, x_coor, y_coor,
-                                     new_hovered_image, new_selected_image)
+                                     new_hovered_image, new_selected_image,
+                                     responder)
         self.id = 0
 
 
@@ -76,9 +80,10 @@ class MyText(games.Text):
 # create a class for buttons
 class MyButton(ClickableSprite):
     def __init__(self, new_image, new_x, new_y, new_hovered_image,
-                 new_selected_image, new_text = ''):
+                 new_selected_image, responder, new_text = ''):
         super(MyButton, self).__init__(new_image, new_x, new_y,
-                                       new_hovered_image, new_selected_image)
+                                       new_hovered_image, new_selected_image,
+                                       responder)
         self.id = 3
         self.text = new_text
 
@@ -109,13 +114,15 @@ class Responses(object):
         for i in range(5):
             self.button_list.append(MyButton(button_image, 550, 90 + 55 * i,
                                              hovered_button_image,
-                                             selected_button_image, str(i+1)))
+                                             selected_button_image, self,
+                                             str(i+1)))
             self.text_list.append(MyText(str(i+1), 20, color.black, 550,
                                          90 + 55 * i))
         for i in range(5):
             self.button_list.append(MyButton(button_image, 700, 90 + 55 * i,
                                              hovered_button_image,
-                                             selected_button_image, str(i+6)))
+                                             selected_button_image, str(i+6),
+                                             self))
             self.text_list.append(MyText(str(i+6), 20, color.black, 700,
                                          90 + 55 * i))
         for b in self.button_list:
@@ -144,43 +151,12 @@ class Responses(object):
 
 
 def main():
-    #wall_image = games.load_image("wall-large.jpg", transparent = False)
-    #games.screen.background = wall_image
-    phantom_pizza_image = games.load_image("phantom-pizza.bmp")
-    
-    pm = PhantomMouse(phantom_pizza_image)
+    phantom_mouse_image = games.load_image("phantom-pizza.bmp")
+    pm = PhantomMouse(phantom_mouse_image)
     games.screen.add(pm)
 
     # class object to control responses to buttons
     controller = Responses()
     controller.play()
-    
-    #for pizza in pizza_list:
-    #    games.screen.add(pizza)
-
-    #left_choice_text = MyText('Left branch size:', 30, color.black, 600, 30)
-    #games.screen.add(left_choice_text)
-    #button_image = games.load_image("button.png")
-    #hovered_button_image = games.load_image("hovered-button.png")
-    #selected_button_image = games.load_image("selected-button.png")
-    #button_list = []
-    #text_list = []
-
-    #for i in range(5):
-    #    button_list.append(MyButton(button_image, 550, 90 + 55 * i,
-    #                                hovered_button_image, selected_button_image,
-    #                                str(i+1)))
-    #    text_list.append(MyText(str(i+1), 20, color.black, 550, 90 + 55 * i))
-    #for i in range(5):
-    #    button_list.append(MyButton(button_image, 700, 90 + 55 * i,
-    #                                hovered_button_image, selected_button_image,
-    #                                str(i+6)))
-    #    text_list.append(MyText(str(i+6), 20, color.black, 700, 90 + 55 * i))
-    #for b in button_list:
-    #    games.screen.add(b)
-    #for t in text_list:
-    #    games.screen.add(t)
-        
-    #games.screen.mainloop()
 
 main()
