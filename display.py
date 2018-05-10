@@ -117,7 +117,14 @@ class MyButton(ClickableSprite):
         super(MyButton, self).__init__(new_image, new_x, new_y,
                                        new_hovered_image, new_selected_image)
         self.id = 3
-        self.text = new_text        
+        self.text = new_text
+
+# class to monitor changes in input
+class Responses(games.Sprite):
+    def __init__(self, screen, sprite_image):
+        super(Responses, self).__init__(image = sprite_image, x = 0, y = 0)
+        self.screen = screen
+        self.state = 0
 
 def main():
     wall_image = games.load_image("wall-large.jpg", transparent = False)
@@ -135,6 +142,10 @@ def main():
             pizza_list.append(Vertex(vertex, 100 + 340 * j, 70 * i + 30,
                                      hovered_vertex, selected_vertex))
     pm = PhantomMouse(phantom_pizza_image)
+
+    # class object to control responses to buttons
+    controller = Responses(games.screen, phantom_pizza_image)
+    
     for pizza in pizza_list:
         games.screen.add(pizza)
     games.screen.add(pm)
