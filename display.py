@@ -141,8 +141,9 @@ class Responses(object):
         selected_vertex = games.load_image("selected-vertex.png")
         if (branch == 'left'):
             # place middle vertex at vertical position 310
+            start = 310 - 60 * ((branch_size - 1) / 2)
             for i in range(branch_size):
-                self.left_branch.append(Vertex(vertex, 100, 70 * i + 30,
+                self.left_branch.append(Vertex(vertex, 100, 60 * i + start,
                                                hovered_vertex, selected_vertex,
                                                self))
             for vertex in self.left_branch:
