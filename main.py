@@ -1,10 +1,12 @@
 from livewires import games, color
+import NavigationButton as NB
 
 games.init(screen_width = 832, screen_height = 624, fps = 50)
 
 ####################################
 # IDs:
 #   0 - PhantomMouse
+#   1 - MyText
 ####################################
 
 ####################################
@@ -32,6 +34,13 @@ class PhantomMouse(games.Sprite):
         self.x = games.mouse.x
         self.y = games.mouse.y
 
+# wrapper class for Text object (in turn a subclass of Sprites), to include id
+class MyText(games.Text):
+    def __init__(self, new_value, new_size, new_color, new_x, new_y):
+        super(MyText, self).__init__(value = new_value, size = new_size,
+                                     color = new_color, x = new_x, y = new_y)
+        self.id = 1
+
 
 # class to monitor changes in input; this class is loosely based on the 'Game'
 # class of the final astrocrash game described on page 402 of 'Python
@@ -43,6 +52,31 @@ class Responses(object):
         self.main_text_sprite = None # Text sprite for main content
         self.button_list = [] # list of navigation buttons
         self.text_list = [] # list of text sprites appearing on buttons
+
+    # remove all buttons from the screen
+    def clear_buttons(self):
+        for b in self.button_list:
+            b.destroy() # remove the corresponding sprite from the screen
+        self.button_list = []
+        for t in self.text_list:
+            t.destroy() # remove the corresponding text sprite from the screen
+        self.text_list = []
+
+    # change text
+    def reset_text(self, new_text):
+        if (self.main_text_sprite):
+            self.main_text_sprite.set_value(new_text)
+        else:
+            self.main_text_sprite = MyText(new_text, 30, color.black, 600, 30)
+            games.screen.add(self.main_text_sprite)
+
+    # place all buttons (with their corresponding text) on screen, based on the
+    # contents of self.button_list and self.text_list
+    def render_buttons(self):
+        for b in self.button_list:
+            games.screen.add(b)
+        for t in self.text_list:
+            games.screen.add(t)
 
     # include initial application graphics
     def initialize_board(self):
@@ -57,17 +91,34 @@ class Responses(object):
 
     # to state 1
     def set_left_branch_query(self):
-        if (self.main_text_sprite):
-            self.main_text_sprite.set_value('Left branch size:')
-        else:
-            self.main_text_sprite = games.Text(value = 'Left branch size:',
-                                               size = 30, color = color.black,
-                                               x = 600, y = 30)
-            games.screen.add(self.main_text_sprite)
+        self.state = 1
+        self.reset_text('Left branch size:')
+        #if (self.main_text_sprite):
+        #    self.main_text_sprite.set_value('Left branch size:')
+        #else:
+        #    self.main_text_sprite = MyText('Left branch size:', 30, color.black,
+        #                                   600, 30)
+        #    games.screen.add(self.main_text_sprite)
+        self.clear_buttons()
+        vertex_image = games.load_image("images/button.png")
+        self.button_list.append(NB.NavigationButton(self, vertex_image, 600,
+                                                    150, 3, 2))
+        self.text_list.append(MyText('3', 20, color.black, 600, 150))
+        self.render_buttons()
+
+    # to state 2
+    #def set_right_branch_query(self):
+    #    self.state = 2
+    #    self.reset_text('Right branch size:')
+    #    self.clear_buttons()
+    #    vertex_image
 
     #def advance(self, old_state, new_state):
     def advance(self, new_state):
-        print('hello')
+        if (new_state == 1):
+            print('hello')
+        elif (new_state == 2):
+            print('you are here')
         #if ((old_state == 0) and (new_state == 1)):
         #    self.state = 1
         #    wall_image = games.load_image("images/wall-large.jpg")

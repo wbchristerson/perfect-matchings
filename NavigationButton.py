@@ -8,9 +8,17 @@ class NavigationButton(games.Sprite):
         # state to which button takes user
         self.destination_state = destination_state
         self.is_selected = False # whether button has been pushed
-        self.set_counter = False # set true when counter is currently on
         self.step_count = 0 # count number of steps since a button push
         self.responder = responder # navigation object from main.py
 
     def update(self):
-        mouse_touching = False
+        if (self.step_count < 20): # provide time between transitions
+            self.step_count += 1
+        else:
+            mouse_touching = False
+            for item in self.overlapping_sprites:
+                if (item.id == 0):
+                    mouse_touching = True
+                    break
+            if (mouse_touching):
+                self.responder.advance(self.destination_state)
