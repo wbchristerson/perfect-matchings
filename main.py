@@ -100,25 +100,34 @@ class Responses(object):
         #                                   600, 30)
         #    games.screen.add(self.main_text_sprite)
         self.clear_buttons()
-        vertex_image = games.load_image("images/button.png")
-        self.button_list.append(NB.NavigationButton(self, vertex_image, 600,
+        button_image = games.load_image("images/button.png")
+        self.button_list.append(NB.NavigationButton(self, button_image, 600,
                                                     150, 3, 2))
         self.text_list.append(MyText('3', 20, color.black, 600, 150))
         self.render_buttons()
 
     # to state 2
-    #def set_right_branch_query(self):
-    #    self.state = 2
-    #    self.reset_text('Right branch size:')
-    #    self.clear_buttons()
-    #    vertex_image
+    def set_right_branch_query(self):
+        self.state = 2
+        self.reset_text('Right branch size:')
+        self.clear_buttons()
+        button_image = games.load_image("images/button.png")
+        self.button_list.append(NB.NavigationButton(self, button_image, 600,
+                                                    150, 4, 3))
+        self.text_list.append(MyText('4', 20, color.black, 600, 150))
+        self.button_list.append(NB.NavigationButton(self, button_image, 600,
+                                                    240, 4, 1))
+        self.text_list.append(MyText('Go Back', 20, color.black, 600, 240))
+        self.render_buttons()
 
     #def advance(self, old_state, new_state):
     def advance(self, new_state):
         if (new_state == 1):
-            print('hello')
+            self.set_left_branch_query()
         elif (new_state == 2):
-            print('you are here')
+            self.set_right_branch_query()
+        else:
+            print('hi')
         #if ((old_state == 0) and (new_state == 1)):
         #    self.state = 1
         #    wall_image = games.load_image("images/wall-large.jpg")
