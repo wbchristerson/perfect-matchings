@@ -41,12 +41,19 @@ class Responses(object):
     def __init__(self):
         self.state = 0
         self.main_text_sprite = None # Text sprite for main content
+        self.button_list = [] # list of navigation buttons
+        self.text_list = [] # list of text sprites appearing on buttons
 
     # include initial application graphics
     def initialize_board(self):
+        self.state = 1
         wall_image = games.load_image("images/wall-large.jpg")
         games.screen.background = wall_image
+        self.set_left_branch_query()
         games.screen.mainloop()
+        #wall_image = games.load_image("images/wall-large.jpg")
+        #games.screen.background = wall_image
+        #games.screen.mainloop()
 
     # to state 1
     def set_left_branch_query(self):
@@ -58,13 +65,15 @@ class Responses(object):
                                                x = 600, y = 30)
             games.screen.add(self.main_text_sprite)
 
-    def advance(self, old_state, new_state):
-        if ((old_state == 0) and (new_state == 1)):
-            self.state = 1
-            wall_image = games.load_image("images/wall-large.jpg")
-            games.screen.background = wall_image
-            self.set_left_branch_query()
-            games.screen.mainloop()
+    #def advance(self, old_state, new_state):
+    def advance(self, new_state):
+        print('hello')
+        #if ((old_state == 0) and (new_state == 1)):
+        #    self.state = 1
+        #    wall_image = games.load_image("images/wall-large.jpg")
+        #    games.screen.background = wall_image
+        #    self.set_left_branch_query()
+        #    games.screen.mainloop()
 
 def main():
     # set up sprite to follow mouse path, so as to register sprite overlaps
@@ -74,6 +83,7 @@ def main():
 
     # object to control responses to buttons and navigation through options
     controller = Responses()
-    controller.advance(0, 1)
+    #controller.advance(0, 1)
+    controller.initialize_board()
 
 main()
