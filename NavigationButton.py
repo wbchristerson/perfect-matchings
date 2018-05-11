@@ -3,7 +3,7 @@ from livewires import games
 class NavigationButton(games.Sprite):
     def __init__(self, responder, plain_image, x, y, data, destination_state):
         super(NavigationButton, self).__init__(image = plain_image, x = x,
-                                               y = y)
+                                               y = y, is_collideable = False)
         self.data = data # data value obtained from selected this button
         # state to which button takes user
         self.destination_state = destination_state

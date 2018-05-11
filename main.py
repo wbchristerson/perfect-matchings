@@ -16,7 +16,12 @@ games.init(screen_width = 832, screen_height = 624, fps = 50)
 #   2 - Choose right branch size (1 - 10)
 #   3 - Choose edges (manually or randomly)
 #   4 - If choosing edges manually, make choices on provided bipartite graph
-#   5 - Choose operation:
+#   5 - Choose operation after choosing edges manually:
+#         - automatically find a maximum matching
+#         - find a maximum matching manually
+#         - watch procedure of algorithm to find a maximum matching
+#         - watch procedure of algorithm to find a maximum matching with steps
+#   6 - Choose operation after choosing edges randomly:
 #         - automatically find a maximum matching
 #         - find a maximum matching manually
 #         - watch procedure of algorithm to find a maximum matching
@@ -120,12 +125,48 @@ class Responses(object):
         self.text_list.append(MyText('Go Back', 20, color.black, 600, 240))
         self.render_buttons()
 
+    # to state 3
+    def set_edge_choice_query(self):
+        self.state = 3
+        self.reset_text('How do you want to choose edges?')
+        self.clear_buttons()
+        button_image = games.load_image("images/button.png")
+        self.button_list.append(NB.NavigationButton(self, button_image, 600,
+                                                    150, 5, 4))
+        self.text_list.append(MyText('Manually', 20, color.black, 600, 150))
+        self.button_list.append(NB.NavigationButton(self, button_image, 600,
+                                                    240, 6, 6))
+        self.text_list.append(MyText('Randomly', 20, color.black, 600, 240))
+        self.button_list.append(NB.NavigationButton(self, button_image, 600,
+                                                    330, 4, 2))
+        self.text_list.append(MyText('Go Back', 20, color.black, 600, 330))
+        self.render_buttons()
+
+    # to state 4
+    def set_manual_edge_choice_query(self):
+        self.state = 4
+        self.reset_text('Make your edge choices on the graph.')
+        self.clear_buttons()
+        button_image = games.load_image("images/button.png")
+        self.button_list.append(NB.NavigationButton(self, button_image, 600,
+                                                    150, 7, 5))
+        self.text_list.append(MyText('Done', 20, color.black, 600, 150))
+        self.button_list.append(NB.NavigationButton(self, button_image, 600,
+                                                    240, 8, 3))
+        self.text_list.append(MyText('Go Back', 20, color.black, 600, 240))
+        self.render_buttons()
+        
+
     #def advance(self, old_state, new_state):
     def advance(self, new_state):
         if (new_state == 1):
             self.set_left_branch_query()
         elif (new_state == 2):
             self.set_right_branch_query()
+        elif (new_state == 3):
+            self.set_edge_choice_query()
+        elif (new_state == 4):
+            self.set_manual_edge_choice_query()
         else:
             print('hi')
         #if ((old_state == 0) and (new_state == 1)):
