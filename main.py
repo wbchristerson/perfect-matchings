@@ -88,16 +88,18 @@ class Responses(object):
     # set up the back button for the state; this function will not render the
     # button to the screen, just include the associated button and text in the
     # corresponding lists
-    def set_back_button(self, button_image, to_state):
-        self.button_list.append(NB.NavigationButton(self, button_image, 600,
-                                                    510, 4, to_state))
+    def set_back_button(self, button_image, hovered_image, to_state):
+        self.button_list.append(NB.NavigationButton(self, button_image,
+                                                    hovered_image, 600, 510, 4,
+                                                    to_state))
         self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
 
     # set up number buttons in states for choosing left and right branch sizes
-    def set_number_buttons(self, image, to_state):
+    def set_number_buttons(self, image, hovered_image, to_state):
         for i in range(5):
             for j in range(2):
                 self.button_list.append(NB.NavigationButton(self, image,
+                                                            hovered_image,
                                                             550 + 150 * j,
                                                             90 + 55 * i,
                                                             2*i + j + 1,
@@ -119,8 +121,9 @@ class Responses(object):
         self.reset_text('Left branch size:')
         self.clear_buttons()
         button_image = games.load_image("images/button.png")
+        hovered_image = games.load_image("images/hovered-button.png")
 
-        self.set_number_buttons(button_image, 2)
+        self.set_number_buttons(button_image, hovered_image, 2)
         #for i in range(5):
         #    for j in range(2):
         #        self.button_list.append(NB.NavigationButton(self, button_image,
@@ -137,15 +140,16 @@ class Responses(object):
         self.reset_text('Right branch size:')
         self.clear_buttons()
         button_image = games.load_image("images/button.png")
+        hovered_image = games.load_image("images/hovered-button.png")
 
-        self.set_number_buttons(button_image, 3)
+        self.set_number_buttons(button_image, hovered_image, 3)
         #self.button_list.append(NB.NavigationButton(self, button_image, 600,
         #                                            150, 4, 3))
         #self.text_list.append(MyText('4', 20, color.black, 600, 150))
         #self.button_list.append(NB.NavigationButton(self, button_image, 600,
         #                                            240, 4, 1))
         #self.text_list.append(MyText('Go Back', 20, color.black, 600, 240))
-        self.set_back_button(button_image, 1)
+        self.set_back_button(button_image, hovered_image, 1)
         self.render_buttons()
 
     # to state 3
@@ -154,16 +158,19 @@ class Responses(object):
         self.reset_text('How do you want to choose edges?')
         self.clear_buttons()
         button_image = games.load_image("images/button.png")
-        self.button_list.append(NB.NavigationButton(self, button_image, 600,
-                                                    150, 5, 4))
+        hovered_image = games.load_image("images/hovered-button.png")
+        self.button_list.append(NB.NavigationButton(self, button_image,
+                                                    hovered_image, 600, 150, 5,
+                                                    4))
         self.text_list.append(MyText('Manually', 20, color.black, 600, 150))
-        self.button_list.append(NB.NavigationButton(self, button_image, 600,
-                                                    240, 6, 6))
+        self.button_list.append(NB.NavigationButton(self, button_image,
+                                                    hovered_image, 600, 240, 6,
+                                                    6))
         self.text_list.append(MyText('Randomly', 20, color.black, 600, 240))
         #self.button_list.append(NB.NavigationButton(self, button_image, 600,
         #                                            330, 4, 2))
         #self.text_list.append(MyText('Go Back', 20, color.black, 600, 330))
-        self.set_back_button(button_image, 2)
+        self.set_back_button(button_image, hovered_image, 2)
         self.render_buttons()
 
     # to state 4
@@ -172,13 +179,15 @@ class Responses(object):
         self.reset_text('Make your edge choices on the graph.')
         self.clear_buttons()
         button_image = games.load_image("images/button.png")
-        self.button_list.append(NB.NavigationButton(self, button_image, 600,
-                                                    150, 7, 5))
+        hovered_image = games.load_image("images/hovered-button.png")
+        self.button_list.append(NB.NavigationButton(self, button_image,
+                                                    hovered_image, 600, 150, 7,
+                                                    5))
         self.text_list.append(MyText('Done', 20, color.black, 600, 150))
         #self.button_list.append(NB.NavigationButton(self, button_image, 600,
         #                                            240, 8, 3))
         #self.text_list.append(MyText('Go Back', 20, color.black, 600, 240))
-        self.set_back_button(button_image, 3)
+        self.set_back_button(button_image, hovered_image, 3)
         self.render_buttons()
 
     # to state 5
@@ -190,27 +199,33 @@ class Responses(object):
         self.text_list.append(MyText('Maximal Matching (MM).', 30, color.black,
                                      600, 60))
         button_image = games.load_image("images/button.png")
-        long_button_image = games.load_image("images/long_button.png")
+        hovered_image = games.load_image("images/hovered-button.png")
+        long_button_image = games.load_image("images/long-button.png")
+        hovered_long_image = games.load_image("images/hovered-long-button.png")
         self.button_list.append(NB.NavigationButton(self, long_button_image,
-                                                    600, 150, 1, 7))
+                                                    hovered_long_image, 600,
+                                                    150, 1, 7))
         self.text_list.append(MyText('Automatically Find MM', 20, color.black,
                                      600, 150))
         self.button_list.append(NB.NavigationButton(self, long_button_image,
-                                                    600, 240, 2, 7))
+                                                    hovered_long_image, 600,
+                                                    240, 2, 7))
         self.text_list.append(MyText('Find MM Manually', 20, color.black, 600,
                                      240))
         self.button_list.append(NB.NavigationButton(self, long_button_image,
-                                                    600, 330, 3, 7))
+                                                    hovered_long_image, 600,
+                                                    330, 3, 7))
         self.text_list.append(MyText('Watch Algorithm To Find MM', 20,
                                      color.black, 600, 330))
         self.button_list.append(NB.NavigationButton(self, long_button_image,
-                                                    600, 420, 4, 7))
+                                                    hovered_long_image, 600,
+                                                    420, 4, 7))
         self.text_list.append(MyText('Watch Algorithm To Find MM With Steps',
                                      20, color.black, 600, 420))
         #self.button_list.append(NB.NavigationButton(self, button_image, 600,
         #                                            510, 5, 4))
         #self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
-        self.set_back_button(button_image, 4)
+        self.set_back_button(button_image, hovered_image, 4)
         self.render_buttons()
 
     # to state 6
@@ -222,27 +237,33 @@ class Responses(object):
         self.text_list.append(MyText('Maximal Matching (MM).', 30, color.black,
                                      600, 60))
         button_image = games.load_image("images/button.png")
-        long_button_image = games.load_image("images/long_button.png")
+        hovered_image = games.load_image("images/hovered-button.png")
+        long_button_image = games.load_image("images/long-button.png")
+        hovered_long_image = games.load_image("images/hovered-long-button.png")
         self.button_list.append(NB.NavigationButton(self, long_button_image,
-                                                    600, 150, 1, 8))
+                                                    hovered_long_image, 600,
+                                                    150, 1, 8))
         self.text_list.append(MyText('Automatically Find MM', 20, color.black,
                                      600, 150))
         self.button_list.append(NB.NavigationButton(self, long_button_image,
-                                                    600, 240, 2, 8))
+                                                    hovered_long_image, 600,
+                                                    240, 2, 8))
         self.text_list.append(MyText('Find MM Manually', 20, color.black, 600,
                                      240))
         self.button_list.append(NB.NavigationButton(self, long_button_image,
-                                                    600, 330, 3, 8))
+                                                    hovered_long_image, 600,
+                                                    330, 3, 8))
         self.text_list.append(MyText('Watch Algorithm To Find MM', 20,
                                      color.black, 600, 330))
         self.button_list.append(NB.NavigationButton(self, long_button_image,
-                                                    600, 420, 4, 8))
+                                                    hovered_long_image, 600,
+                                                    420, 4, 8))
         self.text_list.append(MyText('Watch Algorithm To Find MM With Steps',
                                      20, color.black, 600, 420))
         #self.button_list.append(NB.NavigationButton(self, button_image, 600,
         #                                            510, 5, 4))
         #self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
-        self.set_back_button(button_image, 3)
+        self.set_back_button(button_image, hovered_image, 3)
         self.render_buttons()
         
     # to state 7
@@ -251,10 +272,11 @@ class Responses(object):
         self.reset_text('')
         self.clear_buttons()
         button_image = games.load_image("images/button.png")
+        hovered_image = games.load_image("images/hovered-button.png")
         #self.button_list.append(NB.NavigationButton(self, button_image, 600,
         #                                            510, 5, 5))
         #self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
-        self.set_back_button(button_image, 5)
+        self.set_back_button(button_image, hovered_image, 5)
         self.render_buttons()
 
     # to state 8
@@ -263,7 +285,8 @@ class Responses(object):
         self.reset_text('')
         self.clear_buttons()
         button_image = games.load_image("images/button.png")
-        self.set_back_button(button_image, 6)
+        hovered_image = games.load_image("images/hovered-button.png")
+        self.set_back_button(button_image, hovered_image, 6)
         self.render_buttons()
         
     #def advance(self, old_state, new_state):
