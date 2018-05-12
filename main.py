@@ -93,6 +93,18 @@ class Responses(object):
                                                     510, 4, to_state))
         self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
 
+    # set up number buttons in states for choosing left and right branch sizes
+    def set_number_buttons(self, image, to_state):
+        for i in range(5):
+            for j in range(2):
+                self.button_list.append(NB.NavigationButton(self, image,
+                                                            550 + 150 * j,
+                                                            90 + 55 * i,
+                                                            2*i + j + 1,
+                                                            to_state))
+                self.text_list.append(MyText(str(2*i + j + 1), 20, color.black,
+                                             550 + 150 * j, 90 + 55 * i))
+
     # include initial application graphics
     def initialize_board(self):
         self.state = 1
@@ -105,17 +117,18 @@ class Responses(object):
     def set_left_branch_query(self):
         self.state = 1
         self.reset_text('Left branch size:')
-        #if (self.main_text_sprite):
-        #    self.main_text_sprite.set_value('Left branch size:')
-        #else:
-        #    self.main_text_sprite = MyText('Left branch size:', 30, color.black,
-        #                                   600, 30)
-        #    games.screen.add(self.main_text_sprite)
         self.clear_buttons()
         button_image = games.load_image("images/button.png")
-        self.button_list.append(NB.NavigationButton(self, button_image, 600,
-                                                    150, 3, 2))
-        self.text_list.append(MyText('3', 20, color.black, 600, 150))
+
+        self.set_number_buttons(button_image, 2)
+        #for i in range(5):
+        #    for j in range(2):
+        #        self.button_list.append(NB.NavigationButton(self, button_image,
+        #                                                    550 + 150 * j,
+        #                                                    90 + 55 * i,
+        #                                                    2*i + j + 1, 2))
+        #        self.text_list.append(MyText(str(2*i + j + 1), 20, color.black,
+        #                                    550 + 150 * j, 90 + 55 * i))
         self.render_buttons()
 
     # to state 2
@@ -124,9 +137,11 @@ class Responses(object):
         self.reset_text('Right branch size:')
         self.clear_buttons()
         button_image = games.load_image("images/button.png")
-        self.button_list.append(NB.NavigationButton(self, button_image, 600,
-                                                    150, 4, 3))
-        self.text_list.append(MyText('4', 20, color.black, 600, 150))
+
+        self.set_number_buttons(button_image, 3)
+        #self.button_list.append(NB.NavigationButton(self, button_image, 600,
+        #                                            150, 4, 3))
+        #self.text_list.append(MyText('4', 20, color.black, 600, 150))
         #self.button_list.append(NB.NavigationButton(self, button_image, 600,
         #                                            240, 4, 1))
         #self.text_list.append(MyText('Go Back', 20, color.black, 600, 240))
