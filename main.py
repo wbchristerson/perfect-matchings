@@ -230,7 +230,6 @@ class Responses(object):
         self.set_back_button(button_image, 3)
         self.render_buttons()
         
-
     # to state 7
     def execute_manual_operations(self):
         self.state = 7
@@ -242,8 +241,16 @@ class Responses(object):
         #self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
         self.set_back_button(button_image, 5)
         self.render_buttons()
-        
 
+    # to state 8
+    def execute_random_operations(self):
+        self.state = 8
+        self.reset_text('')
+        self.clear_buttons()
+        button_image = games.load_image("images/button.png")
+        self.set_back_button(button_image, 6)
+        self.render_buttons()
+        
     #def advance(self, old_state, new_state):
     def advance(self, new_state):
         if (new_state == 1):
@@ -260,14 +267,11 @@ class Responses(object):
             self.random_operations_query()
         elif (new_state == 7):
             self.execute_manual_operations()
+        elif (new_state == 8):
+            self.execute_random_operations()
         else:
             print('hi')
-        #if ((old_state == 0) and (new_state == 1)):
-        #    self.state = 1
-        #    wall_image = games.load_image("images/wall-large.jpg")
-        #    games.screen.background = wall_image
-        #    self.set_left_branch_query()
-        #    games.screen.mainloop()
+
 
 def main():
     # set up sprite to follow mouse path, so as to register sprite overlaps
