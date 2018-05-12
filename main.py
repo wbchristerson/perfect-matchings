@@ -151,14 +151,14 @@ class Responses(object):
             self.left_size = data
             self.erase_branch('left')
             for i in range(data):
-                self.left_branch.append(VE.Vertex(self, 100, start + 60 * i, i))
+                self.left_branch.append(VE.Vertex(self, 60, start + 60 * i, i))
             for vertex in self.left_branch:
                 games.screen.add(vertex)
         else:
             self.right_size = data
             self.erase_branch('right')
             for i in range(data):
-                self.right_branch.append(VE.Vertex(self, 440, start + 60 * i,
+                self.right_branch.append(VE.Vertex(self, 400, start + 60 * i,
                                                    i))
             for vertex in self.right_branch:
                 games.screen.add(vertex)
@@ -180,7 +180,7 @@ class Responses(object):
             
 
     # to state 3
-    def set_edge_choice_query(self):
+    def set_edge_choice_query(self, data):
         self.state = 3
         self.reset_text('How do you want to choose edges?')
         self.clear_buttons()
@@ -199,6 +199,8 @@ class Responses(object):
         #self.text_list.append(MyText('Go Back', 20, color.black, 600, 330))
         self.set_back_button(button_image, hovered_image, 2)
         self.render_buttons()
+        if not (data == -1):
+            self.set_branch_bipartite(data, 'right')
 
     # to state 4
     def set_manual_edge_choice_query(self):
@@ -323,7 +325,7 @@ class Responses(object):
         elif (new_state == 2):
             self.set_right_branch_query(data)
         elif (new_state == 3):
-            self.set_edge_choice_query()
+            self.set_edge_choice_query(data)
         elif (new_state == 4):
             self.set_manual_edge_choice_query()
         elif (new_state == 5):
