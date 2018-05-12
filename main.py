@@ -85,6 +85,14 @@ class Responses(object):
         for t in self.text_list:
             games.screen.add(t)
 
+    # set up the back button for the state; this function will not render the
+    # button to the screen, just include the associated button and text in the
+    # corresponding lists
+    def set_back_button(self, button_image, to_state):
+        self.button_list.append(NB.NavigationButton(self, button_image, 600,
+                                                    510, 4, to_state))
+        self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
+
     # include initial application graphics
     def initialize_board(self):
         self.state = 1
@@ -92,9 +100,6 @@ class Responses(object):
         games.screen.background = wall_image
         self.set_left_branch_query()
         games.screen.mainloop()
-        #wall_image = games.load_image("images/wall-large.jpg")
-        #games.screen.background = wall_image
-        #games.screen.mainloop()
 
     # to state 1
     def set_left_branch_query(self):
@@ -122,9 +127,10 @@ class Responses(object):
         self.button_list.append(NB.NavigationButton(self, button_image, 600,
                                                     150, 4, 3))
         self.text_list.append(MyText('4', 20, color.black, 600, 150))
-        self.button_list.append(NB.NavigationButton(self, button_image, 600,
-                                                    240, 4, 1))
-        self.text_list.append(MyText('Go Back', 20, color.black, 600, 240))
+        #self.button_list.append(NB.NavigationButton(self, button_image, 600,
+        #                                            240, 4, 1))
+        #self.text_list.append(MyText('Go Back', 20, color.black, 600, 240))
+        self.set_back_button(button_image, 1)
         self.render_buttons()
 
     # to state 3
@@ -139,9 +145,10 @@ class Responses(object):
         self.button_list.append(NB.NavigationButton(self, button_image, 600,
                                                     240, 6, 6))
         self.text_list.append(MyText('Randomly', 20, color.black, 600, 240))
-        self.button_list.append(NB.NavigationButton(self, button_image, 600,
-                                                    330, 4, 2))
-        self.text_list.append(MyText('Go Back', 20, color.black, 600, 330))
+        #self.button_list.append(NB.NavigationButton(self, button_image, 600,
+        #                                            330, 4, 2))
+        #self.text_list.append(MyText('Go Back', 20, color.black, 600, 330))
+        self.set_back_button(button_image, 2)
         self.render_buttons()
 
     # to state 4
@@ -153,9 +160,10 @@ class Responses(object):
         self.button_list.append(NB.NavigationButton(self, button_image, 600,
                                                     150, 7, 5))
         self.text_list.append(MyText('Done', 20, color.black, 600, 150))
-        self.button_list.append(NB.NavigationButton(self, button_image, 600,
-                                                    240, 8, 3))
-        self.text_list.append(MyText('Go Back', 20, color.black, 600, 240))
+        #self.button_list.append(NB.NavigationButton(self, button_image, 600,
+        #                                            240, 8, 3))
+        #self.text_list.append(MyText('Go Back', 20, color.black, 600, 240))
+        self.set_back_button(button_image, 3)
         self.render_buttons()
 
     # to state 5
@@ -184,9 +192,10 @@ class Responses(object):
                                                     600, 420, 4, 7))
         self.text_list.append(MyText('Watch Algorithm To Find MM With Steps',
                                      20, color.black, 600, 420))
-        self.button_list.append(NB.NavigationButton(self, button_image, 600,
-                                                    510, 5, 4))
-        self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
+        #self.button_list.append(NB.NavigationButton(self, button_image, 600,
+        #                                            510, 5, 4))
+        #self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
+        self.set_back_button(button_image, 4)
         self.render_buttons()
 
     # to state 7
@@ -195,9 +204,10 @@ class Responses(object):
         self.reset_text('')
         self.clear_buttons()
         button_image = games.load_image("images/button.png")
-        self.button_list.append(NB.NavigationButton(self, button_image, 600,
-                                                    510, 5, 5))
-        self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
+        #self.button_list.append(NB.NavigationButton(self, button_image, 600,
+        #                                            510, 5, 5))
+        #self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
+        self.set_back_button(button_image, 5)
         self.render_buttons()
         
 
