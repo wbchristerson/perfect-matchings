@@ -198,6 +198,39 @@ class Responses(object):
         self.set_back_button(button_image, 4)
         self.render_buttons()
 
+    # to state 6
+    def random_operations_query(self):
+        self.state = 6
+        self.reset_text('Choose Procedure For')
+        self.clear_buttons()
+        # add additional line of prompt text
+        self.text_list.append(MyText('Maximal Matching (MM).', 30, color.black,
+                                     600, 60))
+        button_image = games.load_image("images/button.png")
+        long_button_image = games.load_image("images/long_button.png")
+        self.button_list.append(NB.NavigationButton(self, long_button_image,
+                                                    600, 150, 1, 8))
+        self.text_list.append(MyText('Automatically Find MM', 20, color.black,
+                                     600, 150))
+        self.button_list.append(NB.NavigationButton(self, long_button_image,
+                                                    600, 240, 2, 8))
+        self.text_list.append(MyText('Find MM Manually', 20, color.black, 600,
+                                     240))
+        self.button_list.append(NB.NavigationButton(self, long_button_image,
+                                                    600, 330, 3, 8))
+        self.text_list.append(MyText('Watch Algorithm To Find MM', 20,
+                                     color.black, 600, 330))
+        self.button_list.append(NB.NavigationButton(self, long_button_image,
+                                                    600, 420, 4, 8))
+        self.text_list.append(MyText('Watch Algorithm To Find MM With Steps',
+                                     20, color.black, 600, 420))
+        #self.button_list.append(NB.NavigationButton(self, button_image, 600,
+        #                                            510, 5, 4))
+        #self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
+        self.set_back_button(button_image, 3)
+        self.render_buttons()
+        
+
     # to state 7
     def execute_manual_operations(self):
         self.state = 7
@@ -223,6 +256,8 @@ class Responses(object):
             self.set_manual_edge_choice_query()
         elif (new_state == 5):
             self.manual_operations_query()
+        elif (new_state == 6):
+            self.random_operations_query()
         elif (new_state == 7):
             self.execute_manual_operations()
         else:
