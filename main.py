@@ -26,6 +26,8 @@ games.init(screen_width = 832, screen_height = 624, fps = 50)
 #         - find a maximum matching manually
 #         - watch procedure of algorithm to find a maximum matching
 #         - watch procedure of algorithm to find a maximum matching with steps
+#   7 - Execute graph operation (edges chosen manually)
+#   8 - Execute graph operation (edges chosen randomly)
 ####################################
 
 # this class is used to check mouse hovers by having a very small sprite image
@@ -155,6 +157,37 @@ class Responses(object):
                                                     240, 8, 3))
         self.text_list.append(MyText('Go Back', 20, color.black, 600, 240))
         self.render_buttons()
+
+    # to state 5
+    def manual_operations_query(self):
+        self.state = 5
+        self.reset_text('Choose Procedure For')
+        self.clear_buttons()
+        # add additional line of prompt text
+        self.text_list.append(MyText('Maximal Matching (MM).', 30, color.black,
+                                     600, 60))
+        button_image = games.load_image("images/button.png")
+        long_button_image = games.load_image("images/long_button.png")
+        self.button_list.append(NB.NavigationButton(self, long_button_image,
+                                                    600, 150, 1, 7))
+        self.text_list.append(MyText('Automatically Find MM', 20, color.black,
+                                     600, 150))
+        self.button_list.append(NB.NavigationButton(self, long_button_image,
+                                                    600, 240, 2, 7))
+        self.text_list.append(MyText('Find MM Manually', 20, color.black, 600,
+                                     240))
+        self.button_list.append(NB.NavigationButton(self, long_button_image,
+                                                    600, 330, 3, 7))
+        self.text_list.append(MyText('Watch Algorithm To Find MM', 20,
+                                     color.black, 600, 330))
+        self.button_list.append(NB.NavigationButton(self, long_button_image,
+                                                    600, 420, 4, 7))
+        self.text_list.append(MyText('Watch Algorithm To Find MM With Steps',
+                                     20, color.black, 600, 420))
+        self.button_list.append(NB.NavigationButton(self, button_image, 600,
+                                                    510, 5, 4))
+        self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
+        self.render_buttons()
         
 
     #def advance(self, old_state, new_state):
@@ -167,6 +200,8 @@ class Responses(object):
             self.set_edge_choice_query()
         elif (new_state == 4):
             self.set_manual_edge_choice_query()
+        elif (new_state == 5):
+            self.manual_operations_query()
         else:
             print('hi')
         #if ((old_state == 0) and (new_state == 1)):
