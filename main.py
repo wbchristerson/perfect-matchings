@@ -1,4 +1,5 @@
 from livewires import games, color
+from pygame import draw
 import NavigationButton as NB
 import Vertex as VE
 
@@ -146,7 +147,7 @@ class Responses(object):
     # set attributes about a branch size and vertex list; also set vertices
     # on screen
     def set_branch_bipartite(self, data, branch):
-        start = 310 - 60 * ((data - 1) / 2)
+        start = 270 - 60 * int((data - 1) / 2)
         if (branch == 'left'):
             self.left_size = data
             self.erase_branch('left')
@@ -201,6 +202,13 @@ class Responses(object):
         self.render_buttons()
         if not (data == -1):
             self.set_branch_bipartite(data, 'right')
+        
+        edge = games.load_image("images/up-edge-6.png")
+        # up: x = 260, y = 420, at most 5
+        # horizontal: x = 265, y = 430
+        e = games.Sprite(image = edge, x = 260, y = 420, is_collideable = False)
+        games.screen.add(e)
+
 
     # to state 4
     def set_manual_edge_choice_query(self):
