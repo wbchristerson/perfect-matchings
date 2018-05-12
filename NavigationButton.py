@@ -32,5 +32,5 @@ class NavigationButton(games.Sprite):
                 self.set_image(self.plain_image)
 
             if (mouse_touching and games.keyboard.is_pressed(games.K_SPACE)):
-                self.responder.advance(self.destination_state)
+                self.responder.advance(self.destination_state, self.data)
             

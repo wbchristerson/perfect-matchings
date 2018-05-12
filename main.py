@@ -1,5 +1,6 @@
 from livewires import games, color
 import NavigationButton as NB
+import Vertex as VE
 
 games.init(screen_width = 832, screen_height = 624, fps = 50)
 
@@ -59,6 +60,10 @@ class Responses(object):
         self.main_text_sprite = None # Text sprite for main content
         self.button_list = [] # list of navigation buttons
         self.text_list = [] # list of text sprites appearing on buttons
+        self.left_size = 0 # size of the left branch of the bipartite graph
+        self.right_size = 0 # size of the right branch of the bipartite graph
+        self.left_branch = [] # list of vertex objects in left branch
+        self.right_branch = [] # list of vertex object in right branch
 
     # remove all buttons from the screen
     def clear_buttons(self):
@@ -90,7 +95,7 @@ class Responses(object):
     # corresponding lists
     def set_back_button(self, button_image, hovered_image, to_state):
         self.button_list.append(NB.NavigationButton(self, button_image,
-                                                    hovered_image, 600, 510, 4,
+                                                    hovered_image, 600, 510, -1,
                                                     to_state))
         self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
 
@@ -124,18 +129,43 @@ class Responses(object):
         hovered_image = games.load_image("images/hovered-button.png")
 
         self.set_number_buttons(button_image, hovered_image, 2)
-        #for i in range(5):
-        #    for j in range(2):
-        #        self.button_list.append(NB.NavigationButton(self, button_image,
-        #                                                    550 + 150 * j,
-        #                                                    90 + 55 * i,
-        #                                                    2*i + j + 1, 2))
-        #        self.text_list.append(MyText(str(2*i + j + 1), 20, color.black,
-        #                                    550 + 150 * j, 90 + 55 * i))
         self.render_buttons()
 
+    # remove all vertices in a single branch from the corresponding array and
+    # also remove them from the screen
+    def erase_branch(self, branch):
+        if (branch == 'left'):
+            for vertex in self.left_branch:
+                vertex.destroy()
+                self.left_branch = []
+        else:
+            for vertex in self.right_branch:
+                vertex.destroy()
+                self.right_branch = []
+
+    # set attributes about a branch size and vertex list; also set vertices
+    # on screen
+    def set_branch_bipartite(self, data, branch):
+        start = 310 - 60 * ((data - 1) / 2)
+        if (branch == 'left'):
+            self.left_size = data
+            self.erase_branch('left')
+            for i in range(data):
+                self.left_branch.append(VE.Vertex(self, 100, start + 60 * i, i))
+            for vertex in self.left_branch:
+                games.screen.add(vertex)
+        else:
+            self.right_size = data
+            self.erase_branch('right')
+            for i in range(data):
+                self.right_branch.append(VE.Vertex(self, 440, start + 60 * i,
+                                                   i))
+            for vertex in self.right_branch:
+                games.screen.add(vertex)
+     
+
     # to state 2
-    def set_right_branch_query(self):
+    def set_right_branch_query(self, data):
         self.state = 2
         self.reset_text('Right branch size:')
         self.clear_buttons()
@@ -143,14 +173,11 @@ class Responses(object):
         hovered_image = games.load_image("images/hovered-button.png")
 
         self.set_number_buttons(button_image, hovered_image, 3)
-        #self.button_list.append(NB.NavigationButton(self, button_image, 600,
-        #                                            150, 4, 3))
-        #self.text_list.append(MyText('4', 20, color.black, 600, 150))
-        #self.button_list.append(NB.NavigationButton(self, button_image, 600,
-        #                                            240, 4, 1))
-        #self.text_list.append(MyText('Go Back', 20, color.black, 600, 240))
         self.set_back_button(button_image, hovered_image, 1)
         self.render_buttons()
+        if not (data == -1):
+            self.set_branch_bipartite(data, 'left')
+            
 
     # to state 3
     def set_edge_choice_query(self):
@@ -290,11 +317,11 @@ class Responses(object):
         self.render_buttons()
         
     #def advance(self, old_state, new_state):
-    def advance(self, new_state):
+    def advance(self, new_state, data):
         if (new_state == 1):
             self.set_left_branch_query()
         elif (new_state == 2):
-            self.set_right_branch_query()
+            self.set_right_branch_query(data)
         elif (new_state == 3):
             self.set_edge_choice_query()
         elif (new_state == 4):
