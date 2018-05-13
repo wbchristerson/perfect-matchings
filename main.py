@@ -203,11 +203,19 @@ class Responses(object):
         if not (data == -1):
             self.set_branch_bipartite(data, 'right')
         
-        edge = games.load_image("images/up-edge-9.png")
+        edge = games.load_image("images/up-edge-1 - Copy.png")
         # up: x = 260, y = 420, at most +5
         # horizontal: x = 265, y = 430
         # up: x = 245, y = 305, for +6, +7, +8, +9
-        e = games.Sprite(image = edge, x = 245, y = 305, is_collideable = False)
+        # -9, -8: x = 245, y = 300
+        # -7: x = 215, y = 185
+        # -6: x = 225, y = 125
+        # -5: x = 198, y = 180
+        # -4: x = 200, y = 120
+        # -3: x = 203, y = 60
+        # -2: x = 200, y = 0
+        # -1: x = 200, y = -60
+        e = games.Sprite(image = edge, x = 200, y = -60, is_collideable = False)
         games.screen.add(e)
 
 
