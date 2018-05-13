@@ -16,6 +16,7 @@ class Vertex(games.Sprite):
         self.step_count = 0 # counter to give time between button selections
         self.is_counting = False # whether counter is currently incrementing
         self.is_hovered = False # whether the mouse is hovering over vertex
+        self.is_selected = False # whether the vertex is currently selected
 
     def update(self):
         if (self.is_counting):
@@ -30,11 +31,25 @@ class Vertex(games.Sprite):
                     mouse_touching = True
                     break
             if (mouse_touching and (not self.is_hovered) and
-                (self.responder.state == 4)):
+                (self.responder.state == 4) and (not self.is_selected)
+                and (not self.is_counting)):
                 self.is_hovered = True
                 self.set_image(self.hovered_image)
-            elif ((not mouse_touching) and self.is_hovered):
+            elif ((not mouse_touching) and self.is_hovered and
+                  (not self.is_selected)):
                 self.is_hovered = False
+                self.set_image(self.plain_image)
+            if (mouse_touching and (not self.is_selected) and
+                games.keyboard.is_pressed(games.K_SPACE) and
+                (not self.is_counting)):
+                self.is_selected = True
+                self.is_counting = True
+                self.set_image(self.selected_image)
+            elif (mouse_touching and self.is_selected and
+                  games.keyboard.is_pressed(games.K_SPACE) and
+                  (not self.is_counting)):
+                self.is_selected = False
+                self.is_counting = True
                 self.set_image(self.plain_image)
 
         
