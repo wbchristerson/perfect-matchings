@@ -57,13 +57,8 @@ class Vertex(games.Sprite):
                 # unselect any already selected vertices in the same branch
                 if (self.branch == 'left'):
                     self.responder.set_vertex('left', self.data)
-                    #if (self.responder.left_vertex == -1):
-                    #    
-                    #else:
-                    #    self.responder.set_vertex('left', self.data)
-                    
-                # set the current vertex to be the newly selected one in its
-                # branch
+                else:
+                    self.responder.set_vertex('right', self.data)
                 
             elif (mouse_touching and self.is_selected and
                   games.keyboard.is_pressed(games.K_SPACE) and

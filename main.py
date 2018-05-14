@@ -80,6 +80,12 @@ class Responses(object):
                     vertex.unselect()
                     break
             self.left_vertex = vertex_number
+        else:
+            for vertex in self.right_branch:
+                if (vertex.data == self.right_vertex):
+                    vertex.unselect()
+                    break
+            self.right_vertex = vertex_number
 
     # remove all buttons from the screen
     def clear_buttons(self):
