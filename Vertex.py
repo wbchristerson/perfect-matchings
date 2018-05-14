@@ -68,4 +68,8 @@ class Vertex(games.Sprite):
             elif (mouse_touching and self.is_selected and
                   games.keyboard.is_pressed(games.K_SPACE) and
                   (not self.is_counting) and (self.responder.state == 4)):
-                self.unselect()    
+                self.unselect()
+                if (self.branch == 'left'):
+                    self.responder.set_vertex('left', -1)
+                else:
+                    self.responder.set_vertex('right', -1)
