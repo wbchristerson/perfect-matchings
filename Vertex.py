@@ -1,13 +1,14 @@
 from livewires import games
 
 class Vertex(games.Sprite):
-    def __init__(self, responder, x, y, data):
+    def __init__(self, responder, x, y, data, branch):
         vertex_image = games.load_image("images/vertex.png")
         hovered_image = games.load_image("images/hovered-vertex.png")
         selected_image = games.load_image("images/selected-vertex.png")
         super(Vertex, self).__init__(image = vertex_image, x = x, y = y,
                                      is_collideable = False)
-        self.data = data
+        self.data = data # number of vertex in branch
+        self.branch = branch # which branch: 'left' or 'right'
         self.plain_image = vertex_image
         self.hovered_image = hovered_image
         self.selected_image = selected_image
@@ -30,6 +31,7 @@ class Vertex(games.Sprite):
                 if (item.id == 0):
                     mouse_touching = True
                     break
+            # hovering
             if (mouse_touching and (not self.is_hovered) and
                 (self.responder.state == 4) and (not self.is_selected)
                 and (not self.is_counting)):
@@ -39,6 +41,7 @@ class Vertex(games.Sprite):
                   (not self.is_selected)):
                 self.is_hovered = False
                 self.set_image(self.plain_image)
+            # selection
             if (mouse_touching and (not self.is_selected) and
                 games.keyboard.is_pressed(games.K_SPACE) and
                 (not self.is_counting)):

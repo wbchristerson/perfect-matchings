@@ -32,5 +32,13 @@ class NavigationButton(games.Sprite):
                 self.set_image(self.plain_image)
 
             if (mouse_touching and games.keyboard.is_pressed(games.K_SPACE)):
+                if ((self.responder.state == 1) and
+                    (not (self.responder.left_size == self.data))):
+                    self.responder.reset_branches_data(self.data,
+                                                       self.responder.right_size)
+                elif ((self.responder.state == 2) and
+                      (not (self.responder.right_size == self.data)) and
+                      (self.destination_state == 3)):
+                    self.responder.reset_branches_data(self.responder.left_size,
+                                                       self.data)
                 self.responder.advance(self.destination_state, self.data)
-            

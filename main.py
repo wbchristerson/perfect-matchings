@@ -65,6 +65,11 @@ class Responses(object):
         self.right_size = 0 # size of the right branch of the bipartite graph
         self.left_branch = [] # list of vertex objects in left branch
         self.right_branch = [] # list of vertex object in right branch
+        self.left_vertex = -1 # id of selected left vertex
+        self.right_vertex = -1 # id of selected right vertex
+        self.edges = [] # the list of edge sprite objects which appear on screen
+        self.left_neighbors = [] # list of adjacency lists for left branch
+        self.right_neighbors = [] # list of adjacency lists for right branch
 
     # remove all buttons from the screen
     def clear_buttons(self):
@@ -82,6 +87,16 @@ class Responses(object):
         else:
             self.main_text_sprite = MyText(new_text, 30, color.black, 600, 30)
             games.screen.add(self.main_text_sprite)
+
+    # if the left branch size or right branch size has been changed, change
+    # the data entries for self.left_branch and self.right_branch
+    def reset_branches_data(self, new_left_size, new_right_size):
+        self.left_neighbors = []
+        self.right_neighbors = []
+        for i in range(new_left_size):
+            self.left_neighbors.append([])
+        for i in range(new_right_size):
+            self.right_neighbors.append([])
 
     # place all buttons (with their corresponding text) on screen, based on the
     # contents of self.button_list and self.text_list
@@ -152,7 +167,8 @@ class Responses(object):
             self.left_size = data
             self.erase_branch('left')
             for i in range(data):
-                self.left_branch.append(VE.Vertex(self, 60, start + 60 * i, i))
+                self.left_branch.append(VE.Vertex(self, 60, start + 60 * i, i,
+                                                  'left'))
             for vertex in self.left_branch:
                 games.screen.add(vertex)
         else:
@@ -160,7 +176,7 @@ class Responses(object):
             self.erase_branch('right')
             for i in range(data):
                 self.right_branch.append(VE.Vertex(self, 400, start + 60 * i,
-                                                   i))
+                                                   i, 'right'))
             for vertex in self.right_branch:
                 games.screen.add(vertex)
      
