@@ -322,6 +322,8 @@ class Responses(object):
 
     # to state 4
     def set_manual_edge_choice_query(self):
+        if (self.state == 3):
+            self.delete_all_edges()
         self.state = 4
         self.reset_text('Make your edge choices on the graph.')
         if (self.state == 4):
