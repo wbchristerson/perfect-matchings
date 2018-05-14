@@ -71,11 +71,20 @@ class Edge(games.Sprite):
 
             if (((self.responder.state == 7) or (self.responder.state == 8))
                 and self.mouse_touching() and
-                games.keyboard.is_pressed(games.K_SPACE)):
+                games.keyboard.is_pressed(games.K_SPACE) and
+                (not self.is_selected)):
                 self.is_selected = True
                 self.is_counting = True
                 self.responder.matching_list.append(self)
                 self.set_image(self.selected_image)
+            elif (((self.responder.state == 7) or (self.responder.state == 8))
+                  and self.mouse_touching() and
+                  games.keyboard.is_pressed(games.K_SPACE) and
+                  self.is_selected):
+                self.is_selected = False
+                self.is_counting = True
+                self.responder.matching_list.remove(self)
+                self.set_image(self.edge_image)
 
     def mouse_touching(self):
         if (games.mouse.x < 60):
