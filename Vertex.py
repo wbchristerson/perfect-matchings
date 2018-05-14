@@ -57,9 +57,14 @@ class Vertex(games.Sprite):
                 # unselect any already selected vertices in the same branch
                 if (self.branch == 'left'):
                     self.responder.set_vertex('left', self.data)
+                    # if a vertex from right branch has been selected, toggle
+                    # edge between them
+                    if (not (self.responder.right_vertex == -1)):
+                        self.responder.toggle_edge()
                 else:
                     self.responder.set_vertex('right', self.data)
-                
+                    if (not (self.responder.left_vertex == -1)):
+                        self.responder.toggle_edge()
             elif (mouse_touching and self.is_selected and
                   games.keyboard.is_pressed(games.K_SPACE) and
                   (not self.is_counting)):

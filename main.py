@@ -2,6 +2,7 @@ from livewires import games, color
 from pygame import draw
 import NavigationButton as NB
 import Vertex as VE
+import Edge as ED
 
 games.init(screen_width = 832, screen_height = 624, fps = 50)
 
@@ -95,6 +96,42 @@ class Responses(object):
         for vertex in self.right_branch:
             if (vertex.is_selected):
                 vertex.unselect()
+
+    # toggle the existence of an edge between the current left vertex and the
+    # current right vertex
+    def toggle_edge(self):
+        is_present = False
+        selected_edge = None
+        for edge in self.edges:
+            if ((edge.left_vertex == self.left_vertex) and
+                (edge.right_vertex == self.right_vertex)):
+                is_present = True
+                edge.destroy()
+                selected_edge = edge
+                break
+        print(is_present)
+        if (is_present):
+            self.edges.remove(selected_edge)
+        else:
+            new_edge = ED.Edge(self, self.left_vertex, self.right_vertex,
+                               self.left_size, self.right_size)
+            games.screen.add(new_edge)
+            self.edges.append(new_edge)
+        # update adjacency lists
+        if (is_present):
+            self.left_neighbors[self.left_vertex].remove(self.right_vertex)
+            self.right_neighbors[self.right_vertex].remove(self.left_vertex)
+        else:
+            self.left_neighbors[self.left_vertex].append(self.right_vertex)
+            self.right_neighbors[self.right_vertex].append(self.left_vertex)
+            # re-sort lists
+            self.left_neighbors[self.left_vertex].sort()
+            self.right_neighbors[self.right_vertex].sort()
+        # unselect current left and right vertices and set to -1
+        self.left_branch[self.left_vertex].unselect()
+        self.right_branch[self.right_vertex].unselect()
+        self.left_vertex = -1
+        self.right_vertex = -1
 
     # remove all buttons from the screen
     def clear_buttons(self):
