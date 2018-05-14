@@ -72,7 +72,8 @@ class Responses(object):
         self.edges = [] # the list of edge sprite objects which appear on screen
         self.left_neighbors = [] # list of adjacency lists for left branch
         self.right_neighbors = [] # list of adjacency lists for right branch
-
+        self.hovered_edges = [] # list of all edges that are hovered over
+        self.matching_list = [] # list of edge objects in the matching
 
     # set the currently selected vertex of a branch
     def set_vertex(self, branch, vertex_number):
@@ -221,6 +222,12 @@ class Responses(object):
                     self.add_edge_data(i, j)
                     self.add_edge_screen(i, j)
 
+    # reset all edges' appearance so that they do not appear selected
+    def unselect_all_edges(self):
+        for edge in self.edges:
+            edge.set_image(edge.edge_image)
+        self.matching_list = []
+
     # include initial application graphics
     def initialize_board(self):
         self.state = 1
@@ -363,6 +370,7 @@ class Responses(object):
         self.render_buttons()
         # unselect any selected vertices
         self.unselect_all()
+        self.unselect_all_edges()
 
     # to state 6
     def random_operations_query(self):
@@ -400,6 +408,7 @@ class Responses(object):
                                      20, color.black, 600, 420))
         self.set_back_button(button_image, hovered_image, 3)
         self.render_buttons()
+        self.unselect_all_edges()
 
     # reset screen for the algorithm operation
     def prepare_operations(self, return_state):

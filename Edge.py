@@ -14,20 +14,26 @@ class Edge(games.Sprite):
         new_y = 0
         if (offset <= 0):
             (x_offset, y_offset) = constants.UP_OFFSETS[-offset]
-            edge_image = games.load_image("images/up-edge-" + str(-offset) +
-                                          ".png")
+            edge_image = games.load_image("images/up-edges/edge-" +
+                                          str(-offset) + ".png")
             self.edge_image = edge_image
-            hovered_image = games.load_image("images/hovered-up-edge-" +
+            hovered_image = games.load_image("images/hovered-up-edges/edge-" +
                                              str(-offset) + ".png")
             self.hovered_image = hovered_image
+            selected_image = games.load_image("images/selected-up-edges/edge-" +
+                                              str(-offset) + ".png")
+            self.selected_image = selected_image
         else:
             (x_offset, y_offset) = constants.DOWN_OFFSETS[offset]
-            edge_image = games.load_image("images/down-edge-" + str(offset) +
-                                          ".png")
+            edge_image = games.load_image("images/down-edges/edge-" +
+                                          str(offset) + ".png")
             self.edge_image = edge_image
-            hovered_image = games.load_image("images/hovered-down-edge-" +
+            hovered_image = games.load_image("images/hovered-down-edges/edge-" +
                                              str(offset) + ".png")
             self.hovered_image = hovered_image
+            selected_image = games.load_image("images/selected-down-edges/" +
+                                              "edge-" + str(offset) + ".png")
+            self.selected_image = selected_image
         left_y += y_offset
         super(Edge, self).__init__(image = edge_image, x = 60 + x_offset,
                                    y = left_y, is_collideable = False)
@@ -40,15 +46,36 @@ class Edge(games.Sprite):
         self.slope = (stable_right_y - stable_left_y) / 340
         # y-intercept of line through edge
         self.intercept = stable_left_y - 60 * self.slope
+        self.is_selected = False
+        self.is_counting = False
+        self.step_count = 0
 
     def update(self):
-        if ((self.responder.state == 7) and (not self.hovered) and
-            self.mouse_touching()):
-            self.set_image(self.hovered_image)
-            self.hovered = True
-        elif ((self.hovered) and (not self.mouse_touching())):
-            self.hovered = False
-            self.set_image(self.edge_image)
+        if (self.is_counting):
+            self.step_count += 1
+            if (self.step_count == 20):
+                self.is_counting = False
+                self.step_count = 0
+        else:
+            if (((self.responder.state == 7) or (self.responder.state == 8))
+                and (not self.hovered) and self.mouse_touching() and
+                (not self.is_selected)):
+                self.responder.hovered_edges.append(self)
+                self.set_image(self.hovered_image)
+                self.hovered = True
+            elif ((self.hovered) and (not self.mouse_touching())):
+                self.hovered = False
+                self.responder.hovered_edges.remove(self)
+                if (not self.is_selected):
+                    self.set_image(self.edge_image)
+
+            if (((self.responder.state == 7) or (self.responder.state == 8))
+                and self.mouse_touching() and
+                games.keyboard.is_pressed(games.K_SPACE)):
+                self.is_selected = True
+                self.is_counting = True
+                self.responder.matching_list.append(self)
+                self.set_image(self.selected_image)
 
     def mouse_touching(self):
         if (games.mouse.x < 60):
@@ -60,3 +87,5 @@ class Edge(games.Sprite):
             ((function_val - games.mouse.y) > 10)):
             return False
         return True
+
+    
