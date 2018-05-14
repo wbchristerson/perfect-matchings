@@ -109,7 +109,6 @@ class Responses(object):
                 edge.destroy()
                 selected_edge = edge
                 break
-        print(is_present)
         if (is_present):
             self.edges.remove(selected_edge)
         else:
