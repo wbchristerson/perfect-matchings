@@ -14,14 +14,46 @@ class Edge(games.Sprite):
             (x_offset, y_offset) = constants.UP_OFFSETS[-offset]
             edge_image = games.load_image("images/up-edge-" + str(-offset) +
                                           ".png")
+            self.edge_image = edge_image
+            hovered_image = games.load_image("images/hovered-up-edge-" +
+                                             str(-offset) + ".png")
+            self.hovered_image = hovered_image
         else:
             (x_offset, y_offset) = constants.DOWN_OFFSETS[offset]
             edge_image = games.load_image("images/down-edge-" + str(offset) +
                                           ".png")
+            self.edge_image = edge_image
+            hovered_image = games.load_image("images/hovered-down-edge-" +
+                                             str(offset) + ".png")
+            self.hovered_image = hovered_image
         left_y += y_offset
         super(Edge, self).__init__(image = edge_image, x = 60 + x_offset,
                                    y = left_y, is_collideable = False)
         self.left_vertex = left_vertex
         self.right_vertex = right_vertex
+        self.offset = offset
+        self.hovered = False
+        self.responder = responder
+        self.slope = (right_y - left_y) / 340 # slope of edge on screen
+        # y-intercept of line through edge
+        self.intercept = left_y - 60 * self.slope
 
-    
+    def update(self):
+        if ((self.responder.state == 7) and (not self.hovered) and
+            self.mouse_touching()):
+            self.set_image(self.hovered_image)
+            self.hovered = True
+        #elif (self.hovered):
+        #    self.hovered = False
+        #    self.set_image(self.edge_image)
+
+    def mouse_touching(self):
+        if (games.mouse.x < 60):
+            return False
+        elif (games.mouse.x > 400):
+            return False
+        function_val = games.mouse.x * self.slope + self.intercept
+        if ((-10 > (function_val - games.mouse.y)) or
+            ((function_val - games.mouse.y) > 10)):
+            return False
+        return True

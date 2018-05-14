@@ -44,13 +44,13 @@ class Vertex(games.Sprite):
                 self.is_hovered = True
                 self.set_image(self.hovered_image)
             elif ((not mouse_touching) and self.is_hovered and
-                  (not self.is_selected)):
+                  (not self.is_selected) and (self.responder.state == 4)):
                 self.is_hovered = False
                 self.set_image(self.plain_image)
             # selection
             if (mouse_touching and (not self.is_selected) and
                 games.keyboard.is_pressed(games.K_SPACE) and
-                (not self.is_counting)):
+                (not self.is_counting) and (self.responder.state == 4)):
                 self.is_selected = True
                 self.is_counting = True
                 self.set_image(self.selected_image)
@@ -67,5 +67,5 @@ class Vertex(games.Sprite):
                         self.responder.toggle_edge()
             elif (mouse_touching and self.is_selected and
                   games.keyboard.is_pressed(games.K_SPACE) and
-                  (not self.is_counting)):
+                  (not self.is_counting) and (self.responder.state == 4)):
                 self.unselect()    
