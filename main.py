@@ -481,7 +481,7 @@ class Responses(object):
         elif (new_state == 11):
             self.execute_manual_algorithm_steps()
         elif (new_state == 12):
-            self.execute_random_find_automaically()
+            self.execute_random_find_automatically()
         elif (new_state == 13):
             self.execute_random_algorithm()
         elif (new_state == 14):
