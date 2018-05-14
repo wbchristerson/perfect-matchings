@@ -87,6 +87,15 @@ class Responses(object):
                     break
             self.right_vertex = vertex_number
 
+    # unselect all vertices in transition from state 4 to states 3, 5
+    def unselect_all(self):
+        for vertex in self.left_branch:
+            if (vertex.is_selected):
+                vertex.unselect()
+        for vertex in self.right_branch:
+            if (vertex.is_selected):
+                vertex.unselect()
+
     # remove all buttons from the screen
     def clear_buttons(self):
         for b in self.button_list:
@@ -234,6 +243,8 @@ class Responses(object):
         self.render_buttons()
         if not (data == -1):
             self.set_branch_bipartite(data, 'right')
+        # unselect any selected vertices
+        self.unselect_all()
         
         #edge = games.load_image("images/up-edge-1 - Copy.png")
         # up: x = 260, y = 420, at most +5
@@ -307,6 +318,8 @@ class Responses(object):
         #self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
         self.set_back_button(button_image, hovered_image, 4)
         self.render_buttons()
+        # unselect any selected vertices
+        self.unselect_all()
 
     # to state 6
     def random_operations_query(self):
