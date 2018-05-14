@@ -19,6 +19,12 @@ class Vertex(games.Sprite):
         self.is_hovered = False # whether the mouse is hovering over vertex
         self.is_selected = False # whether the vertex is currently selected
 
+    # if the vertex is selected and must become unselected
+    def unselect(self):
+        self.is_selected = False
+        self.is_counting = True
+        self.set_image(self.plain_image)
+
     def update(self):
         if (self.is_counting):
             self.step_count += 1
@@ -31,7 +37,7 @@ class Vertex(games.Sprite):
                 if (item.id == 0):
                     mouse_touching = True
                     break
-            # hovering
+            # hoverings
             if (mouse_touching and (not self.is_hovered) and
                 (self.responder.state == 4) and (not self.is_selected)
                 and (not self.is_counting)):
@@ -48,11 +54,23 @@ class Vertex(games.Sprite):
                 self.is_selected = True
                 self.is_counting = True
                 self.set_image(self.selected_image)
+                # unselect any already selected vertices in the same branch
+                if (self.branch == 'left'):
+                    self.responder.set_vertex('left', self.data)
+                    #if (self.responder.left_vertex == -1):
+                    #    
+                    #else:
+                    #    self.responder.set_vertex('left', self.data)
+                    
+                # set the current vertex to be the newly selected one in its
+                # branch
+                
             elif (mouse_touching and self.is_selected and
                   games.keyboard.is_pressed(games.K_SPACE) and
                   (not self.is_counting)):
-                self.is_selected = False
-                self.is_counting = True
-                self.set_image(self.plain_image)
+                self.unselect()
+                #self.is_selected = False
+                #self.is_counting = True
+                #self.set_image(self.plain_image)
 
         

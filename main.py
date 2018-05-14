@@ -71,6 +71,16 @@ class Responses(object):
         self.left_neighbors = [] # list of adjacency lists for left branch
         self.right_neighbors = [] # list of adjacency lists for right branch
 
+
+    # set the currently selected vertex of a branch
+    def set_vertex(self, branch, vertex_number):
+        if (branch == 'left'):
+            for vertex in self.left_branch:
+                if (vertex.data == self.left_vertex):
+                    vertex.unselect()
+                    break
+            self.left_vertex = vertex_number
+
     # remove all buttons from the screen
     def clear_buttons(self):
         for b in self.button_list:
