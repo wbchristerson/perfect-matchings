@@ -226,6 +226,8 @@ class Responses(object):
     def unselect_all_edges(self):
         for edge in self.edges:
             edge.set_image(edge.edge_image)
+            edge.hovered = False
+            edge.is_selected = False
         self.matching_list = []
 
     # include initial application graphics
