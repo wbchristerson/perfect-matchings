@@ -50,6 +50,11 @@ class Edge(games.Sprite):
         self.is_counting = False
         self.step_count = 0
 
+    def __str__(self):
+        rep = '[' + str(self.left_vertex) + ', ' + str(self.right_vertex)
+        rep += ']'
+        return rep
+
     def update(self):
         if (self.is_counting):
             self.step_count += 1
@@ -59,7 +64,7 @@ class Edge(games.Sprite):
         else:
             if (((self.responder.state == 7) or (self.responder.state == 8))
                 and (not self.hovered) and self.mouse_touching() and
-                (not self.is_selected)):
+                (not self.is_selected) and (not self.is_incident())):
                 self.responder.hovered_edges.append(self)
                 self.set_image(self.hovered_image)
                 self.hovered = True
@@ -72,11 +77,14 @@ class Edge(games.Sprite):
             if (((self.responder.state == 7) or (self.responder.state == 8))
                 and self.mouse_touching() and
                 games.keyboard.is_pressed(games.K_SPACE) and
-                (not self.is_selected)):
+                (not self.is_selected) and (not self.is_incident())):
                 self.is_selected = True
                 self.is_counting = True
                 self.responder.matching_list.append(self)
                 self.set_image(self.selected_image)
+                print('Matching: ')
+                for e in self.responder.matching_list:
+                    print(e)
             elif (((self.responder.state == 7) or (self.responder.state == 8))
                   and self.mouse_touching() and
                   games.keyboard.is_pressed(games.K_SPACE) and
@@ -85,6 +93,9 @@ class Edge(games.Sprite):
                 self.is_counting = True
                 self.responder.matching_list.remove(self)
                 self.set_image(self.edge_image)
+                print('Matching: ')
+                for e in self.responder.matching_list:
+                    print(e)
 
     def mouse_touching(self):
         if (games.mouse.x < 60):
@@ -97,4 +108,10 @@ class Edge(games.Sprite):
             return False
         return True
 
-    
+    # check if the edge is incident to an edge already in the matching
+    def is_incident(self):
+        for edge in self.responder.matching_list:
+            if ((self.left_vertex == edge.left_vertex) or
+                (self.right_vertex == edge.right_vertex)):
+                return True
+        return False
