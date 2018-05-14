@@ -23,3 +23,5 @@ class Edge(games.Sprite):
                                    y = left_y, is_collideable = False)
         self.left_vertex = left_vertex
         self.right_vertex = right_vertex
+
+    

@@ -341,22 +341,22 @@ class Responses(object):
         hovered_long_image = games.load_image("images/hovered-long-button.png")
         self.button_list.append(NB.NavigationButton(self, long_button_image,
                                                     hovered_long_image, 600,
-                                                    150, 1, 7))
-        self.text_list.append(MyText('Automatically Find MM', 20, color.black,
-                                     600, 150))
-        self.button_list.append(NB.NavigationButton(self, long_button_image,
-                                                    hovered_long_image, 600,
-                                                    240, 2, 7))
+                                                    150, 2, 7))
         self.text_list.append(MyText('Find MM Manually', 20, color.black, 600,
-                                     240))
+                                     150))
         self.button_list.append(NB.NavigationButton(self, long_button_image,
                                                     hovered_long_image, 600,
-                                                    330, 3, 7))
+                                                    240, 1, 9))
+        self.text_list.append(MyText('Automatically Find MM', 20, color.black,
+                                     600, 240))
+        self.button_list.append(NB.NavigationButton(self, long_button_image,
+                                                    hovered_long_image, 600,
+                                                    330, 3, 10))
         self.text_list.append(MyText('Watch Algorithm To Find MM', 20,
                                      color.black, 600, 330))
         self.button_list.append(NB.NavigationButton(self, long_button_image,
                                                     hovered_long_image, 600,
-                                                    420, 4, 7))
+                                                    420, 4, 11))
         self.text_list.append(MyText('Watch Algorithm To Find MM With Steps',
                                      20, color.black, 600, 420))
         self.set_back_button(button_image, hovered_image, 4)
@@ -378,47 +378,77 @@ class Responses(object):
         hovered_long_image = games.load_image("images/hovered-long-button.png")
         self.button_list.append(NB.NavigationButton(self, long_button_image,
                                                     hovered_long_image, 600,
-                                                    150, 1, 8))
-        self.text_list.append(MyText('Automatically Find MM', 20, color.black,
-                                     600, 150))
-        self.button_list.append(NB.NavigationButton(self, long_button_image,
-                                                    hovered_long_image, 600,
-                                                    240, 2, 8))
+                                                    150, 2, 8))
         self.text_list.append(MyText('Find MM Manually', 20, color.black, 600,
-                                     240))
+                                     150))
         self.button_list.append(NB.NavigationButton(self, long_button_image,
                                                     hovered_long_image, 600,
-                                                    330, 3, 8))
+                                                    240, 1, 12))
+        self.text_list.append(MyText('Automatically Find MM', 20, color.black,
+                                     600, 240))
+        self.button_list.append(NB.NavigationButton(self, long_button_image,
+                                                    hovered_long_image, 600,
+                                                    330, 3, 13))
         self.text_list.append(MyText('Watch Algorithm To Find MM', 20,
                                      color.black, 600, 330))
         self.button_list.append(NB.NavigationButton(self, long_button_image,
                                                     hovered_long_image, 600,
-                                                    420, 4, 8))
+                                                    420, 4, 14))
         self.text_list.append(MyText('Watch Algorithm To Find MM With Steps',
                                      20, color.black, 600, 420))
         self.set_back_button(button_image, hovered_image, 3)
         self.render_buttons()
         self.set_random_edges()
+
+    # reset screen for the algorithm operation
+    def prepare_operation(self, return_state):
+        self.reset_text('')
+        self.clear_buttons()
+        button_image = games.load_image("images/button.png")
+        hovered_image = games.load_image("images/hovered-button.png")
+        self.set_back_button(button_image, hovered_image, return_state)
+        self.render_buttons()    
         
     # to state 7
-    def execute_manual_operations(self):
+    # find an MM manually
+    def execute_manual_find_manual(self):
         self.state = 7
-        self.reset_text('')
-        self.clear_buttons()
-        button_image = games.load_image("images/button.png")
-        hovered_image = games.load_image("images/hovered-button.png")
-        self.set_back_button(button_image, hovered_image, 5)
-        self.render_buttons()
+        self.prepare_operations(5)
 
     # to state 8
-    def execute_random_operations(self):
+    def execute_random_find_manual(self):
         self.state = 8
-        self.reset_text('')
-        self.clear_buttons()
-        button_image = games.load_image("images/button.png")
-        hovered_image = games.load_image("images/hovered-button.png")
-        self.set_back_button(button_image, hovered_image, 6)
-        self.render_buttons()
+        self.prepare_operations(6)
+
+    # to state 9
+    def execute_manual_find_automatically(self):
+        self.state = 9
+        self.prepare_operations(5)
+
+    # to state 10
+    def execute_manual_algorithm(self):
+        self.state = 10
+        self.prepare_operations(5)
+
+    # to state 11
+    def execute_manual_algorithm_steps(self):
+        self.state = 11
+        self.prepare_operations(5)
+
+    # to state 12
+    def execute_random_find_automatically(self):
+        self.state = 12
+        self.prepare_operations(6)
+
+    # to state 13
+    def execute_random_algorithm(self):
+        self.state = 13
+        self.prepare_operations(6)
+
+    # to state 14
+    def execute_random_algorithm_steps(self):
+        self.state = 14
+        self.prepare_operations(6)
 
     def advance(self, new_state, data):
         if (new_state == 1):
@@ -431,18 +461,30 @@ class Responses(object):
             self.set_manual_edge_choice_query()
         elif (new_state == 5):
             self.manual_operations_query()
+        elif (new_state == 6):
+            self.random_operations_query()
             #print('\nLeft Branch:\n')
             #for i in range(self.left_size):
             #    print(self.left_neighbors[i])
             #print('\nRight Branch:\n')
             #for j in range(self.right_size):
             #    print(self.right_neighbors[j])
-        elif (new_state == 6):
-            self.random_operations_query()
         elif (new_state == 7):
-            self.execute_manual_operations()
+            self.execute_manual_find_manual()
         elif (new_state == 8):
-            self.execute_random_operations()
+            self.execute_random_find_manual()
+        elif (new_state == 9):
+            self.execute_manual_find_automatically()
+        elif (new_state == 10):
+            self.execute_manual_algorithm()
+        elif (new_state == 11):
+            self.execute_manual_algorithm_steps()
+        elif (new_state == 12):
+            self.execute_random_find_automaically()
+        elif (new_state == 13):
+            self.execute_random_algorithm()
+        elif (new_state == 14):
+            self.execute_random_algorithm_steps()
         else:
             print('hi')
 
