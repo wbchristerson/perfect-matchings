@@ -3,6 +3,7 @@ from pygame import draw
 import NavigationButton as NB
 import Vertex as VE
 import Edge as ED
+import random
 
 games.init(screen_width = 832, screen_height = 624, fps = 50)
 
@@ -65,7 +66,7 @@ class Responses(object):
         self.left_size = 0 # size of the left branch of the bipartite graph
         self.right_size = 0 # size of the right branch of the bipartite graph
         self.left_branch = [] # list of vertex objects in left branch
-        self.right_branch = [] # list of vertex object in right branch
+        self.right_branch = [] # list of vertex objects in right branch
         self.left_vertex = -1 # id of selected left vertex
         self.right_vertex = -1 # id of selected right vertex
         self.edges = [] # the list of edge sprite objects which appear on screen
@@ -196,6 +197,30 @@ class Responses(object):
                 self.text_list.append(MyText(str(2*i + j + 1), 20, color.black,
                                              550 + 150 * j, 90 + 55 * i))
 
+    # add edge to data list
+    def add_edge_data(self, left_vertex, right_vertex):
+        self.left_neighbors[left_vertex].append(right_vertex)
+        self.left_neighbors[left_vertex].sort()
+        self.right_neighbors[right_vertex].append(left_vertex)
+        self.right_neighbors[right_vertex].sort()
+
+    # add edge to data list and screen
+    def add_edge_screen(self, left_vertex, right_vertex):
+        new_edge = ED.Edge(self, left_vertex, right_vertex, self.left_size,
+                           self.right_size)
+        self.edges.append(new_edge)
+        games.screen.add(new_edge)
+
+    # choose the edges that will appear randomly
+    def set_random_edges(self):
+        self.reset_branches_data(self.left_size, self.right_size)
+        self.delete_all_edges()
+        for i in range(self.left_size):
+            for j in range(self.right_size):
+                if (random.randrange(5) <= 1):
+                    self.add_edge_data(i, j)
+                    self.add_edge_screen(i, j)
+
     # include initial application graphics
     def initialize_board(self):
         self.state = 1
@@ -279,31 +304,12 @@ class Responses(object):
                                                     hovered_image, 600, 240, 6,
                                                     6))
         self.text_list.append(MyText('Randomly', 20, color.black, 600, 240))
-        #self.button_list.append(NB.NavigationButton(self, button_image, 600,
-        #                                            330, 4, 2))
-        #self.text_list.append(MyText('Go Back', 20, color.black, 600, 330))
         self.set_back_button(button_image, hovered_image, 2)
         self.render_buttons()
         if not (data == -1):
             self.set_branch_bipartite(data, 'right')
         # unselect any selected vertices
         self.unselect_all()
-        
-        #edge = games.load_image("images/up-edge-1 - Copy.png")
-        # up: x = 260, y = 420, at most +5
-        # horizontal: x = 265, y = 430
-        # up: x = 245, y = 305, for +6, +7, +8, +9
-        # -9, -8: x = 245, y = 300
-        # -7: x = 215, y = 185
-        # -6: x = 225, y = 125
-        # -5: x = 198, y = 180
-        # -4: x = 200, y = 120
-        # -3: x = 203, y = 60
-        # -2: x = 200, y = 0
-        # -1: x = 200, y = -60
-        #e = games.Sprite(image = edge, x = 200, y = -60, is_collideable = False)
-        #games.screen.add(e)
-
 
     # to state 4
     def set_manual_edge_choice_query(self):
@@ -318,9 +324,6 @@ class Responses(object):
                                                     hovered_image, 600, 150, 7,
                                                     5))
         self.text_list.append(MyText('Done', 20, color.black, 600, 150))
-        #self.button_list.append(NB.NavigationButton(self, button_image, 600,
-        #                                            240, 8, 3))
-        #self.text_list.append(MyText('Go Back', 20, color.black, 600, 240))
         self.set_back_button(button_image, hovered_image, 3)
         self.render_buttons()
 
@@ -331,7 +334,7 @@ class Responses(object):
         self.clear_buttons()
         # add additional line of prompt text
         self.text_list.append(MyText('Maximal Matching (MM).', 30, color.black,
-                                     600, 60))
+                                     620, 60))
         button_image = games.load_image("images/button.png")
         hovered_image = games.load_image("images/hovered-button.png")
         long_button_image = games.load_image("images/long-button.png")
@@ -356,9 +359,6 @@ class Responses(object):
                                                     420, 4, 7))
         self.text_list.append(MyText('Watch Algorithm To Find MM With Steps',
                                      20, color.black, 600, 420))
-        #self.button_list.append(NB.NavigationButton(self, button_image, 600,
-        #                                            510, 5, 4))
-        #self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
         self.set_back_button(button_image, hovered_image, 4)
         self.render_buttons()
         # unselect any selected vertices
@@ -396,11 +396,9 @@ class Responses(object):
                                                     420, 4, 8))
         self.text_list.append(MyText('Watch Algorithm To Find MM With Steps',
                                      20, color.black, 600, 420))
-        #self.button_list.append(NB.NavigationButton(self, button_image, 600,
-        #                                            510, 5, 4))
-        #self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
         self.set_back_button(button_image, hovered_image, 3)
         self.render_buttons()
+        self.set_random_edges()
         
     # to state 7
     def execute_manual_operations(self):
@@ -409,9 +407,6 @@ class Responses(object):
         self.clear_buttons()
         button_image = games.load_image("images/button.png")
         hovered_image = games.load_image("images/hovered-button.png")
-        #self.button_list.append(NB.NavigationButton(self, button_image, 600,
-        #                                            510, 5, 5))
-        #self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
         self.set_back_button(button_image, hovered_image, 5)
         self.render_buttons()
 
@@ -424,8 +419,7 @@ class Responses(object):
         hovered_image = games.load_image("images/hovered-button.png")
         self.set_back_button(button_image, hovered_image, 6)
         self.render_buttons()
-        
-    #def advance(self, old_state, new_state):
+
     def advance(self, new_state, data):
         if (new_state == 1):
             self.set_left_branch_query()
@@ -437,6 +431,12 @@ class Responses(object):
             self.set_manual_edge_choice_query()
         elif (new_state == 5):
             self.manual_operations_query()
+            #print('\nLeft Branch:\n')
+            #for i in range(self.left_size):
+            #    print(self.left_neighbors[i])
+            #print('\nRight Branch:\n')
+            #for j in range(self.right_size):
+            #    print(self.right_neighbors[j])
         elif (new_state == 6):
             self.random_operations_query()
         elif (new_state == 7):
@@ -455,7 +455,6 @@ def main():
 
     # object to control responses to buttons and navigation through options
     controller = Responses()
-    #controller.advance(0, 1)
     controller.initialize_board()
 
 main()

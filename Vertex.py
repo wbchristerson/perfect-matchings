@@ -68,9 +68,4 @@ class Vertex(games.Sprite):
             elif (mouse_touching and self.is_selected and
                   games.keyboard.is_pressed(games.K_SPACE) and
                   (not self.is_counting)):
-                self.unselect()
-                #self.is_selected = False
-                #self.is_counting = True
-                #self.set_image(self.plain_image)
-
-        
+                self.unselect()    
