@@ -159,6 +159,13 @@ class Responses(object):
         for i in range(new_right_size):
             self.right_neighbors.append([])
 
+    # like the above function, if the left branch size or right branch size has
+    # been changed, delete all edges in the graph
+    def delete_all_edges(self):
+        for edge in self.edges:
+            edge.destroy()
+        self.edges = []
+
     # place all buttons (with their corresponding text) on screen, based on the
     # contents of self.button_list and self.text_list
     def render_buttons(self):

@@ -36,9 +36,11 @@ class NavigationButton(games.Sprite):
                     (not (self.responder.left_size == self.data))):
                     self.responder.reset_branches_data(self.data,
                                                        self.responder.right_size)
+                    self.responder.delete_all_edges()
                 elif ((self.responder.state == 2) and
                       (not (self.responder.right_size == self.data)) and
                       (self.destination_state == 3)):
                     self.responder.reset_branches_data(self.responder.left_size,
                                                        self.data)
+                    self.responder.delete_all_edges()
                 self.responder.advance(self.destination_state, self.data)
