@@ -366,6 +366,8 @@ class Responses(object):
 
     # to state 6
     def random_operations_query(self):
+        if (self.state == 3):
+            self.set_random_edges()
         self.state = 6
         self.reset_text('Choose Procedure For')
         self.clear_buttons()
@@ -398,10 +400,9 @@ class Responses(object):
                                      20, color.black, 600, 420))
         self.set_back_button(button_image, hovered_image, 3)
         self.render_buttons()
-        self.set_random_edges()
 
     # reset screen for the algorithm operation
-    def prepare_operation(self, return_state):
+    def prepare_operations(self, return_state):
         self.reset_text('')
         self.clear_buttons()
         button_image = games.load_image("images/button.png")
