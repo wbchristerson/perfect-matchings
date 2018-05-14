@@ -6,6 +6,8 @@ class Edge(games.Sprite):
                  right_branch_size):
         left_y = 60 * left_vertex + 270 - 60 * int((left_branch_size - 1) / 2)
         right_y = 60 * right_vertex + 270 - 60 * int((right_branch_size - 1) / 2)
+        stable_left_y = left_y
+        stable_right_y = right_y
         offset = int((right_y - left_y) / 60)
         x_offset = 0
         y_offset = 0
@@ -34,18 +36,19 @@ class Edge(games.Sprite):
         self.offset = offset
         self.hovered = False
         self.responder = responder
-        self.slope = (right_y - left_y) / 340 # slope of edge on screen
+        # slope of edge on screen
+        self.slope = (stable_right_y - stable_left_y) / 340
         # y-intercept of line through edge
-        self.intercept = left_y - 60 * self.slope
+        self.intercept = stable_left_y - 60 * self.slope
 
     def update(self):
         if ((self.responder.state == 7) and (not self.hovered) and
             self.mouse_touching()):
             self.set_image(self.hovered_image)
             self.hovered = True
-        #elif (self.hovered):
-        #    self.hovered = False
-        #    self.set_image(self.edge_image)
+        elif ((self.hovered) and (not self.mouse_touching())):
+            self.hovered = False
+            self.set_image(self.edge_image)
 
     def mouse_touching(self):
         if (games.mouse.x < 60):
