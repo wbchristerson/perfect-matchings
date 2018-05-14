@@ -1,2 +1,0 @@
-display.py
-pause
