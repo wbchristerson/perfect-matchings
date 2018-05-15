@@ -117,7 +117,8 @@ def update_matching(left_size, right_size, matching, left_neighbors):
         for r in left_adjacency[s]:
             if (r in W):
                 s_path = get_path(paths, s)
-                r_path = list(s_path)
+                #r_path = list(s_path)
+                r_path = copy.deepcopy(s_path)
                 r_path.append(r)
                 #print('s_path: ', s_path)
                 #r_path = s_path.append(r)
@@ -128,7 +129,8 @@ def update_matching(left_size, right_size, matching, left_neighbors):
                     S.append(t)
                     queue.append(t)
                     s_path = get_path(paths, s)
-                    t_path = list(s_path)
+                    #t_path = list(s_path)
+                    t_path = copy.deepcopy(s_path)
                     t_path.append(r)
                     t_path.append(t)
                     paths.append(t_path)
@@ -137,11 +139,13 @@ def update_matching(left_size, right_size, matching, left_neighbors):
     # and None
 
 def maximum_matching(left_size, right_size, left_neighbors):
+    print('Neighbors: ', left_neighbors)
     matching = greedy_matching(left_size, left_neighbors)
     status = 0
     while ((len(matching) < left_size) and (status == 0)):
         (new_matching, new_status) = update_matching(left_size, right_size,
                                                      matching, left_neighbors)
-        matching = list(new_matching)
+        #matching = list(new_matching)
+        matching = copy.deepcopy(new_matching)
         status = new_status
     return matching

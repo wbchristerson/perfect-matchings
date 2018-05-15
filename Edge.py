@@ -99,7 +99,7 @@ class Edge(games.Sprite):
 
             if (((self.responder.state == 9) or (self.responder.state == 12))
                 and self.is_contained()):
-                self.set_image(self.selected_image)
+                self.set_image(self.selected_image) 
 
     def mouse_touching(self):
         if (games.mouse.x < 60):

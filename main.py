@@ -352,6 +352,7 @@ class Responses(object):
     def set_manual_edge_choice_query(self):
         if (self.state == 3):
             self.delete_all_edges()
+        self.reset_branches_data(self.left_size, self.right_size)
         self.state = 4
         self.reset_text('Make your edge choices on the graph.')
         if (self.state == 4):
@@ -472,8 +473,10 @@ class Responses(object):
     def update_matching_list(self, edge_arr):
         self.matching_list = []
         for (a,b) in edge_arr:
-            new_edge = ED.Edge(self, a, b, self.left_size, self.right_size)
-            self.matching_list.append(new_edge)            
+            #new_edge = ED.Edge(self, a, b, self.left_size, self.right_size)
+            #self.matching_list.append(new_edge)
+            self.matching_list.append(ED.Edge(self, a, b, self.left_size,
+                                              self.right_size))
 
     # to state 9
     def execute_manual_find_automatically(self):
