@@ -64,7 +64,7 @@ def flip_path(aug_path, matching):
     new_matching = list(matching)
     for i in range(int(len(aug_path) / 2) - 1):
         new_matching.append((aug_path[2 * i], aug_path[2 * i + 1]))
-        new_matching.remove((aug_path[2 * i + 1], aug_path[2 * i + 2]))
+        new_matching.remove((aug_path[2 * i + 2], aug_path[2 * i + 1]))
     new_matching.append((aug_path[-2], aug_path[-1]))
     return new_matching
     
