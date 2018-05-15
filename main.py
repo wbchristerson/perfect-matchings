@@ -466,10 +466,13 @@ class Responses(object):
         self.state = 8
         self.prepare_operations(6)
 
+    # update matching_list based on results of operation
+
     # to state 9
     def execute_manual_find_automatically(self):
         self.state = 9
         self.prepare_operations(5)
+        print('Left neighbors: ', self.left_neighbors)
         GA.maximum_matching(self.left_size, self.right_size,
                             self.left_neighbors)
 
@@ -487,6 +490,7 @@ class Responses(object):
     def execute_random_find_automatically(self):
         self.state = 12
         self.prepare_operations(6)
+        print('Left neighbors: ', self.left_neighbors)
         GA.maximum_matching(self.left_size, self.right_size,
                             self.left_neighbors)
 

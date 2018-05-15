@@ -23,6 +23,8 @@
 #                    break
 
 # check if a vertex in the left branch is matched within 'matching'
+import copy
+
 def left_is_already_matched(vertex, matching):
     for (a,b) in matching:
         if (a == vertex):
@@ -61,7 +63,8 @@ def get_path(paths, s):
 # given an augmenting path aug_path in the bipartite graph, update the matching
 # to take advantage aug_path
 def flip_path(aug_path, matching):
-    new_matching = list(matching)
+    #new_matching = list(matching)
+    new_matching = copy.deepcopy(matching)
     for i in range(int(len(aug_path) / 2) - 1):
         new_matching.append((aug_path[2 * i], aug_path[2 * i + 1]))
         new_matching.remove((aug_path[2 * i + 2], aug_path[2 * i + 1]))
@@ -97,17 +100,21 @@ def update_matching(left_size, right_size, matching, left_neighbors):
     W = list(filter(lambda y: not right_is_already_matched(y, matching),
                     range(right_size)))
     # set of reachable vertices in left branch using almost augmenting paths
-    S = list(U)
-    queue = list(U) # queue of left-branch vertices to check
+    #S = list(U)
+    S = copy.deepcopy(U)
+    #queue = list(U) # queue of left-branch vertices to check
+    queue = copy.deepcopy(U)
     paths = list(map(lambda x: [x], S))
     while (len(queue) > 0):
         s = queue[0]
         queue = queue[1:]
         # prevent extension of almost augmenting paths from left branch by an
         # edge of the matching
+        #left_adjacency = list(left_neighbors)
+        left_adjacency = copy.deepcopy(left_neighbors)
         if (left_is_already_matched(s, matching)):
-            left_neighbors[s].remove(left_match(s, matching))
-        for r in left_neighbors[s]:
+            left_adjacency[s].remove(left_match(s, matching))
+        for r in left_adjacency[s]:
             if (r in W):
                 s_path = get_path(paths, s)
                 r_path = list(s_path)
