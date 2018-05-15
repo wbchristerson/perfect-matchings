@@ -139,7 +139,7 @@ def update_matching(left_size, right_size, matching, left_neighbors):
     # and None
 
 def maximum_matching(left_size, right_size, left_neighbors):
-    print('Neighbors: ', left_neighbors)
+    #print('Neighbors: ', left_neighbors)
     matching = greedy_matching(left_size, left_neighbors)
     status = 0
     while ((len(matching) < left_size) and (status == 0)):

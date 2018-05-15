@@ -141,16 +141,15 @@ class Responses(object):
                 break
         if (is_present):
             self.edges.remove(selected_edge)
+            # update adjacency lists
+            self.left_neighbors[self.left_vertex].remove(self.right_vertex)
+            self.right_neighbors[self.right_vertex].remove(self.left_vertex)
         else:
             new_edge = ED.Edge(self, self.left_vertex, self.right_vertex,
                                self.left_size, self.right_size)
             games.screen.add(new_edge)
             self.edges.append(new_edge)
-        # update adjacency lists
-        if (is_present):
-            self.left_neighbors[self.left_vertex].remove(self.right_vertex)
-            self.right_neighbors[self.right_vertex].remove(self.left_vertex)
-        else:
+            # update adjacency lists
             self.left_neighbors[self.left_vertex].append(self.right_vertex)
             self.right_neighbors[self.right_vertex].append(self.left_vertex)
             # re-sort lists
@@ -352,7 +351,7 @@ class Responses(object):
     def set_manual_edge_choice_query(self):
         if (self.state == 3):
             self.delete_all_edges()
-        self.reset_branches_data(self.left_size, self.right_size)
+            self.reset_branches_data(self.left_size, self.right_size)
         self.state = 4
         self.reset_text('Make your edge choices on the graph.')
         if (self.state == 4):
