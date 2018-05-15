@@ -82,9 +82,8 @@ class Edge(games.Sprite):
                 self.is_counting = True
                 self.responder.matching_list.append(self)
                 self.set_image(self.selected_image)
-                print('Matching: ')
-                for e in self.responder.matching_list:
-                    print(e)
+                if (self.responder.has_maximum_matching()):
+                    self.responder.set_congratulation()
             elif (((self.responder.state == 7) or (self.responder.state == 8))
                   and self.mouse_touching() and
                   games.keyboard.is_pressed(games.K_SPACE) and
@@ -93,9 +92,10 @@ class Edge(games.Sprite):
                 self.is_counting = True
                 self.responder.matching_list.remove(self)
                 self.set_image(self.edge_image)
-                print('Matching: ')
-                for e in self.responder.matching_list:
-                    print(e)
+
+            if (self.responder.has_congratulation and
+                (not self.responder.has_maximum_matching())):
+                self.responder.remove_congratulation()
 
     def mouse_touching(self):
         if (games.mouse.x < 60):

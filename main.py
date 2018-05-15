@@ -74,6 +74,33 @@ class Responses(object):
         self.right_neighbors = [] # list of adjacency lists for right branch
         self.hovered_edges = [] # list of all edges that are hovered over
         self.matching_list = [] # list of edge objects in the matching
+        # whether congratulation text for finding a perfect matching appears
+        # on screen
+        self.has_congratulation = False
+        self.congratulation = None # text sprite showing congratulations
+
+    ##########################################################################
+    ##########################################################################
+    # provisional check for a maximum matching; this will change after the
+    # algorithm is written
+    def has_maximum_matching(self):
+        return (self.left_size == len(self.matching_list))
+    ##########################################################################
+    ##########################################################################
+
+    # set a congratulatory message on the screen for finding a maximum matching
+    def set_congratulation(self):
+        self.congratulation = MyText('You found a maximum matching!', 30,
+                                     color.black, 600, 150)
+        games.screen.add(self.congratulation)
+        self.has_congratulation = True
+
+    # remove a congratulatory message on the screen
+    def remove_congratulation(self):
+        if (self.congratulation):
+            self.congratulation.destroy()
+            self.congratulation = None
+        self.has_congratulation = False
 
     # set the currently selected vertex of a branch
     def set_vertex(self, branch, vertex_number):
@@ -375,6 +402,8 @@ class Responses(object):
         # unselect any selected vertices
         self.unselect_all()
         self.unselect_all_edges()
+        if (self.has_congratulation):
+            self.remove_congratulation()
 
     # to state 6
     def random_operations_query(self):
@@ -413,6 +442,8 @@ class Responses(object):
         self.set_back_button(button_image, hovered_image, 3)
         self.render_buttons()
         self.unselect_all_edges()
+        if (self.has_congratulation):
+            self.remove_congratulation()
 
     # reset screen for the algorithm operation
     def prepare_operations(self, return_state):
