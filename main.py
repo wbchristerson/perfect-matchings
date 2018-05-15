@@ -405,6 +405,7 @@ class Responses(object):
         self.unselect_all_edges()
         if (self.has_congratulation):
             self.remove_congratulation()
+        self.matching_list = []
 
     # to state 6
     def random_operations_query(self):
@@ -445,6 +446,7 @@ class Responses(object):
         self.unselect_all_edges()
         if (self.has_congratulation):
             self.remove_congratulation()
+        self.matching_list = []
 
     # reset screen for the algorithm operation
     def prepare_operations(self, return_state):
@@ -466,15 +468,20 @@ class Responses(object):
         self.state = 8
         self.prepare_operations(6)
 
-    # update matching_list based on results of operation
+    # update matching_list based on results of graph algorithm
+    def update_matching_list(self, edge_arr):
+        self.matching_list = []
+        for (a,b) in edge_arr:
+            new_edge = ED.Edge(self, a, b, self.left_size, self.right_size)
+            self.matching_list.append(new_edge)            
 
     # to state 9
     def execute_manual_find_automatically(self):
         self.state = 9
         self.prepare_operations(5)
-        print('Left neighbors: ', self.left_neighbors)
-        GA.maximum_matching(self.left_size, self.right_size,
-                            self.left_neighbors)
+        edge_arr = GA.maximum_matching(self.left_size, self.right_size,
+                                       self.left_neighbors)
+        self.update_matching_list(edge_arr)
 
     # to state 10
     def execute_manual_algorithm(self):
@@ -490,9 +497,12 @@ class Responses(object):
     def execute_random_find_automatically(self):
         self.state = 12
         self.prepare_operations(6)
-        print('Left neighbors: ', self.left_neighbors)
-        GA.maximum_matching(self.left_size, self.right_size,
-                            self.left_neighbors)
+        edge_arr = GA.maximum_matching(self.left_size, self.right_size,
+                                       self.left_neighbors)
+        self.update_matching_list(edge_arr)
+        #print('Left neighbors: ', self.left_neighbors)
+        #GA.maximum_matching(self.left_size, self.right_size,
+        #                    self.left_neighbors)
 
     # to state 13
     def execute_random_algorithm(self):

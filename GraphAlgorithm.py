@@ -144,4 +144,4 @@ def maximum_matching(left_size, right_size, left_neighbors):
                                                      matching, left_neighbors)
         matching = list(new_matching)
         status = new_status
-    print('Matching: ', matching)
+    return matching

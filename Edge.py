@@ -51,8 +51,8 @@ class Edge(games.Sprite):
         self.step_count = 0
 
     def __str__(self):
-        rep = '[' + str(self.left_vertex) + ', ' + str(self.right_vertex)
-        rep += ']'
+        rep = '(' + str(self.left_vertex) + ', ' + str(self.right_vertex)
+        rep += ')'
         return rep
 
     def update(self):
@@ -97,6 +97,10 @@ class Edge(games.Sprite):
                 (not self.responder.has_maximum_matching())):
                 self.responder.remove_congratulation()
 
+            if (((self.responder.state == 9) or (self.responder.state == 12))
+                and self.is_contained()):
+                self.set_image(self.selected_image)
+
     def mouse_touching(self):
         if (games.mouse.x < 60):
             return False
@@ -112,6 +116,14 @@ class Edge(games.Sprite):
     def is_incident(self):
         for edge in self.responder.matching_list:
             if ((self.left_vertex == edge.left_vertex) or
+                (self.right_vertex == edge.right_vertex)):
+                return True
+        return False
+
+    # check if edge is in the matching itself
+    def is_contained(self):
+        for edge in self.responder.matching_list:
+            if ((self.left_vertex == edge.left_vertex) and
                 (self.right_vertex == edge.right_vertex)):
                 return True
         return False
