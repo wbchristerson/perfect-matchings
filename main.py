@@ -4,6 +4,7 @@ import NavigationButton as NB
 import Vertex as VE
 import Edge as ED
 import random
+import GraphAlgorithm as GA
 
 games.init(screen_width = 832, screen_height = 624, fps = 50)
 
@@ -469,6 +470,8 @@ class Responses(object):
     def execute_manual_find_automatically(self):
         self.state = 9
         self.prepare_operations(5)
+        GA.maximum_matching(self.left_size, self.right_size,
+                            self.left_neighbors)
 
     # to state 10
     def execute_manual_algorithm(self):
@@ -484,6 +487,8 @@ class Responses(object):
     def execute_random_find_automatically(self):
         self.state = 12
         self.prepare_operations(6)
+        GA.maximum_matching(self.left_size, self.right_size,
+                            self.left_neighbors)
 
     # to state 13
     def execute_random_algorithm(self):
