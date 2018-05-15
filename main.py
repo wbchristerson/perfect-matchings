@@ -5,6 +5,7 @@ import Vertex as VE
 import Edge as ED
 import random
 import GraphAlgorithm as GA
+import AlgorithmDisplay as AD
 
 games.init(screen_width = 832, screen_height = 624, fps = 50)
 
@@ -489,6 +490,11 @@ class Responses(object):
     def execute_manual_algorithm(self):
         self.state = 10
         self.prepare_operations(5)
+        #t = 0
+        #while (t < 1000000000):
+        #    t += 1
+        display = AD.AlgorithmDisplay(self)
+        display.greedy_matching(self.left_size, self.left_neighbors)
 
     # to state 11
     def execute_manual_algorithm_steps(self):
@@ -510,6 +516,8 @@ class Responses(object):
     def execute_random_algorithm(self):
         self.state = 13
         self.prepare_operations(6)
+        display = AD.AlgorithmDisplay(self)
+        display.greedy_matching(self.left_size, self.left_neighbors)
 
     # to state 14
     def execute_random_algorithm_steps(self):

@@ -17,7 +17,7 @@ def right_is_already_matched(vertex, matching):
 def greedy_matching(left_size, left_neighbors):
     matching = []
     for i in range(left_size):
-        for j in left_neighbors[i]:
+        for j in left_neighbors[i]:                
             if (not right_is_already_matched(j, matching)):
                 matching.append((i,j))
                 break
@@ -94,6 +94,7 @@ def update_matching(left_size, right_size, matching, left_neighbors):
     return (matching, -1)
 
 def maximum_matching(left_size, right_size, left_neighbors):
+    # initial matching
     matching = greedy_matching(left_size, left_neighbors)
     status = 0
     while ((len(matching) < left_size) and (status == 0)):
