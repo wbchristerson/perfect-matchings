@@ -36,6 +36,8 @@ class AlgorithmDisplay(games.Sprite):
         self.status = 0
         self.left_unmatched = []
         self.right_unmatched = []
+        # whether unmatched vertices have been selected
+        self.unmatched_displayed = False
 
     def get_edge(self, left_vertex, right_vertex):
         for edge in self.responder.edges:
@@ -51,7 +53,7 @@ class AlgorithmDisplay(games.Sprite):
                 self.ticker = 0
                 self.is_counting = False
                 
-        elif (self.left_index == self.left_size):
+        elif ((self.in_greedy_stage) and (self.left_index == self.left_size)):
             self.in_greedy_stage = False
             self.in_augmenting_stage = True
             self.statement_text.set_value('')
@@ -64,15 +66,26 @@ class AlgorithmDisplay(games.Sprite):
         elif ((self.in_greedy_stage) and self.has_highlighted_edge):
             self.add_or_reject_edge()
 
-        elif (self.in_augmenting_stage):
-            while ((len(self.matching) < self.left_size) and
-                   (self.status == 0)):
+        elif (self.in_augmenting_stage and (not self.unmatched_displayed)):
+            if ((len(self.matching) < self.left_size) and (self.status == 0)):
+                self.left_unmatched = self.get_unmatched_left()
+                self.right_unmatched = self.get_unmatched_right()
+                #self.right_unmatched = GA.set_right_unmatched(self.right_size,
+                #                                              self.matching)
+                for vertex in self.left_unmatched:
+                    vertex.set_image(vertex.selected_image)
 
-                self.left_unmatched = GA.set_left_unmatched(self.left_size,
-                                                            self.matching)
-                self.right_unmatched = GA.set_right_unmatched(self.right_size,
-                                                              self.matching)
-                self.status = -1
+                for vertex in self.right_unmatched:
+                    vertex.set_image(vertex.selected_image)
+                self.unmatched_displayed = True
+
+    def get_unmatched_left(self):
+        return list(filter(lambda x: not GA.left_is_already_matched(
+            x.data, self.matching), self.responder.left_branch))
+
+    def get_unmatched_right(self):
+        return list(filter(lambda x: not GA.right_is_already_matched(
+            x.data, self.matching), self.responder.right_branch))
 
 
     def find_potential_edge(self):
