@@ -54,8 +54,6 @@ class AlgorithmDisplay(games.Sprite):
             if (GA.right_is_already_matched(self.highlighted_edge.right_vertex,
                                             self.matching)):
                 self.highlighted_edge.set_image(self.highlighted_edge.edge_image)
-                self.highlighted_edge = None
-                self.has_highlighted_edge = False
                 if (self.right_index ==
                     (len(self.left_neighbors[self.left_index]) - 1)):
                     self.left_index += 1
@@ -68,3 +66,6 @@ class AlgorithmDisplay(games.Sprite):
                                       self.left_neighbors[self.left_index][self.right_index]))
                 self.left_index += 1
                 self.right_index = 0
+
+            self.highlighted_edge = None
+            self.has_highlighted_edge = False
