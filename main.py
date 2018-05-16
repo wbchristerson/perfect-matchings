@@ -6,6 +6,7 @@ import Edge as ED
 import random
 import GraphAlgorithm as GA
 import AlgorithmDisplay as AD
+import MyText as MT
 
 games.init(screen_width = 832, screen_height = 624, fps = 50)
 
@@ -47,13 +48,6 @@ class PhantomMouse(games.Sprite):
         self.x = games.mouse.x
         self.y = games.mouse.y
 
-# wrapper class for Text object (in turn a subclass of Sprites), to include id
-class MyText(games.Text):
-    def __init__(self, new_value, new_size, new_color, new_x, new_y):
-        super(MyText, self).__init__(value = new_value, size = new_size,
-                                     color = new_color, x = new_x, y = new_y)
-        self.id = 1
-
 
 # class to monitor changes in input; this class is loosely based on the 'Game'
 # class of the final astrocrash game described on page 402 of 'Python
@@ -80,6 +74,7 @@ class Responses(object):
         # on screen
         self.has_congratulation = False
         self.congratulation = None # text sprite showing congratulations
+        self.display = None # AlgorithmDisplay object
 
     ##########################################################################
     ##########################################################################
@@ -92,8 +87,8 @@ class Responses(object):
 
     # set a congratulatory message on the screen for finding a maximum matching
     def set_congratulation(self):
-        self.congratulation = MyText('You found a maximum matching!', 30,
-                                     color.black, 600, 150)
+        self.congratulation = MT.MyText('You found a maximum matching!', 30,
+                                        color.black, 600, 150)
         games.screen.add(self.congratulation)
         self.has_congratulation = True
 
@@ -179,7 +174,8 @@ class Responses(object):
         if (self.main_text_sprite):
             self.main_text_sprite.set_value(new_text)
         else:
-            self.main_text_sprite = MyText(new_text, 30, color.black, 600, 30)
+            self.main_text_sprite = MT.MyText(new_text, 30, color.black, 600,
+                                              30)
             games.screen.add(self.main_text_sprite)
 
     # if the left branch size or right branch size has been changed, change
@@ -214,7 +210,7 @@ class Responses(object):
         self.button_list.append(NB.NavigationButton(self, button_image,
                                                     hovered_image, 600, 510, -1,
                                                     to_state))
-        self.text_list.append(MyText('Go Back', 20, color.black, 600, 510))
+        self.text_list.append(MT.MyText('Go Back', 20, color.black, 600, 510))
 
     # set up number buttons in states for choosing left and right branch sizes
     def set_number_buttons(self, image, hovered_image, to_state):
@@ -226,8 +222,9 @@ class Responses(object):
                                                             90 + 55 * i,
                                                             2*i + j + 1,
                                                             to_state))
-                self.text_list.append(MyText(str(2*i + j + 1), 20, color.black,
-                                             550 + 150 * j, 90 + 55 * i))
+                self.text_list.append(MT.MyText(str(2*i + j + 1), 20,
+                                                color.black, 550 + 150 * j,
+                                                90 + 55 * i))
 
     # add edge to data list
     def add_edge_data(self, left_vertex, right_vertex):
@@ -339,11 +336,11 @@ class Responses(object):
         self.button_list.append(NB.NavigationButton(self, button_image,
                                                     hovered_image, 600, 150, 5,
                                                     4))
-        self.text_list.append(MyText('Manually', 20, color.black, 600, 150))
+        self.text_list.append(MT.MyText('Manually', 20, color.black, 600, 150))
         self.button_list.append(NB.NavigationButton(self, button_image,
                                                     hovered_image, 600, 240, 6,
                                                     6))
-        self.text_list.append(MyText('Randomly', 20, color.black, 600, 240))
+        self.text_list.append(MT.MyText('Randomly', 20, color.black, 600, 240))
         self.set_back_button(button_image, hovered_image, 2)
         self.render_buttons()
         if not (data == -1):
@@ -366,18 +363,28 @@ class Responses(object):
         self.button_list.append(NB.NavigationButton(self, button_image,
                                                     hovered_image, 600, 150, 7,
                                                     5))
-        self.text_list.append(MyText('Done', 20, color.black, 600, 150))
+        self.text_list.append(MT.MyText('Done', 20, color.black, 600, 150))
         self.set_back_button(button_image, hovered_image, 3)
         self.render_buttons()
+
+    # remove text from displays for states 10 and 13 when transitioning back
+    # to states 5 and 6, respectively
+    def remove_step_text(self):
+        if (self.display):
+            self.display.title_text.destroy()
+            self.display.statement_text.destroy()
+            self.display.destroy()
+            self.display = None
 
     # to state 5
     def manual_operations_query(self):
         self.state = 5
         self.reset_text('Choose Procedure For')
         self.clear_buttons()
+        self.remove_step_text()
         # add additional line of prompt text
-        self.text_list.append(MyText('Maximal Matching (MM).', 30, color.black,
-                                     620, 60))
+        self.text_list.append(MT.MyText('Maximal Matching (MM).', 30,
+                                        color.black, 620, 60))
         button_image = games.load_image("images/button.png")
         hovered_image = games.load_image("images/hovered-button.png")
         long_button_image = games.load_image("images/long-button.png")
@@ -385,23 +392,23 @@ class Responses(object):
         self.button_list.append(NB.NavigationButton(self, long_button_image,
                                                     hovered_long_image, 600,
                                                     150, 2, 7))
-        self.text_list.append(MyText('Find MM Manually', 20, color.black, 600,
-                                     150))
+        self.text_list.append(MT.MyText('Find MM Manually', 20, color.black,
+                                        600, 150))
         self.button_list.append(NB.NavigationButton(self, long_button_image,
                                                     hovered_long_image, 600,
                                                     240, 1, 9))
-        self.text_list.append(MyText('Automatically Find MM', 20, color.black,
-                                     600, 240))
+        self.text_list.append(MT.MyText('Automatically Find MM', 20,
+                                        color.black, 600, 240))
         self.button_list.append(NB.NavigationButton(self, long_button_image,
                                                     hovered_long_image, 600,
                                                     330, 3, 10))
-        self.text_list.append(MyText('Watch Algorithm To Find MM', 20,
-                                     color.black, 600, 330))
+        self.text_list.append(MT.MyText('Watch Algorithm To Find MM', 20,
+                                        color.black, 600, 330))
         self.button_list.append(NB.NavigationButton(self, long_button_image,
                                                     hovered_long_image, 600,
                                                     420, 4, 11))
-        self.text_list.append(MyText('Watch Algorithm To Find MM With Steps',
-                                     20, color.black, 600, 420))
+        self.text_list.append(MT.MyText('Watch Algorithm To Find MM With Steps',
+                                        20, color.black, 600, 420))
         self.set_back_button(button_image, hovered_image, 4)
         self.render_buttons()
         # unselect any selected vertices
@@ -418,9 +425,10 @@ class Responses(object):
         self.state = 6
         self.reset_text('Choose Procedure For')
         self.clear_buttons()
+        self.remove_step_text()
         # add additional line of prompt text
-        self.text_list.append(MyText('Maximal Matching (MM).', 30, color.black,
-                                     600, 60))
+        self.text_list.append(MT.MyText('Maximal Matching (MM).', 30,
+                                        color.black, 600, 60))
         button_image = games.load_image("images/button.png")
         hovered_image = games.load_image("images/hovered-button.png")
         long_button_image = games.load_image("images/long-button.png")
@@ -428,23 +436,23 @@ class Responses(object):
         self.button_list.append(NB.NavigationButton(self, long_button_image,
                                                     hovered_long_image, 600,
                                                     150, 2, 8))
-        self.text_list.append(MyText('Find MM Manually', 20, color.black, 600,
-                                     150))
+        self.text_list.append(MT.MyText('Find MM Manually', 20, color.black,
+                                        600, 150))
         self.button_list.append(NB.NavigationButton(self, long_button_image,
                                                     hovered_long_image, 600,
                                                     240, 1, 12))
-        self.text_list.append(MyText('Automatically Find MM', 20, color.black,
-                                     600, 240))
+        self.text_list.append(MT.MyText('Automatically Find MM', 20,
+                                        color.black, 600, 240))
         self.button_list.append(NB.NavigationButton(self, long_button_image,
                                                     hovered_long_image, 600,
                                                     330, 3, 13))
-        self.text_list.append(MyText('Watch Algorithm To Find MM', 20,
-                                     color.black, 600, 330))
+        self.text_list.append(MT.MyText('Watch Algorithm To Find MM', 20,
+                                        color.black, 600, 330))
         self.button_list.append(NB.NavigationButton(self, long_button_image,
                                                     hovered_long_image, 600,
                                                     420, 4, 14))
-        self.text_list.append(MyText('Watch Algorithm To Find MM With Steps',
-                                     20, color.black, 600, 420))
+        self.text_list.append(MT.MyText('Watch Algorithm To Find MM With Steps',
+                                        20, color.black, 600, 420))
         self.set_back_button(button_image, hovered_image, 3)
         self.render_buttons()
         self.unselect_all_edges()
@@ -459,8 +467,8 @@ class Responses(object):
         button_image = games.load_image("images/button.png")
         hovered_image = games.load_image("images/hovered-button.png")
         self.set_back_button(button_image, hovered_image, return_state)
-        self.render_buttons()    
-        
+        self.render_buttons()
+    
     # to state 7
     # find an MM manually
     def execute_manual_find_manual(self):
@@ -496,8 +504,8 @@ class Responses(object):
         #t = 0
         #while (t < 1000000000):
         #    t += 1
-        display = AD.AlgorithmDisplay(self)
-        games.screen.add(display)
+        self.display = AD.AlgorithmDisplay(self)
+        games.screen.add(self.display)
         #display.greedy_matching(self.left_size, self.left_neighbors)
 
     # to state 11
@@ -520,8 +528,8 @@ class Responses(object):
     def execute_random_algorithm(self):
         self.state = 13
         self.prepare_operations(6)
-        display = AD.AlgorithmDisplay(self)
-        games.screen.add(display)
+        self.display = AD.AlgorithmDisplay(self)
+        games.screen.add(self.display)
         ######################################################################
         # REMEMBER TO DESTROY THE SPRITE
         #
