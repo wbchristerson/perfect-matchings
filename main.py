@@ -494,7 +494,8 @@ class Responses(object):
         #while (t < 1000000000):
         #    t += 1
         display = AD.AlgorithmDisplay(self)
-        display.greedy_matching(self.left_size, self.left_neighbors)
+        games.screen.add(display)
+        #display.greedy_matching(self.left_size, self.left_neighbors)
 
     # to state 11
     def execute_manual_algorithm_steps(self):
@@ -517,7 +518,21 @@ class Responses(object):
         self.state = 13
         self.prepare_operations(6)
         display = AD.AlgorithmDisplay(self)
-        display.greedy_matching(self.left_size, self.left_neighbors)
+        games.screen.add(display)
+        ######################################################################
+        # REMEMBER TO DESTROY THE SPRITE
+        #
+        # REMEMBER TO DESTROY THE SPRITE
+        #
+        # REMEMBER TO DESTROY THE SPRITE
+        #
+        # REMEMBER TO DESTROY THE SPRITE
+        #
+        # REMEMBER TO DESTROY THE SPRITE
+        #
+        # REMEMBER TO DESTROY THE SPRITE
+        ######################################################################
+        #display.greedy_matching(self.left_size, self.left_neighbors)
 
     # to state 14
     def execute_random_algorithm_steps(self):

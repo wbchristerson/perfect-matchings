@@ -11,5 +11,5 @@ class Timer(games.Sprite):
     def update(self):
         if (not self.is_finished):
             self.tick += 1
-        if (self.tick == 1):
+        if (self.tick == 20):
             self.is_finished = True
