@@ -119,9 +119,11 @@ class Responses(object):
         for vertex in self.left_branch:
             if (vertex.is_selected):
                 vertex.unselect()
+            vertex.set_image(vertex.plain_image)
         for vertex in self.right_branch:
             if (vertex.is_selected):
                 vertex.unselect()
+            vertex.set_image(vertex.plain_image)
         # make sure that there is not a currently selected left or right vertex
         self.left_vertex = -1
         self.right_vertex = -1
@@ -382,6 +384,7 @@ class Responses(object):
         self.reset_text('Choose Procedure For')
         self.clear_buttons()
         self.remove_step_text()
+        self.unselect_all()
         # add additional line of prompt text
         self.text_list.append(MT.MyText('Maximal Matching (MM).', 30,
                                         color.black, 620, 60))
@@ -426,6 +429,7 @@ class Responses(object):
         self.reset_text('Choose Procedure For')
         self.clear_buttons()
         self.remove_step_text()
+        self.unselect_all()
         # add additional line of prompt text
         self.text_list.append(MT.MyText('Maximal Matching (MM).', 30,
                                         color.black, 600, 60))
