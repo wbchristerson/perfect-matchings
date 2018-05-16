@@ -29,6 +29,9 @@ class AlgorithmDisplay(games.Sprite):
                 self.ticker = 0
                 self.is_counting = False
         else:
+            while ((self.left_index < self.left_size) and
+                   (len(self.left_neighbors[self.left_index]) == 0)):
+                self.left_index += 1
             if ((self.left_index < self.left_size) and
                 (self.right_index < len(self.left_neighbors[self.left_index]))):
                 edge = self.get_edge(self.left_index,
@@ -36,25 +39,10 @@ class AlgorithmDisplay(games.Sprite):
                 #print(self.left_neighbors[self.right_index])
                 edge.set_image(edge.hovered_image)
                 self.is_counting = True
-                if (self.right_index == (len(self.left_neighbors[self.left_index]) - 1)):
+                if (self.right_index ==
+                    (len(self.left_neighbors[self.left_index]) -1)):
                     self.left_index += 1
                     self.right_index = 0
                 else:
                     self.right_index += 1
-
-
-    #def greedy_matching(self, left_size, left_neighbors):
-    #    matching = []
-    #    for i in range(left_size):
-    #        for j in left_neighbors[i]:
-    #            edge = self.get_edge(i, j)
-    #            edge.set_image(edge.hovered_image)
-    #            t = TI.Timer(self.responder)
-    #            
-    #            if (not GA.right_is_already_matched(j, matching)):
-    #                matching.append((i,j))
-    #                edge.set_image(edge.selected_image)
-    #                break
-    #            else:
-    #                edge.set_image(edge.edge_image)
                 
