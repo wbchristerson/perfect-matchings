@@ -57,12 +57,24 @@ def right_match(s, matching):
             return a
     return -1
 
+# generate a list of the vertices in the left branch that are unmatched
+def set_left_unmatched(left_size, matching):
+    return list(filter(lambda x: not left_is_already_matched(x, matching),
+                       range(left_size)))
+
+# generate a list of the vertices in the right branch that are unmatched
+def set_right_unmatched(right_size, matching):
+    return list(filter(lambda x: not right_is_already_matched(x, matching),
+                       range(right_size)))
+
 # update the matching
 def update_matching(left_size, right_size, matching, left_neighbors):
-    U = list(filter(lambda x: not left_is_already_matched(x, matching),
-                    range(left_size)))
-    W = list(filter(lambda y: not right_is_already_matched(y, matching),
-                    range(right_size)))
+    #U = list(filter(lambda x: not left_is_already_matched(x, matching),
+    #                range(left_size)))
+    #W = list(filter(lambda y: not right_is_already_matched(y, matching),
+    #                range(right_size)))
+    U = set_left_unmatched(left_size, matching)
+    W = set_right_unmatched(right_size, matching)
     # set of reachable vertices in left branch using almost augmenting paths
     S = copy.deepcopy(U)
     queue = copy.deepcopy(U) # queue of left-branch vertices to check

@@ -29,6 +29,13 @@ class AlgorithmDisplay(games.Sprite):
                                         new_color = color.black, new_x = 600,
                                         new_y = 150)
         games.screen.add(self.statement_text)
+        # whether in stage of using augmenting paths
+        self.in_augmenting_stage = False
+        # whether or not to terminate the algorithm upon finding a matching
+        # that does not use all vertices in the left branch
+        self.status = 0
+        self.left_unmatched = []
+        self.right_unmatched = []
 
     def get_edge(self, left_vertex, right_vertex):
         for edge in self.responder.edges:
@@ -46,35 +53,26 @@ class AlgorithmDisplay(games.Sprite):
                 
         elif (self.left_index == self.left_size):
             self.in_greedy_stage = False
+            self.in_augmenting_stage = True
             self.statement_text.set_value('')
+            self.title_text.set_value('Search For Ways To Augment Paths')
+            self.is_counting = True
             
         elif ((self.in_greedy_stage) and (not self.has_highlighted_edge)):
             self.find_potential_edge()
 
         elif ((self.in_greedy_stage) and self.has_highlighted_edge):
             self.add_or_reject_edge()
-            #if (GA.right_is_already_matched(self.highlighted_edge.right_vertex,
-            #                                self.matching)):
-            #    self.highlighted_edge.set_image(self.highlighted_edge.edge_image)
-            #    if (self.right_index ==
-            #        (len(self.left_neighbors[self.left_index]) - 1)):
-            #        self.left_index += 1
-            #        self.right_index = 0
-            #    else:
-            #        self.right_index += 1
-            #    self.statement_text.set_value('The right vertex is already matched.')
-            #    self.is_counting = True
-            #else:
-            #    self.highlighted_edge.set_image(self.highlighted_edge.selected_image)
-            #    self.matching.append((self.left_index,
-            #                          self.left_neighbors[self.left_index][self.right_index]))
-            #    self.left_index += 1
-            #    self.right_index = 0
-            #    self.statement_text.set_value('The edge was added!')
-            #    self.is_counting = True
-            #
-            #self.highlighted_edge = None
-            #self.has_highlighted_edge = False
+
+        elif (self.in_augmenting_stage):
+            while ((len(self.matching) < self.left_size) and
+                   (self.status == 0)):
+
+                self.left_unmatched = GA.set_left_unmatched(self.left_size,
+                                                            self.matching)
+                self.right_unmatched = GA.set_right_unmatched(self.right_size,
+                                                              self.matching)
+                self.status = -1
 
 
     def find_potential_edge(self):

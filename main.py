@@ -356,7 +356,7 @@ class Responses(object):
         self.state = 4
         self.reset_text('Make your edge choices on the graph.')
         if (self.state == 4):
-                self.main_text_sprite.set_x(620)
+            self.main_text_sprite.set_x(620)
         self.clear_buttons()
         button_image = games.load_image("images/button.png")
         hovered_image = games.load_image("images/hovered-button.png")
