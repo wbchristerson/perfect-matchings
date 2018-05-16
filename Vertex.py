@@ -5,6 +5,8 @@ class Vertex(games.Sprite):
         vertex_image = games.load_image("images/vertex.png")
         hovered_image = games.load_image("images/hovered-vertex.png")
         selected_image = games.load_image("images/selected-vertex.png")
+        unmatched_image = games.load_image("images/vertex-unmatched.png")
+        in_s = games.load_image("images/vertex-in-s.png")
         super(Vertex, self).__init__(image = vertex_image, x = x, y = y,
                                      is_collideable = False)
         self.data = data # number of vertex in branch
@@ -12,6 +14,8 @@ class Vertex(games.Sprite):
         self.plain_image = vertex_image
         self.hovered_image = hovered_image
         self.selected_image = selected_image
+        self.unmatched_image = unmatched_image
+        self.in_s = in_s
         self.is_selectable = False # whether the vertex may be selected
         self.responder = responder
         self.step_count = 0 # counter to give time between button selections

@@ -1,5 +1,4 @@
 import GraphAlgorithm as GA
-#import Timer as TI
 from livewires import games, color
 import MyText as MT
 
@@ -33,9 +32,11 @@ class AlgorithmDisplay(games.Sprite):
         self.in_augmenting_stage = False
         # whether or not to terminate the algorithm upon finding a matching
         # that does not use all vertices in the left branch
-        self.status = 0
-        self.left_unmatched = []
-        self.right_unmatched = []
+        self.status = 1
+        self.left_unmatched = [] # list of unmatched left vertex objects (U)
+        self.right_unmatched = [] # list of unmatched right vertex objects (W)
+        # list of vertex objects in left branch reachable from U (S)
+        self.left_reachables = []
         # whether unmatched vertices have been selected
         self.unmatched_displayed = False
 
@@ -53,31 +54,41 @@ class AlgorithmDisplay(games.Sprite):
                 self.ticker = 0
                 self.is_counting = False
                 
-        elif ((self.in_greedy_stage) and (self.left_index == self.left_size)):
+        elif (self.status and (self.in_greedy_stage) and
+              (self.left_index == self.left_size)):
             self.in_greedy_stage = False
             self.in_augmenting_stage = True
             self.statement_text.set_value('')
             self.title_text.set_value('Search For Ways To Augment Paths')
             self.is_counting = True
             
-        elif ((self.in_greedy_stage) and (not self.has_highlighted_edge)):
+        elif (self.status and (self.in_greedy_stage) and
+              (not self.has_highlighted_edge)):
             self.find_potential_edge()
 
-        elif ((self.in_greedy_stage) and self.has_highlighted_edge):
+        elif (self.status and (self.in_greedy_stage) and
+              self.has_highlighted_edge):
             self.add_or_reject_edge()
 
-        elif (self.in_augmenting_stage and (not self.unmatched_displayed)):
-            if ((len(self.matching) < self.left_size) and (self.status == 0)):
+        elif (self.status and self.in_augmenting_stage and
+              (not self.unmatched_displayed)):
+            if (len(self.matching) < self.left_size):
                 self.left_unmatched = self.get_unmatched_left()
                 self.right_unmatched = self.get_unmatched_right()
+                self.left_reachables = self.get_unmatched_left()
                 #self.right_unmatched = GA.set_right_unmatched(self.right_size,
                 #                                              self.matching)
                 for vertex in self.left_unmatched:
-                    vertex.set_image(vertex.selected_image)
+                    vertex.set_image(vertex.unmatched_image)
 
                 for vertex in self.right_unmatched:
-                    vertex.set_image(vertex.selected_image)
+                    vertex.set_image(vertex.unmatched_image)
                 self.unmatched_displayed = True
+                self.statement_text.set_value('Highlight unmatched vertices ' +
+                                              'in blue.')
+        
+        #elif (self.status and self.in_augmenting_stage):
+            
 
     def get_unmatched_left(self):
         return list(filter(lambda x: not GA.left_is_already_matched(
