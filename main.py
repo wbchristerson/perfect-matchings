@@ -127,6 +127,9 @@ class Responses(object):
         for vertex in self.right_branch:
             if (vertex.is_selected):
                 vertex.unselect()
+        # make sure that there is not a currently selected left or right vertex
+        self.left_vertex = -1
+        self.right_vertex = -1
 
     # toggle the existence of an edge between the current left vertex and the
     # current right vertex
