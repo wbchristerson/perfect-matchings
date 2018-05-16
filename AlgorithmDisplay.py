@@ -52,28 +52,29 @@ class AlgorithmDisplay(games.Sprite):
             self.find_potential_edge()
 
         elif ((self.in_greedy_stage) and self.has_highlighted_edge):
-            if (GA.right_is_already_matched(self.highlighted_edge.right_vertex,
-                                            self.matching)):
-                self.highlighted_edge.set_image(self.highlighted_edge.edge_image)
-                if (self.right_index ==
-                    (len(self.left_neighbors[self.left_index]) - 1)):
-                    self.left_index += 1
-                    self.right_index = 0
-                else:
-                    self.right_index += 1
-                self.statement_text.set_value('The right vertex is already matched.')
-                self.is_counting = True
-            else:
-                self.highlighted_edge.set_image(self.highlighted_edge.selected_image)
-                self.matching.append((self.left_index,
-                                      self.left_neighbors[self.left_index][self.right_index]))
-                self.left_index += 1
-                self.right_index = 0
-                self.statement_text.set_value('The edge was added!')
-                self.is_counting = True
-
-            self.highlighted_edge = None
-            self.has_highlighted_edge = False
+            self.add_or_reject_edge()
+            #if (GA.right_is_already_matched(self.highlighted_edge.right_vertex,
+            #                                self.matching)):
+            #    self.highlighted_edge.set_image(self.highlighted_edge.edge_image)
+            #    if (self.right_index ==
+            #        (len(self.left_neighbors[self.left_index]) - 1)):
+            #        self.left_index += 1
+            #        self.right_index = 0
+            #    else:
+            #        self.right_index += 1
+            #    self.statement_text.set_value('The right vertex is already matched.')
+            #    self.is_counting = True
+            #else:
+            #    self.highlighted_edge.set_image(self.highlighted_edge.selected_image)
+            #    self.matching.append((self.left_index,
+            #                          self.left_neighbors[self.left_index][self.right_index]))
+            #    self.left_index += 1
+            #    self.right_index = 0
+            #    self.statement_text.set_value('The edge was added!')
+            #    self.is_counting = True
+            #
+            #self.highlighted_edge = None
+            #self.has_highlighted_edge = False
 
 
     def find_potential_edge(self):
@@ -90,3 +91,27 @@ class AlgorithmDisplay(games.Sprite):
             self.has_highlighted_edge = True
             self.highlighted_edge = edge
             self.statement_text.set_value('Test if this edge can be added.')
+
+    def add_or_reject_edge(self):
+        if (GA.right_is_already_matched(self.highlighted_edge.right_vertex,
+                                        self.matching)):
+            self.highlighted_edge.set_image(self.highlighted_edge.edge_image)
+            if (self.right_index ==
+                (len(self.left_neighbors[self.left_index]) - 1)):
+                self.left_index += 1
+                self.right_index = 0
+            else:
+                self.right_index += 1
+            self.statement_text.set_value('The right vertex is already matched.')
+            self.is_counting = True
+        else:
+            self.highlighted_edge.set_image(self.highlighted_edge.selected_image)
+            self.matching.append((self.left_index,
+                                  self.left_neighbors[self.left_index][self.right_index]))
+            self.left_index += 1
+            self.right_index = 0
+            self.statement_text.set_value('The edge was added!')
+            self.is_counting = True
+
+        self.highlighted_edge = None
+        self.has_highlighted_edge = False
