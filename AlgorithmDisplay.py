@@ -153,7 +153,9 @@ class AlgorithmDisplay(games.Sprite):
             self.clear_highlights()
 
             self.edge_list = []
-            while ((not self.found_addition) and (len(self.queue) > 0)):
+            while ((not self.found_addition) and
+                   ((len(self.queue) > 0) or
+                    (self.right_index < len(self.left_neighbors[self.left_index])))):
                 # iteration step
                 if (not (self.left_index == -1)):
                     self.right_index += 1
@@ -179,8 +181,8 @@ class AlgorithmDisplay(games.Sprite):
                     if (not ((left, right) in self.matching)):
                         print('C')
                         if (GA.right_is_already_matched(right, self.matching)):
-                            print('D')
                             v = GA.right_match(right, self.matching)
+                            print('D: ', v)
                             if (not (v in self.S)):
                                 print('E')
                                 self.found_addition = 1
@@ -210,6 +212,7 @@ class AlgorithmDisplay(games.Sprite):
                 self.clear_statement_text()
                 self.statement_text_A.set_value('Add a vertex to S in purple.')
                 self.is_counting = True
+                self.state = 5
 
             elif (self.found_addition == 2):
                 left = self.left_index
@@ -238,6 +241,12 @@ class AlgorithmDisplay(games.Sprite):
         elif (self.state == 4):
             self.clear_vertex_highlights()
             self.statement_text_A.set_value('Maximum matching!')
+
+        elif (self.state == 5):
+            self.clear_highlights()
+            self.edge_list = []
+            self.state = 3
+            self.is_counting = True
                 
         
 
