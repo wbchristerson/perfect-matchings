@@ -15,6 +15,7 @@ class AlgorithmDisplay(games.Sprite):
                                                is_collideable = False)
         self.is_counting = False
         self.ticker = 0
+        self.ticker_adder = 1
         #self.left_index = 0
         #self.right_index = 0
         #self.in_greedy_stage = True # whether finding initial greedy matching
@@ -58,6 +59,7 @@ class AlgorithmDisplay(games.Sprite):
         self.left_index = 0
         self.right_index = 0
         self.edge_list = [] # list of edges to be highlighted
+        self.flip = 0 # how to restore edge colors, 0 the same, 1 flipped
         
         
         #self.left_unmatched = [] # list of unmatched left vertex objects (U)
@@ -75,6 +77,21 @@ class AlgorithmDisplay(games.Sprite):
                 (edge.right_vertex == right_vertex)):
                 return edge
         return None
+
+    def clear_highlights(self):
+        self.clear_statement_text()
+        for i in range(len(self.edge_list)):
+            if (((i + self.flip) % 2) == 0):
+                self.edge_list[i].set_image(self.edge_list[i].edge_image)
+            else:
+                self.edge_list[i].set_image(self.edge_list[i].selected_image)
+        self.flip = 0
+
+    def clear_vertex_highlights(self):
+        for v in self.responder.left_branch:
+            v.set_image(v.plain_image)
+        for v in self.responder.right_branch:
+            v.set_image(v.plain_image)
 
     def update(self):
         if (self.is_counting):
@@ -97,6 +114,10 @@ class AlgorithmDisplay(games.Sprite):
                 self.add_or_reject_edge()
 
         elif (self.state == 2):
+            self.clear_highlights()
+            self.edge_list = []
+            self.clear_vertex_highlights()
+            
             if (len(self.matching) == self.left_size):
                 self.state = 4
             else:
@@ -116,14 +137,8 @@ class AlgorithmDisplay(games.Sprite):
                 self.is_counting = True
 
         elif (self.state == 3):
-            self.clear_statement_text()
-            for i in range(len(self.edge_list)):
-                if ((i % 2) == 0):
-                    self.edge_list[i].set_image(self.edge_list[i].edge_image)
-                else:
-                    self.edge_list[i].set_image(self.edge_list[i].selected_image)
-            #for e in self.edge_list:
-            #    e.set_image(e.edge_image)
+            self.clear_highlights()
+
             self.edge_list = []
             while ((not self.found_addition) and (len(self.queue) > 0)):
                 # iteration step
@@ -137,19 +152,27 @@ class AlgorithmDisplay(games.Sprite):
                     self.queue = self.queue[1:]
                     self.right_index = 0
                 # check whether vertex adds to algorithm search at all
+                print('A')
                 if ((not (self.left_index == -1)) and
                     (self.right_index <
                      len(self.left_neighbors[self.left_index]))):
+                    print('B')
                     left = self.left_index
                     right = self.left_neighbors[left][self.right_index]
+                    print('Left: ', left)
+                    print('Right: ', right)
+                    print('Queue: ', self.queue)
                     if (not ((left, right) in self.matching)):
+                        print('C')
                         if (GA.right_is_already_matched(right, self.matching)):
+                            print('D')
                             v = GA.right_match(right, self.matching)
                             if (not (v in self.S)):
+                                print('E')
                                 self.found_addition = 1
                         else:
+                            print('F')
                             self.found_addition = 2
-                            print('b')
 
             if (self.found_addition == 1):
                 left = self.left_index
@@ -175,8 +198,32 @@ class AlgorithmDisplay(games.Sprite):
                 self.is_counting = True
 
             elif (self.found_addition == 2):
-                print('bye')
-                self.state == 2
+                left = self.left_index
+                right = self.left_neighbors[left][self.right_index]
+                left_path = GA.get_path(self.paths, left)
+                right_path = copy.deepcopy(left_path)
+                right_path.append(right)
+                for i in range(len(right_path) - 1):
+                    if ((i % 2) == 0):
+                        self.edge_list.append(self.get_edge(right_path[i],
+                                                            right_path[i+1]))
+                    else:
+                        self.edge_list.append(self.get_edge(right_path[i+1],
+                                                            right_path[i]))
+                for e in self.edge_list:
+                    e.set_image(e.hovered_image)
+                self.matching = GA.flip_path(right_path, self.matching)
+                self.flip = 1
+                self.statement_text_A.set_value('Augment a path.')
+                self.is_counting = True
+                self.state = 2
+
+            else:
+                self.state = 4
+
+        elif (self.state == 4):
+            self.clear_vertex_highlights()
+            self.statement_text_A.set_value('Maximum matching!')
                 
         
 
