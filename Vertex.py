@@ -5,7 +5,12 @@ class Vertex(games.Sprite):
         vertex_image = games.load_image("images/vertex.png")
         hovered_image = games.load_image("images/hovered-vertex.png")
         selected_image = games.load_image("images/selected-vertex.png")
-        unmatched_image = games.load_image("images/vertex-unmatched.png")
+        if (branch == 'left'):
+            unmatched_image = games.load_image("images/vertex-left-unmatched" +
+                                               ".png")
+        else:
+            unmatched_image = games.load_image("images/vertex-right-unmatched" +
+                                               ".png")
         in_s = games.load_image("images/vertex-in-s.png")
         super(Vertex, self).__init__(image = vertex_image, x = x, y = y,
                                      is_collideable = False)

@@ -374,7 +374,9 @@ class Responses(object):
     def remove_step_text(self):
         if (self.display):
             self.display.title_text.destroy()
-            self.display.statement_text.destroy()
+            self.display.statement_text_A.destroy()
+            self.display.statement_text_B.destroy()
+            self.display.statement_text_C.destroy()
             self.display.destroy()
             self.display = None
 
