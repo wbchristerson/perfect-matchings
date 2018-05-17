@@ -16,6 +16,8 @@ class AlgorithmDisplay(games.Sprite):
         self.is_counting = False
         self.ticker = 0
         self.ticker_adder = 1
+        self.button_click = False
+        self.button_ticker = 0
         #self.left_index = 0
         #self.right_index = 0
         #self.in_greedy_stage = True # whether finding initial greedy matching
@@ -94,8 +96,19 @@ class AlgorithmDisplay(games.Sprite):
             v.set_image(v.plain_image)
 
     def update(self):
+        if (self.button_click and games.keyboard.is_pressed(games.K_SPACE)):
+            self.button_click = False
+            self.ticker_adder = 1 - self.ticker_adder
+
+        if (not self.button_click):
+            self.button_ticker += 1
+            if (self.button_ticker == 20):
+                self.button_ticker = 0
+                self.button_click = True
+        
+        
         if (self.is_counting):
-            self.ticker += 1
+            self.ticker += self.ticker_adder
             if (self.ticker == 100):
                 self.ticker = 0
                 self.is_counting = False
@@ -162,6 +175,7 @@ class AlgorithmDisplay(games.Sprite):
                     print('Left: ', left)
                     print('Right: ', right)
                     print('Queue: ', self.queue)
+                    print('Matching: ', self.matching)
                     if (not ((left, right) in self.matching)):
                         print('C')
                         if (GA.right_is_already_matched(right, self.matching)):
