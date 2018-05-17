@@ -49,7 +49,7 @@ def left_match(s, matching):
             return b
     return -1
 
-# given a vertex of the right branc which is matched, return its matched vertex
+# given a vertex of the right branch which is matched, return its matched vertex
 # in the left branch
 def right_match(s, matching):
     for (a,b) in matching:
@@ -69,10 +69,6 @@ def set_right_unmatched(right_size, matching):
 
 # update the matching
 def update_matching(left_size, right_size, matching, left_neighbors):
-    #U = list(filter(lambda x: not left_is_already_matched(x, matching),
-    #                range(left_size)))
-    #W = list(filter(lambda y: not right_is_already_matched(y, matching),
-    #                range(right_size)))
     U = set_left_unmatched(left_size, matching)
     W = set_right_unmatched(right_size, matching)
     # set of reachable vertices in left branch using almost augmenting paths

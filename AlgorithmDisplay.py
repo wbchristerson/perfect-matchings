@@ -57,6 +57,7 @@ class AlgorithmDisplay(games.Sprite):
         self.found_addition = 0
         self.left_index = 0
         self.right_index = 0
+        self.edge_list = [] # list of edges to be highlighted
         
         
         #self.left_unmatched = [] # list of unmatched left vertex objects (U)
@@ -86,9 +87,7 @@ class AlgorithmDisplay(games.Sprite):
             if (self.left_index == self.left_size):
                 self.state = 2
                 self.title_text.set_value('Search For Ways To Augment Paths')
-                self.statement_text_A.set_value('')
-                self.statement_text_B.set_value('')
-                self.statement_text_C.set_value('')
+                self.clear_statement_text()
                 self.is_counting = True
 
             elif (not self.has_highlighted_edge):
@@ -107,34 +106,78 @@ class AlgorithmDisplay(games.Sprite):
                 self.U = GA.set_left_unmatched(self.left_size, self.matching)
                 self.W = GA.set_right_unmatched(self.right_size, self.matching)
                 self.S = copy.deepcopy(self.U)
-                self.queue = []
+                self.queue = copy.deepcopy(self.U)
                 self.paths = list(map(lambda x: [x], self.S))
                 self.found_addition = 0
-                self.left_index = 0
-                self.right_index = 0
                 self.display_unmatched()
+                self.left_index = -1
+                self.right_index = -1
                 self.state = 3
                 self.is_counting = True
-        
 
-        #elif (self.status and self.in_augmenting_stage and
-        #      (not self.unmatched_displayed)):
-        #    if (len(self.matching) < self.left_size):
-        #        self.left_unmatched = self.get_unmatched_left()
-        #        self.right_unmatched = self.get_unmatched_right()
-        #        self.left_reachables = self.get_unmatched_left()
-        #        self.queue = self.get_unmatched_left()
-        #        self.paths = list(map(lambda x, [x.data], self.left_unmatched))
-        #        #self.right_unmatched = GA.set_right_unmatched(self.right_size,
-        #        #                                              self.matching)
-        #        for vertex in self.left_unmatched:
-        #            vertex.set_image(vertex.unmatched_image)
-        #
-        #        for vertex in self.right_unmatched:
-        #            vertex.set_image(vertex.unmatched_image)
-        #        self.unmatched_displayed = True
-        #        self.statement_text.set_value('Highlight unmatched vertices ' +
-        #                                      'in blue.')
+        elif (self.state == 3):
+            self.clear_statement_text()
+            for i in range(len(self.edge_list)):
+                if ((i % 2) == 0):
+                    self.edge_list[i].set_image(self.edge_list[i].edge_image)
+                else:
+                    self.edge_list[i].set_image(self.edge_list[i].selected_image)
+            #for e in self.edge_list:
+            #    e.set_image(e.edge_image)
+            self.edge_list = []
+            while ((not self.found_addition) and (len(self.queue) > 0)):
+                # iteration step
+                if (not (self.left_index == -1)):
+                    self.right_index += 1
+                while (((self.left_index == -1) or
+                        (self.right_index >=
+                         len(self.left_neighbors[self.left_index]))) and
+                       (len(self.queue) > 0)):
+                    self.left_index = self.queue[0]
+                    self.queue = self.queue[1:]
+                    self.right_index = 0
+                # check whether vertex adds to algorithm search at all
+                if ((not (self.left_index == -1)) and
+                    (self.right_index <
+                     len(self.left_neighbors[self.left_index]))):
+                    left = self.left_index
+                    right = self.left_neighbors[left][self.right_index]
+                    if (not ((left, right) in self.matching)):
+                        if (GA.right_is_already_matched(right, self.matching)):
+                            v = GA.right_match(right, self.matching)
+                            if (not (v in self.S)):
+                                self.found_addition = 1
+                        else:
+                            self.found_addition = 2
+                            print('b')
+
+            if (self.found_addition == 1):
+                left = self.left_index
+                right = self.left_neighbors[left][self.right_index]
+                v = GA.right_match(right, self.matching)
+                self.edge_list.append(self.get_edge(left, right))
+                self.edge_list.append(self.get_edge(v, right))
+                for e in self.edge_list:
+                    e.set_image(e.hovered_image)
+                v_obj = self.get_object(v)
+                self.queue.append(v)
+                self.S.append(v)
+                self.reachables.append(v_obj)
+                v_obj.set_image(v_obj.in_s)
+                left_path = GA.get_path(self.paths, left)
+                v_path = copy.deepcopy(left_path)
+                v_path.append(right)
+                v_path.append(v)
+                self.paths.append(v_path)
+                self.found_addition = 0
+                self.clear_statement_text()
+                self.statement_text_A.set_value('Add a vertex to S in purple.')
+                self.is_counting = True
+
+            elif (self.found_addition == 2):
+                print('bye')
+                self.state == 2
+                
         
 
 
@@ -162,6 +205,11 @@ class AlgorithmDisplay(games.Sprite):
         #                break
 
 
+    def clear_statement_text(self):
+        self.statement_text_A.set_value('')
+        self.statement_text_B.set_value('')
+        self.statement_text_C.set_value('')
+
     def display_unmatched(self):
         for vertex in self.left_unmatched:
             vertex.set_image(vertex.unmatched_image)
@@ -177,6 +225,13 @@ class AlgorithmDisplay(games.Sprite):
                 return True
         return False
 
+    # get the vertex object corresponding to a left vertex int
+    def get_object(self, vertex_number):
+        for v_obj in self.responder.left_branch:
+            if (v_obj.data == vertex_number):
+                return v_obj
+        return None
+    
 
     def get_unmatched_left(self):
         return list(filter(lambda x: not GA.left_is_already_matched(
