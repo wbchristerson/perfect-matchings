@@ -473,6 +473,13 @@ class Responses(object):
         button_image = games.load_image("images/button.png")
         hovered_image = games.load_image("images/hovered-button.png")
         self.set_back_button(button_image, hovered_image, return_state)
+        start = 270 - 60 * int((self.left_size - 1) / 2)
+        for i in range(self.left_size):
+            self.text_list.append(MT.MyText(str(i), 30, color.black, 30,
+                                            start + 60 * i))
+        for i in range(self.right_size):
+            self.text_list.append(MT.MyText(str(i), 30, color.black, 430,
+                                            start + 60 * i))
         self.render_buttons()
     
     # to state 7
@@ -507,12 +514,8 @@ class Responses(object):
     def execute_manual_algorithm(self):
         self.state = 10
         self.prepare_operations(5)
-        #t = 0
-        #while (t < 1000000000):
-        #    t += 1
         self.display = AD.AlgorithmDisplay(self)
         games.screen.add(self.display)
-        #display.greedy_matching(self.left_size, self.left_neighbors)
 
     # to state 11
     def execute_manual_algorithm_steps(self):

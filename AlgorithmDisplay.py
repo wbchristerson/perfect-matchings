@@ -285,9 +285,9 @@ class AlgorithmDisplay(games.Sprite):
             vertex.set_image(vertex.unmatched_image)
         for vertex in self.right_unmatched:
             vertex.set_image(vertex.unmatched_image)
-        self.statement_text_A.set_value('Highlight unmatched left vertices in ')
-        self.statement_text_B.set_value('blue and unmatched right vertices in ')
-        self.statement_text_C.set_value('yellow.')
+        self.statement_text_A.set_value('Highlight unmatched left ')
+        self.statement_text_B.set_value('vertices in blue and unmatched ')
+        self.statement_text_C.set_value('right vertices in yellow.')
 
     def is_in_right_unmatched(self, vertex_number):
         for v in self.right_unmatched:
@@ -326,6 +326,7 @@ class AlgorithmDisplay(games.Sprite):
             self.has_highlighted_edge = True
             self.highlighted_edge = edge
             self.statement_text_A.set_value('Test if this edge can be added.')
+            self.statement_text_B.set_value('')
 
     def add_or_reject_edge(self):
         if (GA.right_is_already_matched(self.highlighted_edge.right_vertex,
@@ -337,8 +338,8 @@ class AlgorithmDisplay(games.Sprite):
                 self.right_index = 0
             else:
                 self.right_index += 1
-            self.statement_text_A.set_value('The right vertex is already ' +
-                                            'matched.')
+            self.statement_text_A.set_value('The right vertex is already ')
+            self.statement_text_B.set_value('matched.')
             self.is_counting = True
         else:
             self.highlighted_edge.set_image(self.highlighted_edge.selected_image)
@@ -347,6 +348,7 @@ class AlgorithmDisplay(games.Sprite):
             self.left_index += 1
             self.right_index = 0
             self.statement_text_A.set_value('The edge was added!')
+            self.statement_text_B.set_value('')
             self.is_counting = True
 
         self.highlighted_edge = None
