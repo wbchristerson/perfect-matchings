@@ -18,9 +18,6 @@ class AlgorithmDisplay(games.Sprite):
         self.ticker_adder = 1
         self.button_click = False
         self.button_ticker = 0
-        #self.left_index = 0
-        #self.right_index = 0
-        #self.in_greedy_stage = True # whether finding initial greedy matching
         self.has_highlighted_edge = False # whether an edge is being examined
         self.highlighted_edge = None # currently examined edge
         self.matching = []
@@ -41,11 +38,6 @@ class AlgorithmDisplay(games.Sprite):
         games.screen.add(self.statement_text_A)
         games.screen.add(self.statement_text_B)
         games.screen.add(self.statement_text_C)
-        ## whether in stage of using augmenting paths
-        #self.in_augmenting_stage = False
-        ## whether or not to terminate the algorithm upon finding a matching
-        ## that does not use all vertices in the left branch
-        #self.status = 1
 
         # state of algorithm: 1, 2, 3, or 4, see meanings below
         self.state = 1
@@ -62,16 +54,6 @@ class AlgorithmDisplay(games.Sprite):
         self.right_index = 0
         self.edge_list = [] # list of edges to be highlighted
         self.flip = 0 # how to restore edge colors, 0 the same, 1 flipped
-        
-        
-        #self.left_unmatched = [] # list of unmatched left vertex objects (U)
-        #self.right_unmatched = [] # list of unmatched right vertex objects (W)
-        ## list of vertex objects in left branch reachable from U (S)
-        #self.left_reachables = []
-        ## whether unmatched vertices have been selected
-        #self.unmatched_displayed = False
-        #self.queue = []
-        #self.paths = []
 
     def get_edge(self, left_vertex, right_vertex):
         for edge in self.responder.edges:
@@ -210,7 +192,9 @@ class AlgorithmDisplay(games.Sprite):
                 self.paths.append(v_path)
                 self.found_addition = 0
                 self.clear_statement_text()
-                self.statement_text_A.set_value('Add a vertex to S in purple.')
+                self.statement_text_A.set_value('Add left vertex ' + str(v))
+                self.statement_text_B.set_value('to S in purple.')
+                self.statement_text_C.set_value('')
                 self.is_counting = True
                 self.state = 5
 
@@ -231,7 +215,11 @@ class AlgorithmDisplay(games.Sprite):
                     e.set_image(e.hovered_image)
                 self.matching = GA.flip_path(right_path, self.matching)
                 self.flip = 1
-                self.statement_text_A.set_value('Augment a path.')
+                self.statement_text_A.set_value('Augment the path from left')
+                self.statement_text_B.set_value('vertex ' + str(right_path[0])
+                                                + ' to right vertex ' +
+                                                str(right))
+                self.statement_text_C.set_value('')
                 self.is_counting = True
                 self.state = 2
 
@@ -247,32 +235,7 @@ class AlgorithmDisplay(games.Sprite):
             self.edge_list = []
             self.state = 3
             self.is_counting = True
-                
-        
 
-
-
-        #elif (self.status and self.in_augmenting_stage and
-        #      (len(self.queue) == 0)):
-        #    self.status = 0
-
-        #elif (self.status and self.in_augmenting_stage):
-        #    found_addition = False
-        #    while ((len(queue) > 0) and (not found_addition)):
-        #        v = self.queue[0]
-        #        self.queue = self.queue[1:]
-        #        left_adjacency = copy.deepcopy(self.left_neighbors)
-        #        if (GA.left_is_already_matched(v.data, self.matching)):
-        #            left_adjacency[v.data].remove(GA.left_match(v.data,
-        #                                                        self.matching))
-        #        for r in left_adjacency[v.data]:
-        #            if (self.is_in_right_unmatched(r)):
-        #                v_path = GA.get_path(self.paths, v.data)
-        #                r_path = copy.deepcopy(v_path)
-        #                r_path.append(r)
-        #                
-        #                found_addition = True
-        #                break
 
 
     def clear_statement_text(self):
@@ -320,13 +283,15 @@ class AlgorithmDisplay(games.Sprite):
             (self.right_index < len(self.left_neighbors[self.left_index]))):
             edge = self.get_edge(self.left_index,
                                  self.left_neighbors[self.left_index][self.right_index])
-            #print(self.left_neighbors[self.right_index])
             edge.set_image(edge.hovered_image)
             self.is_counting = True
             self.has_highlighted_edge = True
             self.highlighted_edge = edge
-            self.statement_text_A.set_value('Test if this edge can be added.')
-            self.statement_text_B.set_value('')
+            self.statement_text_A.set_value(
+                'Test if edge (' + str(edge.left_vertex) + ', ' +
+                str(edge.right_vertex) + ')')
+            self.statement_text_B.set_value('can be added.')
+            self.statement_text_C.set_value('')
 
     def add_or_reject_edge(self):
         if (GA.right_is_already_matched(self.highlighted_edge.right_vertex,
@@ -338,8 +303,9 @@ class AlgorithmDisplay(games.Sprite):
                 self.right_index = 0
             else:
                 self.right_index += 1
-            self.statement_text_A.set_value('The right vertex is already ')
-            self.statement_text_B.set_value('matched.')
+            self.statement_text_A.set_value(
+                'Right vertex ' + str(self.highlighted_edge.right_vertex))
+            self.statement_text_B.set_value('is already matched.')
             self.is_counting = True
         else:
             self.highlighted_edge.set_image(self.highlighted_edge.selected_image)
@@ -349,6 +315,7 @@ class AlgorithmDisplay(games.Sprite):
             self.right_index = 0
             self.statement_text_A.set_value('The edge was added!')
             self.statement_text_B.set_value('')
+            self.statement_text_C.set_value('')
             self.is_counting = True
 
         self.highlighted_edge = None
