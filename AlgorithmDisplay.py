@@ -24,7 +24,7 @@ class AlgorithmDisplay(games.Sprite):
         self.title_text = MT.MyText(new_value =
                                     'First find a matching greedily.',
                                     new_size = 30, new_color = color.black,
-                                    new_x = 600, new_y = 50)
+                                    new_x = 630, new_y = 50)
         games.screen.add(self.title_text)
         self.statement_text_A = MT.MyText(new_value = '', new_size = 30,
                                           new_color = color.black, new_x = 600,
@@ -193,7 +193,7 @@ class AlgorithmDisplay(games.Sprite):
                 self.found_addition = 0
                 self.clear_statement_text()
                 self.statement_text_A.set_value('Add left vertex ' + str(v))
-                self.statement_text_B.set_value('to S in purple.')
+                self.statement_text_B.set_value('to S.')
                 self.statement_text_C.set_value('')
                 self.is_counting = True
                 self.state = 5

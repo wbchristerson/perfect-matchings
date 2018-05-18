@@ -88,7 +88,7 @@ class Responses(object):
     # set a congratulatory message on the screen for finding a maximum matching
     def set_congratulation(self):
         self.congratulation = MT.MyText('You found a maximum matching!', 30,
-                                        color.black, 600, 150)
+                                        color.black, 630, 150)
         games.screen.add(self.congratulation)
         self.has_congratulation = True
 
@@ -473,13 +473,14 @@ class Responses(object):
         button_image = games.load_image("images/button.png")
         hovered_image = games.load_image("images/hovered-button.png")
         self.set_back_button(button_image, hovered_image, return_state)
-        start = 270 - 60 * int((self.left_size - 1) / 2)
+        left_start = 270 - 60 * int((self.left_size - 1) / 2)
+        right_start = 270 - 60 * int((self.right_size - 1) / 2)
         for i in range(self.left_size):
             self.text_list.append(MT.MyText(str(i), 30, color.black, 30,
-                                            start + 60 * i))
+                                            left_start + 60 * i))
         for i in range(self.right_size):
             self.text_list.append(MT.MyText(str(i), 30, color.black, 430,
-                                            start + 60 * i))
+                                            right_start + 60 * i))
         self.render_buttons()
     
     # to state 7
