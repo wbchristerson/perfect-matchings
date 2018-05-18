@@ -75,6 +75,8 @@ class Responses(object):
         self.has_congratulation = False
         self.congratulation = None # text sprite showing congratulations
         self.display = None # AlgorithmDisplay object
+        self.pause_button = None
+        self.pause_text = None
 
     ##########################################################################
     ##########################################################################
@@ -380,6 +382,14 @@ class Responses(object):
             self.display.destroy()
             self.display = None
 
+    # remove option buttons for states 10,11,13,14
+    def remove_option_buttons(self):
+        if (self.pause_button):
+            self.pause_button.destroy()
+            self.pause_button = None
+            self.pause_text.destroy()
+            self.pause_text = None
+
     # to state 5
     def manual_operations_query(self):
         self.state = 5
@@ -387,6 +397,7 @@ class Responses(object):
         self.clear_buttons()
         self.remove_step_text()
         self.unselect_all()
+        self.remove_option_buttons()
         # add additional line of prompt text
         self.text_list.append(MT.MyText('Maximal Matching (MM).', 30,
                                         color.black, 620, 60))
@@ -432,6 +443,7 @@ class Responses(object):
         self.clear_buttons()
         self.remove_step_text()
         self.unselect_all()
+        self.remove_option_buttons()
         # add additional line of prompt text
         self.text_list.append(MT.MyText('Maximal Matching (MM).', 30,
                                         color.black, 600, 60))
@@ -511,12 +523,26 @@ class Responses(object):
                                        self.left_neighbors)
         self.update_matching_list(edge_arr)
 
+    # set up pause button
+    def set_pause_button(self):
+        button_image = games.load_image("images/button.png")
+        self.pause_button = games.Sprite(image = button_image, x = 600, y = 300)
+        self.pause_text = MT.MyText('Pause', 20, color.black, 600, 300)
+        games.screen.add(self.pause_button)
+        games.screen.add(self.pause_text)
+
     # to state 10
     def execute_manual_algorithm(self):
         self.state = 10
         self.prepare_operations(5)
         self.display = AD.AlgorithmDisplay(self)
         games.screen.add(self.display)
+        self.set_pause_button()
+        #self.button_list.append(NB.NavigationButton(self, long_button_image,
+        #                                            hovered_long_image, 600,
+        #                                            420, 4, 14))
+        #self.text_list.append(MT.MyText('Watch Algorithm To Find MM With Steps',
+        #                                20, color.black, 600, 420))
 
     # to state 11
     def execute_manual_algorithm_steps(self):
@@ -540,6 +566,7 @@ class Responses(object):
         self.prepare_operations(6)
         self.display = AD.AlgorithmDisplay(self)
         games.screen.add(self.display)
+        self.set_pause_button()
         ######################################################################
         # REMEMBER TO DESTROY THE SPRITE
         #

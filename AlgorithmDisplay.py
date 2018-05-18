@@ -78,17 +78,36 @@ class AlgorithmDisplay(games.Sprite):
             v.set_image(v.plain_image)
 
     def update(self):
-        if (self.button_click and games.keyboard.is_pressed(games.K_SPACE)):
+        mouse_touching = False
+        if (self.responder.pause_button):
+            for item in self.responder.pause_button.overlapping_sprites:
+                if (item.id == 0):
+                    mouse_touching = True
+                    break
+
+            if (mouse_touching):
+                hover_image = games.load_image("images/hovered-button.png")
+                self.responder.pause_button.set_image(hover_image)
+
+            elif (not mouse_touching):
+                main_image = games.load_image("images/button.png")
+                self.responder.pause_button.set_image(main_image)
+        
+        if (self.button_click and games.keyboard.is_pressed(games.K_SPACE) and
+            mouse_touching):
             self.button_click = False
             self.ticker_adder = 1 - self.ticker_adder
+            if (self.ticker_adder == 0):
+                self.responder.pause_text.set_value('Play')
+            else:
+                self.responder.pause_text.set_value('Pause')
 
         if (not self.button_click):
             self.button_ticker += 1
             if (self.button_ticker == 20):
                 self.button_ticker = 0
                 self.button_click = True
-        
-        
+
         if (self.is_counting):
             self.ticker += self.ticker_adder
             if (self.ticker == 100):
