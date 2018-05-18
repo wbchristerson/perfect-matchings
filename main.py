@@ -77,13 +77,21 @@ class Responses(object):
         self.display = None # AlgorithmDisplay object
         self.pause_button = None
         self.pause_text = None
+        # whether a reference matching has been generated
+        self.has_generated_matching = False
+        self.full_matching = [] # reference matching
 
     ##########################################################################
     ##########################################################################
     # provisional check for a maximum matching; this will change after the
     # algorithm is written
     def has_maximum_matching(self):
-        return (self.left_size == len(self.matching_list))
+        if (not self.has_generated_matching):
+            self.full_matching = GA.maximum_matching(self.left_size,
+                                                     self.right_size,
+                                                     self.left_neighbors)
+            self.has_generated_matching = True
+        return (len(self.full_matching) == len(self.matching_list))
     ##########################################################################
     ##########################################################################
 
@@ -358,6 +366,7 @@ class Responses(object):
             self.delete_all_edges()
             self.reset_branches_data(self.left_size, self.right_size)
         self.state = 4
+        self.has_generated_matching = False
         self.reset_text('Make your edge choices on the graph.')
         if (self.state == 4):
             self.main_text_sprite.set_x(620)
@@ -440,6 +449,7 @@ class Responses(object):
             self.set_random_edges()
         self.state = 6
         self.reset_text('Choose Procedure For')
+        self.has_generated_matching = False
         self.clear_buttons()
         self.remove_step_text()
         self.unselect_all()
