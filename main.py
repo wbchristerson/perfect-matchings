@@ -35,6 +35,12 @@ games.init(screen_width = 832, screen_height = 624, fps = 50)
 #         - watch procedure of algorithm to find a maximum matching with steps
 #   7 - Execute graph operation (edges chosen manually)
 #   8 - Execute graph operation (edges chosen randomly)
+#   9 - If manual, automatically find MM
+#  10 - If manual, watch algorithm to find MM
+#  11 - If manual, watch algorithm to find MM with steps
+#  12 - If random, automatically find MM
+#  13 - If random, watch algorithm to find MM
+#  14 - If random, watch algorithm to find MM with steps
 ####################################
 
 # this class is used to check mouse hovers by having a very small sprite image
@@ -85,10 +91,7 @@ class Responses(object):
         self.backward_button = None
         self.backward_text = None
 
-    ##########################################################################
-    ##########################################################################
-    # provisional check for a maximum matching; this will change after the
-    # algorithm is written
+    # check for a maximum matching
     def has_maximum_matching(self):
         if (not self.has_generated_matching):
             self.full_matching = GA.maximum_matching(self.left_size,
@@ -96,8 +99,6 @@ class Responses(object):
                                                      self.left_neighbors)
             self.has_generated_matching = True
         return (len(self.full_matching) == len(self.matching_list))
-    ##########################################################################
-    ##########################################################################
 
     # set a congratulatory message on the screen for finding a maximum matching
     def set_congratulation(self):
@@ -429,7 +430,6 @@ class Responses(object):
         self.reset_text('Choose Procedure For')
         self.clear_buttons()
         self.remove_step_text()
-        #self.unselect_all()
         self.unselect_all()
         self.unselect_all_edges()
         self.remove_option_buttons()
@@ -462,9 +462,6 @@ class Responses(object):
                                         20, color.black, 600, 420))
         self.set_back_button(button_image, hovered_image, 4)
         self.render_buttons()
-        # unselect any selected vertices
-        #self.unselect_all()
-        #self.unselect_all_edges()
         if (self.has_congratulation):
             self.remove_congratulation()
         self.matching_list = []
@@ -479,10 +476,8 @@ class Responses(object):
         self.clear_buttons()
         self.remove_option_buttons()
         self.remove_step_text()
-        #self.unselect_all()
         self.unselect_all()
         self.unselect_all_edges()
-        #self.remove_option_buttons()
         # add additional line of prompt text
         self.text_list.append(MT.MyText('Maximal Matching (MM).', 30,
                                         color.black, 600, 60))
@@ -512,8 +507,6 @@ class Responses(object):
                                         20, color.black, 600, 420))
         self.set_back_button(button_image, hovered_image, 3)
         self.render_buttons()
-        #self.unselect_all()
-        #self.unselect_all_edges()
         if (self.has_congratulation):
             self.remove_congratulation()
         self.matching_list = []
@@ -536,7 +529,6 @@ class Responses(object):
         self.render_buttons()
     
     # to state 7
-    # find an MM manually
     def execute_manual_find_manual(self):
         self.state = 7
         self.prepare_operations(5)
@@ -550,8 +542,6 @@ class Responses(object):
     def update_matching_list(self, edge_arr):
         self.matching_list = []
         for (a,b) in edge_arr:
-            #new_edge = ED.Edge(self, a, b, self.left_size, self.right_size)
-            #self.matching_list.append(new_edge)
             self.matching_list.append(ED.Edge(self, a, b, self.left_size,
                                               self.right_size))
 
@@ -578,11 +568,6 @@ class Responses(object):
         self.display = AD.AlgorithmDisplay(self, False)
         games.screen.add(self.display)
         self.set_pause_button()
-        #self.button_list.append(NB.NavigationButton(self, long_button_image,
-        #                                            hovered_long_image, 600,
-        #                                            420, 4, 14))
-        #self.text_list.append(MT.MyText('Watch Algorithm To Find MM With Steps',
-        #                                20, color.black, 600, 420))
 
     def set_step_buttons(self):
         button_image = games.load_image("images/button.png")
@@ -612,9 +597,6 @@ class Responses(object):
         edge_arr = GA.maximum_matching(self.left_size, self.right_size,
                                        self.left_neighbors)
         self.update_matching_list(edge_arr)
-        #print('Left neighbors: ', self.left_neighbors)
-        #GA.maximum_matching(self.left_size, self.right_size,
-        #                    self.left_neighbors)
 
     # to state 13
     def execute_random_algorithm(self):
