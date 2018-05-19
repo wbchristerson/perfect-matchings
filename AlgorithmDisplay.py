@@ -64,7 +64,7 @@ class AlgorithmDisplay(games.Sprite):
         self.flip = 0 # how to restore edge colors, 0 the same, 1 flipped
 
         self.frames = [] # list of FrameRecord objects
-        self.tt = ''
+        self.tt = 'First find a matching greedily.'
         self.sA = ''
         self.sB = ''
         self.sC = ''
