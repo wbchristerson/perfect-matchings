@@ -384,6 +384,8 @@ class AlgorithmDisplay(games.Sprite):
             self.rbv = [i for i in range(self.right_size)]
             self.tt = ''
             self.sA = 'Maximum matching!'
+            self.sB = ''
+            self.sC = ''
             self.add_frame()
             #self.frames.append(
             #    FR.FrameRecord('', 'Maximum matching!', '-', '-', [], [], [],
