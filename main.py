@@ -570,24 +570,25 @@ class Responses(object):
 
     def set_step_buttons(self):
         button_image = games.load_image("images/button.png")
-        self.forward_button = games.Sprite(image = button_image, x = 700,
-                                           y = 300)
-        self.backward_button = games.Sprite(image = button_image, x = 500,
-                                            y = 300)
-        self.foward_text = MT.MyText('Forward', 20, color.black, 700, 300)
-        self.backward_text = MT.MyText('Backward', 20, color.black, 500, 300)
+        self.forward_button = games.Sprite(image = button_image, x = 500,
+                                           y = 300, is_collideable = False)
+        #self.backward_button = games.Sprite(image = button_image, x = 500,
+        #                                    y = 300)
+        self.foward_text = MT.MyText('Forward', 20, color.black, 500, 300)
+        #self.backward_text = MT.MyText('Backward', 20, color.black, 500, 300)
         games.screen.add(self.forward_button)
-        games.screen.add(self.backward_button)
+        #games.screen.add(self.backward_button)
         games.screen.add(self.forward_text)
-        games.screen.add(self.backward_text)
+        #games.screen.add(self.backward_text)
+        print('finish')
 
     # to state 11
     def execute_manual_algorithm_steps(self):
         self.state = 11
         self.prepare_operations(5)
-        self.set_step_buttons()
         self.display = AD.AlgorithmDisplay(self, True)
         games.screen.add(self.display)
+        #self.set_step_buttons()
 
     # to state 12
     def execute_random_find_automatically(self):
@@ -612,9 +613,9 @@ class Responses(object):
     def execute_random_algorithm_steps(self):
         self.state = 14
         self.prepare_operations(6)
-        self.set_step_buttons()
         self.display = AD.AlgorithmDisplay(self, True)
         games.screen.add(self.display)
+        #self.set_step_buttons()
 
     def advance(self, new_state, data):
         if (new_state == 1):
@@ -646,7 +647,7 @@ class Responses(object):
         elif (new_state == 14):
             self.execute_random_algorithm_steps()
         else:
-            print('hi')
+            print('hello')
 
 
 def main():

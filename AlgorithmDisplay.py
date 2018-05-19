@@ -68,20 +68,35 @@ class AlgorithmDisplay(games.Sprite):
         self.bv = []
         self.yv = []
         self.pv = []
-        self.lbv = range(self.left_size)
-        self.rbv = range(self.right_size)
+        self.lbv = [i for i in range(self.left_size)]
+        self.rbv = [i for i in range(self.right_size)]
+        self.frame_index = 0
         for i in range(self.left_size):
-            for j in range(self.right_size):
+            for j in self.left_neighbors[i]:
                 self.be.append((i,j))
         if (self.steps):
             self.generate_steps()
 
+    # return the edge object corresponding to a pair of numerical vertices
     def get_edge(self, left_vertex, right_vertex):
         for edge in self.responder.edges:
             if ((edge.left_vertex == left_vertex) and
                 (edge.right_vertex == right_vertex)):
                 return edge
         return None
+
+    # return the vertex object corresponding to a number and branch
+    def get_vertex(self, v_num, branch):
+        if (branch == 'left'):
+            for v in self.responder.left_branch:
+                if (v.data == v_num):
+                    return v
+            return None
+        else:
+            for v in self.responder.right_branch:
+                if (v.data == v_num):
+                    return v
+            return None
 
     def clear_highlights(self):
         #if (self.steps):
@@ -141,9 +156,12 @@ class AlgorithmDisplay(games.Sprite):
                 self.title_text.set_value('Search For Ways To Augment Paths')
                 self.clear_statement_text()
                 self.is_counting = True
+            print('AAA')
         elif (not self.has_highlighted_edge):
+            print('BBB')
             self.find_potential_edge()
         elif (self.has_highlighted_edge):
+            print('CCC')
             self.add_or_reject_edge()
 
     # handle state 2
@@ -173,8 +191,8 @@ class AlgorithmDisplay(games.Sprite):
             self.bv = []
             self.yv = []
             self.pv = []
-            self.lbv = range(self.left_size)
-            self.rbv = range(self.right_size)
+            self.lbv = [i for i in range(self.left_size)]
+            self.rbv = [i for i in range(self.right_size)]
             self.add_frame()
             #self.frames.append(FR.FrameRecord('-', '', '', '', red_edges, [],
             #                                  black_edges, [], [], [],
@@ -249,6 +267,7 @@ class AlgorithmDisplay(games.Sprite):
                         self.found_addition = 2
 
         if (self.found_addition == 1):
+            print('G')
             left = self.left_index
             right = self.left_neighbors[left][self.right_index]
             v = GA.right_match(right, self.matching)
@@ -301,6 +320,7 @@ class AlgorithmDisplay(games.Sprite):
             self.state = 5
 
         elif (self.found_addition == 2):
+            print('H')
             left = self.left_index
             right = self.left_neighbors[left][self.right_index]
             left_path = GA.get_path(self.paths, left)
@@ -351,6 +371,7 @@ class AlgorithmDisplay(games.Sprite):
             self.state = 2
 
         else:
+            print('I')
             self.state = 4
 
     # handle state 4
@@ -359,8 +380,8 @@ class AlgorithmDisplay(games.Sprite):
             self.bv = []
             self.yv = []
             self.pv = []
-            self.lbv = range(self.left_size)
-            self.rbv = range(self.right_size)
+            self.lbv = [i for i in range(self.left_size)]
+            self.rbv = [i for i in range(self.right_size)]
             self.tt = ''
             self.sA = 'Maximum matching!'
             self.add_frame()
@@ -427,19 +448,67 @@ class AlgorithmDisplay(games.Sprite):
     def generate_steps(self):
         while (not (self.state == 4)):
             if (self.state == 1):
+                print('AA')
                 self.handle_A()
             elif (self.state == 2):
+                print('BB')
                 self.handle_B()
             elif (self.state == 3):
+                print('CC')
                 self.handle_C()
             elif (self.state == 5):
+                print('DD')
                 self.handle_E()
+        print('EE')
         self.handle_D()
+
+
+    # update the appearing graph with the frame data
+    def show_graph(self, frame):
+        self.title_text.set_value(frame.title_text)
+        self.statement_text_A.set_value(frame.statement_text_A)
+        self.statement_text_B.set_value(frame.statement_text_B)
+        self.statement_text_C.set_value(frame.statement_text_C)
+        for (a,b) in frame.red_edges:
+            e = self.get_edge(a,b)
+            e.set_image(e.selected_image)
+        for (a,b) in frame.green_edges:
+            e = self.get_edge(a,b)
+            e.set_image(e.hovered_image)
+        for (a,b) in frame.black_edges:
+            e = self.get_edge(a,b)
+            e.set_image(e.edge_image)
+        for a in frame.blue_vertices:
+            v = self.get_vertex(a, 'left')
+            v.set_image(v.unmatched_image)
+        for a in frame.yellow_vertices:
+            v = self.get_vertex(a, 'right')
+            v.set_image(v.unmatched_image)
+        for a in frame.purple_vertices:
+            v = self.get_vertex(a, 'left')
+            v.set_image(v.in_s)
+        for a in frame.left_black_vertices:
+            v = self.get_vertex(a, 'left')
+            v.set_image(v.plain_image)
+        for a in frame.right_black_vertices:
+            v = self.get_vertex(a, 'right')
+            v.set_image(v.plain_image)
+        
 
 
     def update(self):
         if (self.steps):
-            print('hi')
+            if (self.button_click and games.keyboard.is_pressed(games.K_SPACE)):
+                self.button_click = False
+                self.frame_index += 1
+                if (self.frame_index >= len(self.frames)):
+                    self.frame_index = 0
+                self.show_graph(self.frames[self.frame_index])
+            if (not self.button_click):
+                self.button_ticker += 1
+                if (self.button_ticker == 20):
+                    self.button_ticker = 0
+                    self.button_click = True
         else:
             mouse_touching = False
             if (self.responder.pause_button):
@@ -456,8 +525,8 @@ class AlgorithmDisplay(games.Sprite):
                     main_image = games.load_image("images/button.png")
                     self.responder.pause_button.set_image(main_image)
             
-            if (self.button_click and games.keyboard.is_pressed(games.K_SPACE) and
-                mouse_touching):
+            if (self.button_click and games.keyboard.is_pressed(games.K_SPACE)
+                and mouse_touching):
                 self.button_click = False
                 self.ticker_adder = 1 - self.ticker_adder
                 if (self.ticker_adder == 0):
@@ -646,13 +715,25 @@ class AlgorithmDisplay(games.Sprite):
         self.statement_text_C.set_value('')
 
     def display_unmatched(self):
-        for vertex in self.left_unmatched:
-            vertex.set_image(vertex.unmatched_image)
-        for vertex in self.right_unmatched:
-            vertex.set_image(vertex.unmatched_image)
-        self.statement_text_A.set_value('Highlight unmatched left ')
-        self.statement_text_B.set_value('vertices in blue and unmatched ')
-        self.statement_text_C.set_value('right vertices in yellow.')
+        if (self.steps):
+            for vertex in self.left_unmatched:
+                self.lbv.remove(vertex.data)
+                self.bv.append(vertex.data)
+            for vertex in self.right_unmatched:
+                self.rbv.remove(vertex.data)
+                self.yv.append(vertex.data)
+                self.sA = 'Highlight unmatched left '
+                self.sB = 'vertices in blue and unmatched '
+                self.sC = 'right vertices in yellow.'
+            self.add_frame()
+        else:
+            for vertex in self.left_unmatched:
+                vertex.set_image(vertex.unmatched_image)
+            for vertex in self.right_unmatched:
+                vertex.set_image(vertex.unmatched_image)
+            self.statement_text_A.set_value('Highlight unmatched left ')
+            self.statement_text_B.set_value('vertices in blue and unmatched ')
+            self.statement_text_C.set_value('right vertices in yellow.')
 
     def is_in_right_unmatched(self, vertex_number):
         for v in self.right_unmatched:

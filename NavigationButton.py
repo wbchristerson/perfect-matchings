@@ -15,11 +15,16 @@ class NavigationButton(games.Sprite):
         self.plain_image = plain_image
         self.hover_image = hover_image
 
+        #self.test = True
+
     def update(self):
         if (self.step_count < 20): # provide time between transitions
             self.step_count += 1
         else:
             mouse_touching = False
+            #if (self.test):
+            #    self.test = False
+            #    print('Data: ', self.data)
             for item in self.overlapping_sprites:
                 if (item.id == 0):
                     mouse_touching = True
