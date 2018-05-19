@@ -156,7 +156,7 @@ class AlgorithmDisplay(games.Sprite):
                 self.sA = ''
                 self.sB = ''
                 self.sC = ''
-                self.add_frame()
+                #self.add_frame()
                 #print('ex')
             else:
                 self.title_text.set_value('Search For Ways To Augment Paths')
@@ -194,6 +194,11 @@ class AlgorithmDisplay(games.Sprite):
                         self.be.remove(r)
                     #red_edges.append((self.edge_list[i].left_vertex,
                     #                  self.edge_list[i].right_vertex))
+            ###########################################################
+            self.sA = ''
+            self.sB = ''
+            self.sC = ''
+            ###########################################################
             self.bv = []
             self.yv = []
             self.pv = []
