@@ -550,75 +550,50 @@ class AlgorithmDisplay(games.Sprite):
             if (self.frame_index < 0):
                 self.frame_index = len(self.frames) - 1
             self.show_graph(self.frames[self.frame_index])
-        
+
+    # update operation for when steps are being shown
+    def update_steps(self):
+        forward_touching = False
+        backward_touching = False
+        if (self.responder.forward_button):
+            for item in self.responder.forward_button.overlapping_sprites:
+                if (item.id == 0):
+                    forward_touching = True
+                    break
+        if (self.responder.backward_button):
+            for item in self.responder.backward_button.overlapping_sprites:
+                if (item.id == 0):
+                    backward_touching = True
+                    break
+        self.set_forward_hover(forward_touching)
+        self.set_backward_hover(backward_touching)
+        self.set_forward_select(forward_touching)
+        self.set_backward_select(backward_touching)
+        self.update_forward_ticker()
+        self.update_backward_ticker()
 
     def update(self):
         if (self.steps):
-            forward_touching = False
-            backward_touching = False
-            if (self.responder.forward_button):
-                for item in self.responder.forward_button.overlapping_sprites:
-                    if (item.id == 0):
-                        forward_touching = True
-                        break
-            if (self.responder.backward_button):
-                for item in self.responder.backward_button.overlapping_sprites:
-                    if (item.id == 0):
-                        backward_touching = True
-                        break
-
-            self.set_forward_hover(forward_touching)
-            #if (forward_touching and (not self.forward_hover)):
-            #    self.forward_hover = True
-            #    hover_image = games.load_image('images/hovered-button.png')
-            #    self.responder.forward_button.set_image(hover_image)
-            #elif ((not forward_touching) and self.forward_hover):
-            #    self.forward_hover = False
-            #    button_image = games.load_image('images/button.png')
-            #    self.responder.forward_button.set_image(button_image)
-
-            self.set_backward_hover(backward_touching)
-            #if (backward_touching and (not self.backward_hover)):
-            #    self.backward_hover = True
-            #    hover_image = games.load_image('images/hovered-button.png')
-            #    self.responder.backward_button.set_image(hover_image)
-            #elif ((not backward_touching) and self.backward_hover):
-            #    self.backward_hover = False
-            #    button_image = games.load_image('images/button.png')
-            #    self.responder.backward_button.set_image(button_image)
-
-            self.set_forward_select(forward_touching)
-            #if (forward_touching and self.forward_click and
-            #    games.keyboard.is_pressed(games.K_SPACE)):
-            #    self.forward_click = False
-            #    self.frame_index += 1
-            #    if (self.frame_index >= len(self.frames)):
-            #        self.frame_index = 0
-            #    self.show_graph(self.frames[self.frame_index])
-
-            self.set_backward_select(backward_touching)
-            #if (backward_touching and self.backward_click and
-            #    games.keyboard.is_pressed(games.K_SPACE)):
-            #    self.backward_click = False
-            #    self.frame_index -= 1
-            #    if (self.frame_index < 0):
-            #        self.frame_index = len(self.frames) - 1
-            #    self.show_graph(self.frames[self.frame_index])
-
-
-            self.update_forward_ticker()
-            #if (not self.forward_click):
-            #    self.forward_ticker += 1
-            #    if (self.forward_ticker == 20):
-            #        self.forward_ticker = 0
-            #        self.forward_click = True
-
-            self.update_backward_ticker()
-            #if (not self.backward_click):
-            #    self.backward_ticker += 1
-            #    if (self.backward_ticker == 20):
-            #        self.backward_ticker = 0
-            #        self.backward_click = True
+            self.update_steps()
+        #    forward_touching = False
+        #    backward_touching = False
+        #    if (self.responder.forward_button):
+        #        for item in self.responder.forward_button.overlapping_sprites:
+        #            if (item.id == 0):
+        #                forward_touching = True
+        #                break
+        #    if (self.responder.backward_button):
+        #        for item in self.responder.backward_button.overlapping_sprites:
+        #            if (item.id == 0):
+        #                backward_touching = True
+        #                break
+        #
+        #    self.set_forward_hover(forward_touching)
+        #    self.set_backward_hover(backward_touching)
+        #    self.set_forward_select(forward_touching)
+        #    self.set_backward_select(backward_touching)
+        #    self.update_forward_ticker()
+        #    self.update_backward_ticker()
 
         else:
             mouse_touching = False
