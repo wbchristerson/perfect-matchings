@@ -456,18 +456,13 @@ class AlgorithmDisplay(games.Sprite):
     def generate_steps(self):
         while (not (self.state == 4)):
             if (self.state == 1):
-                print('AA')
                 self.handle_A()
             elif (self.state == 2):
-                print('BB')
                 self.handle_B()
             elif (self.state == 3):
-                print('CC')
                 self.handle_C()
             elif (self.state == 5):
-                print('DD')
                 self.handle_E()
-        print('EE')
         self.handle_D()
 
 
@@ -502,12 +497,63 @@ class AlgorithmDisplay(games.Sprite):
             v = self.get_vertex(a, 'right')
             v.set_image(v.plain_image)
         
+    # updates delays for clicking forward button
+    def update_forward_ticker(self):
+        if (not self.forward_click):
+            self.forward_ticker += 1
+            if (self.forward_ticker == 20):
+                self.forward_ticker = 0
+                self.forward_click = True
 
+    # update delays for clicking backward button
+    def update_backward_ticker(self):
+        if (not self.backward_click):
+            self.backward_ticker += 1
+            if (self.backward_ticker == 20):
+                self.backward_ticker = 0
+                self.backward_click = True
+
+    def set_forward_hover(self, forward_touching):
+        if (forward_touching and (not self.forward_hover)):
+            self.forward_hover = True
+            hover_image = games.load_image('images/hovered-button.png')
+            self.responder.forward_button.set_image(hover_image)
+        elif ((not forward_touching) and self.forward_hover):
+            self.forward_hover = False
+            button_image = games.load_image('images/button.png')
+            self.responder.forward_button.set_image(button_image)
+
+    def set_backward_hover(self, backward_touching):
+        if (backward_touching and (not self.backward_hover)):
+            self.backward_hover = True
+            hover_image = games.load_image('images/hovered-button.png')
+            self.responder.backward_button.set_image(hover_image)
+        elif ((not backward_touching) and self.backward_hover):
+            self.backward_hover = False
+            button_image = games.load_image('images/button.png')
+            self.responder.backward_button.set_image(button_image)
+
+    def set_forward_select(self, forward_touching):
+        if (forward_touching and self.forward_click and
+            games.keyboard.is_pressed(games.K_SPACE)):
+            self.forward_click = False
+            self.frame_index += 1
+            if (self.frame_index >= len(self.frames)):
+                self.frame_index = 0
+            self.show_graph(self.frames[self.frame_index])
+
+    def set_backward_select(self, backward_touching):
+        if (backward_touching and self.backward_click and
+            games.keyboard.is_pressed(games.K_SPACE)):
+            self.backward_click = False
+            self.frame_index -= 1
+            if (self.frame_index < 0):
+                self.frame_index = len(self.frames) - 1
+            self.show_graph(self.frames[self.frame_index])
+        
 
     def update(self):
         if (self.steps):
-            #self.back_ticker = 0
-            #self.forward_ticker = 0
             forward_touching = False
             backward_touching = False
             if (self.responder.forward_button):
@@ -520,66 +566,60 @@ class AlgorithmDisplay(games.Sprite):
                     if (item.id == 0):
                         backward_touching = True
                         break
-            
-            if (forward_touching and (not self.forward_hover)):
-                self.forward_hover = True
-                hover_image = games.load_image('images/hovered-button.png')
-                self.responder.forward_button.set_image(hover_image)
-            elif ((not forward_touching) and self.forward_hover):
-                self.forward_hover = False
-                button_image = games.load_image('images/button.png')
-                self.responder.forward_button.set_image(button_image)
 
-            if (backward_touching and (not self.backward_hover)):
-                self.backward_hover = True
-                hover_image = games.load_image('images/hovered-button.png')
-                self.responder.backward_button.set_image(hover_image)
-            elif ((not backward_touching) and self.backward_hover):
-                self.backward_hover = False
-                button_image = games.load_image('images/button.png')
-                self.responder.backward_button.set_image(button_image)
+            self.set_forward_hover(forward_touching)
+            #if (forward_touching and (not self.forward_hover)):
+            #    self.forward_hover = True
+            #    hover_image = games.load_image('images/hovered-button.png')
+            #    self.responder.forward_button.set_image(hover_image)
+            #elif ((not forward_touching) and self.forward_hover):
+            #    self.forward_hover = False
+            #    button_image = games.load_image('images/button.png')
+            #    self.responder.forward_button.set_image(button_image)
 
-            if (forward_touching and self.forward_click and
-                games.keyboard.is_pressed(games.K_SPACE)):
-                self.forward_click = False
-                self.frame_index += 1
-                if (self.frame_index >= len(self.frames)):
-                    self.frame_index = 0
-                self.show_graph(self.frames[self.frame_index])
+            self.set_backward_hover(backward_touching)
+            #if (backward_touching and (not self.backward_hover)):
+            #    self.backward_hover = True
+            #    hover_image = games.load_image('images/hovered-button.png')
+            #    self.responder.backward_button.set_image(hover_image)
+            #elif ((not backward_touching) and self.backward_hover):
+            #    self.backward_hover = False
+            #    button_image = games.load_image('images/button.png')
+            #    self.responder.backward_button.set_image(button_image)
 
-            if (backward_touching and self.backward_click and
-                games.keyboard.is_pressed(games.K_SPACE)):
-                self.backward_click = False
-                self.frame_index -= 1
-                if (self.frame_index < 0):
-                    self.frame_index = len(self.frames) - 1
-                self.show_graph(self.frames[self.frame_index])
-
-
-            if (not self.forward_click):
-                self.forward_ticker += 1
-                if (self.forward_ticker == 20):
-                    self.forward_ticker = 0
-                    self.forward_click = True
-
-            if (not self.backward_click):
-                self.backward_ticker += 1
-                if (self.backward_ticker == 20):
-                    self.backward_ticker = 0
-                    self.backward_click = True
-
-            
-            #if (self.button_click and games.keyboard.is_pressed(games.K_SPACE)):
-            #    self.button_click = False
+            self.set_forward_select(forward_touching)
+            #if (forward_touching and self.forward_click and
+            #    games.keyboard.is_pressed(games.K_SPACE)):
+            #    self.forward_click = False
             #    self.frame_index += 1
             #    if (self.frame_index >= len(self.frames)):
             #        self.frame_index = 0
             #    self.show_graph(self.frames[self.frame_index])
-            #if (not self.button_click):
-            #    self.button_ticker += 1
-            #    if (self.button_ticker == 20):
-            #        self.button_ticker = 0
-            #        self.button_click = True
+
+            self.set_backward_select(backward_touching)
+            #if (backward_touching and self.backward_click and
+            #    games.keyboard.is_pressed(games.K_SPACE)):
+            #    self.backward_click = False
+            #    self.frame_index -= 1
+            #    if (self.frame_index < 0):
+            #        self.frame_index = len(self.frames) - 1
+            #    self.show_graph(self.frames[self.frame_index])
+
+
+            self.update_forward_ticker()
+            #if (not self.forward_click):
+            #    self.forward_ticker += 1
+            #    if (self.forward_ticker == 20):
+            #        self.forward_ticker = 0
+            #        self.forward_click = True
+
+            self.update_backward_ticker()
+            #if (not self.backward_click):
+            #    self.backward_ticker += 1
+            #    if (self.backward_ticker == 20):
+            #        self.backward_ticker = 0
+            #        self.backward_click = True
+
         else:
             mouse_touching = False
             if (self.responder.pause_button):
