@@ -76,7 +76,7 @@ class AlgorithmDisplay(games.Sprite):
         self.pv = []
         self.lbv = [i for i in range(self.left_size)]
         self.rbv = [i for i in range(self.right_size)]
-        self.frame_index = 0
+        self.frame_index = -1
         for i in range(self.left_size):
             for j in self.left_neighbors[i]:
                 self.be.append((i,j))
@@ -575,26 +575,6 @@ class AlgorithmDisplay(games.Sprite):
     def update(self):
         if (self.steps):
             self.update_steps()
-        #    forward_touching = False
-        #    backward_touching = False
-        #    if (self.responder.forward_button):
-        #        for item in self.responder.forward_button.overlapping_sprites:
-        #            if (item.id == 0):
-        #                forward_touching = True
-        #                break
-        #    if (self.responder.backward_button):
-        #        for item in self.responder.backward_button.overlapping_sprites:
-        #            if (item.id == 0):
-        #                backward_touching = True
-        #                break
-        #
-        #    self.set_forward_hover(forward_touching)
-        #    self.set_backward_hover(backward_touching)
-        #    self.set_forward_select(forward_touching)
-        #    self.set_backward_select(backward_touching)
-        #    self.update_forward_ticker()
-        #    self.update_backward_ticker()
-
         else:
             mouse_touching = False
             if (self.responder.pause_button):
