@@ -80,6 +80,10 @@ class Responses(object):
         # whether a reference matching has been generated
         self.has_generated_matching = False
         self.full_matching = [] # reference matching
+        self.forward_button = None
+        self.forward_text = None
+        self.backward_button = None
+        self.backward_text = None
 
     ##########################################################################
     ##########################################################################
@@ -398,6 +402,16 @@ class Responses(object):
             self.pause_button = None
             self.pause_text.destroy()
             self.pause_text = None
+        if (self.forward_button):
+            self.forward_button.destroy()
+            self.forward_button = None
+            self.forward_text.destroy()
+            self.forward_text = None
+        if (self.backward_button):
+            self.backward_button.destroy()
+            self.backward_button = None
+            self.backward_text.destroy()
+            self.backward_text = None
 
     # to state 5
     def manual_operations_query(self):
@@ -545,7 +559,7 @@ class Responses(object):
     def execute_manual_algorithm(self):
         self.state = 10
         self.prepare_operations(5)
-        self.display = AD.AlgorithmDisplay(self)
+        self.display = AD.AlgorithmDisplay(self, False)
         games.screen.add(self.display)
         self.set_pause_button()
         #self.button_list.append(NB.NavigationButton(self, long_button_image,
@@ -554,10 +568,26 @@ class Responses(object):
         #self.text_list.append(MT.MyText('Watch Algorithm To Find MM With Steps',
         #                                20, color.black, 600, 420))
 
+    def set_step_buttons(self):
+        button_image = games.load_image("images/button.png")
+        self.forward_button = games.Sprite(image = button_image, x = 700,
+                                           y = 300)
+        self.backward_button = games.Sprite(image = button_image, x = 500,
+                                            y = 300)
+        self.foward_text = MT.MyText('Forward', 20, color.black, 700, 300)
+        self.backward_text = MT.MyText('Backward', 20, color.black, 500, 300)
+        games.screen.add(self.forward_button)
+        games.screen.add(self.backward_button)
+        games.screen.add(self.forward_text)
+        games.screen.add(self.backward_text)
+
     # to state 11
     def execute_manual_algorithm_steps(self):
         self.state = 11
         self.prepare_operations(5)
+        self.set_step_buttons()
+        self.display = AD.AlgorithmDisplay(self, True)
+        games.screen.add(self.display)
 
     # to state 12
     def execute_random_find_automatically(self):
@@ -574,28 +604,17 @@ class Responses(object):
     def execute_random_algorithm(self):
         self.state = 13
         self.prepare_operations(6)
-        self.display = AD.AlgorithmDisplay(self)
+        self.display = AD.AlgorithmDisplay(self, False)
         games.screen.add(self.display)
         self.set_pause_button()
-        ######################################################################
-        # REMEMBER TO DESTROY THE SPRITE
-        #
-        # REMEMBER TO DESTROY THE SPRITE
-        #
-        # REMEMBER TO DESTROY THE SPRITE
-        #
-        # REMEMBER TO DESTROY THE SPRITE
-        #
-        # REMEMBER TO DESTROY THE SPRITE
-        #
-        # REMEMBER TO DESTROY THE SPRITE
-        ######################################################################
-        #display.greedy_matching(self.left_size, self.left_neighbors)
 
     # to state 14
     def execute_random_algorithm_steps(self):
         self.state = 14
         self.prepare_operations(6)
+        self.set_step_buttons()
+        self.display = AD.AlgorithmDisplay(self, True)
+        games.screen.add(self.display)
 
     def advance(self, new_state, data):
         if (new_state == 1):
@@ -610,12 +629,6 @@ class Responses(object):
             self.manual_operations_query()
         elif (new_state == 6):
             self.random_operations_query()
-            #print('\nLeft Branch:\n')
-            #for i in range(self.left_size):
-            #    print(self.left_neighbors[i])
-            #print('\nRight Branch:\n')
-            #for j in range(self.right_size):
-            #    print(self.right_neighbors[j])
         elif (new_state == 7):
             self.execute_manual_find_manual()
         elif (new_state == 8):
