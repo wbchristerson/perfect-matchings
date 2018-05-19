@@ -76,10 +76,12 @@ class AlgorithmDisplay(games.Sprite):
         self.pv = []
         self.lbv = [i for i in range(self.left_size)]
         self.rbv = [i for i in range(self.right_size)]
-        self.frame_index = -1
+
         for i in range(self.left_size):
             for j in self.left_neighbors[i]:
                 self.be.append((i,j))
+        self.add_frame()
+        self.frame_index = 0
         if (self.steps):
             self.generate_steps()
 
@@ -183,6 +185,10 @@ class AlgorithmDisplay(games.Sprite):
                         self.be.append(r)
                     if (r in self.re):
                         self.re.remove(r)
+                    ######################## NEW
+                    if (r in self.ge):
+                        self.ge.remove(r)
+                    ######################## NEW
                     #self.be.append((self.edge_list[i].left_vertex,
                     #                self.edge_list[i].right_vertex))
                     #black_edges.append((self.edge_list[i].left_vertex,
@@ -192,6 +198,10 @@ class AlgorithmDisplay(games.Sprite):
                         self.re.append(r)
                     if (r in self.be):
                         self.be.remove(r)
+                    ######################## NEW
+                    if (r in self.ge):
+                        self.ge.remove(r)
+                    ######################## NEW
                     #red_edges.append((self.edge_list[i].left_vertex,
                     #                  self.edge_list[i].right_vertex))
             ###########################################################
