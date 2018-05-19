@@ -184,6 +184,16 @@ class Responses(object):
         for t in self.text_list:
             t.destroy() # remove the corresponding text sprite from the screen
         self.text_list = []
+        if (self.forward_button):
+            self.forward_button.destroy()
+            self.forward_button = None
+            self.forward_text.destroy()
+            self.forward_text = None
+        if (self.backward_button):
+            self.backward_button.destroy()
+            self.backward_button = None
+            self.backward_text.destroy()
+            self.backward_text = None
 
     # change text
     def reset_text(self, new_text):
@@ -419,7 +429,9 @@ class Responses(object):
         self.reset_text('Choose Procedure For')
         self.clear_buttons()
         self.remove_step_text()
+        #self.unselect_all()
         self.unselect_all()
+        self.unselect_all_edges()
         self.remove_option_buttons()
         # add additional line of prompt text
         self.text_list.append(MT.MyText('Maximal Matching (MM).', 30,
@@ -451,8 +463,8 @@ class Responses(object):
         self.set_back_button(button_image, hovered_image, 4)
         self.render_buttons()
         # unselect any selected vertices
-        self.unselect_all()
-        self.unselect_all_edges()
+        #self.unselect_all()
+        #self.unselect_all_edges()
         if (self.has_congratulation):
             self.remove_congratulation()
         self.matching_list = []
@@ -465,9 +477,12 @@ class Responses(object):
         self.reset_text('Choose Procedure For')
         self.has_generated_matching = False
         self.clear_buttons()
-        self.remove_step_text()
-        self.unselect_all()
         self.remove_option_buttons()
+        self.remove_step_text()
+        #self.unselect_all()
+        self.unselect_all()
+        self.unselect_all_edges()
+        #self.remove_option_buttons()
         # add additional line of prompt text
         self.text_list.append(MT.MyText('Maximal Matching (MM).', 30,
                                         color.black, 600, 60))
@@ -497,7 +512,8 @@ class Responses(object):
                                         20, color.black, 600, 420))
         self.set_back_button(button_image, hovered_image, 3)
         self.render_buttons()
-        self.unselect_all_edges()
+        #self.unselect_all()
+        #self.unselect_all_edges()
         if (self.has_congratulation):
             self.remove_congratulation()
         self.matching_list = []
@@ -570,17 +586,16 @@ class Responses(object):
 
     def set_step_buttons(self):
         button_image = games.load_image("images/button.png")
-        self.forward_button = games.Sprite(image = button_image, x = 500,
+        self.forward_button = games.Sprite(image = button_image, x = 680,
                                            y = 300, is_collideable = False)
-        #self.backward_button = games.Sprite(image = button_image, x = 500,
-        #                                    y = 300)
-        self.foward_text = MT.MyText('Forward', 20, color.black, 500, 300)
-        #self.backward_text = MT.MyText('Backward', 20, color.black, 500, 300)
+        self.backward_button = games.Sprite(image = button_image, x = 530,
+                                            y = 300)
+        self.forward_text = MT.MyText('Forward', 20, color.black, 680, 300)
+        self.backward_text = MT.MyText('Backward', 20, color.black, 530, 300)
         games.screen.add(self.forward_button)
-        #games.screen.add(self.backward_button)
+        games.screen.add(self.backward_button)
         games.screen.add(self.forward_text)
-        #games.screen.add(self.backward_text)
-        print('finish')
+        games.screen.add(self.backward_text)
 
     # to state 11
     def execute_manual_algorithm_steps(self):
@@ -588,7 +603,7 @@ class Responses(object):
         self.prepare_operations(5)
         self.display = AD.AlgorithmDisplay(self, True)
         games.screen.add(self.display)
-        #self.set_step_buttons()
+        self.set_step_buttons()
 
     # to state 12
     def execute_random_find_automatically(self):
@@ -615,7 +630,7 @@ class Responses(object):
         self.prepare_operations(6)
         self.display = AD.AlgorithmDisplay(self, True)
         games.screen.add(self.display)
-        #self.set_step_buttons()
+        self.set_step_buttons()
 
     def advance(self, new_state, data):
         if (new_state == 1):
