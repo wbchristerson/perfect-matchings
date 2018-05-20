@@ -25,3 +25,8 @@ Alternatively, follow the instructions below to download to a hard drive:
     - `npm start`
 
 The page will open in the browser.
+
+## Sources
+The content of `Maximum_Matchings.pdf` and the algorithm itself are largely based on "Discrete Mathematics: Elementary And Beyond", by L. Lovasz, J. Pelikan, K.Vesztergombi, Print, 2003 Springer-Verlag New York, Inc., p. 171-176.
+
+The background image used was publicly available through Unsplash and taken by user [bady qb](https://unsplash.com/@bady).
