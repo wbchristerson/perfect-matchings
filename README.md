@@ -2,6 +2,9 @@
 
 This application demonstrates an algorithm for finding maximum matchings in bipartite graphs. For a detailed explanation of the concepts involved, see `Maximum_Matchings.pdf`. The project was created using Python along with the pygame and livewires libraries.
 
+## Navigating Through The application
+
+
 
 ## Downloading The Project
 
@@ -27,6 +30,6 @@ Alternatively, follow the instructions below to download to a hard drive:
 The page will open in the browser.
 
 ## Sources
-The content of `Maximum_Matchings.pdf` and the algorithm itself are largely based on "Discrete Mathematics: Elementary And Beyond", by L. Lovasz, J. Pelikan, K.Vesztergombi, Print, 2003 Springer-Verlag New York, Inc., p. 171-176.
+The content of `Maximum_Matchings.pdf` and the algorithm itself are largely based on "Discrete Mathematics: Elementary And Beyond", by L. Lovasz, J. Pelikan, K. Vesztergombi, Print, 2003 Springer-Verlag New York, Inc., p. 171-176.
 
 The background image used was publicly available through Unsplash and taken by user [bady qb](https://unsplash.com/@bady).
