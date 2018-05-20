@@ -288,8 +288,8 @@ class Responses(object):
     # include initial application graphics
     def initialize_board(self):
         self.state = 1
-        wall_image = games.load_image("images/wall-large.jpg")
-        games.screen.background = wall_image
+        background = games.load_image("images/bady-qb-42758-unsplash.jpg")
+        games.screen.background = background
         self.set_left_branch_query()
         games.screen.mainloop()
 
