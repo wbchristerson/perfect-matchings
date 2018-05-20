@@ -1,5 +1,4 @@
 from livewires import games, color
-from pygame import draw
 import NavigationButton as NB
 import Vertex as VE
 import Edge as ED
