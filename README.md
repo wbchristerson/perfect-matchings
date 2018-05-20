@@ -5,6 +5,7 @@ This application demonstrates an algorithm for finding maximum matchings in bipa
 
 ## Downloading The Project
 
+* You will need to have Python installed, as well as the pygame and livewires libraries. The version of livewires used for this project was taken from this [download](http://www.delmarlearning.com/companions/content/1435455002/downloads/index.asp?isbn=1435455002) (which also contains downloads for Python and pygame), under "Book related software".
 * To download, you can clone the repository using this terminal command:
 ```
 git clone https://github.com/wbchristerson/perfect-matchings.git
@@ -24,7 +25,3 @@ Alternatively, follow the instructions below to download to a hard drive:
     - `npm start`
 
 The page will open in the browser.
-
-## API Server
-
-Information about the API server and how to use it can be found in its [README file](api-server/README.md).
