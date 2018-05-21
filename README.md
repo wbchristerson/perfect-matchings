@@ -44,13 +44,13 @@ Upon selecting the manual matching option, the user is allowed to select edges o
   <img src="images/screenshots/manual-match.png" alt="Manual matching view.">
 </p>
 
-Upon selecting the automatic matching option, a maximum matching is immediately displayed.
+After selecting the automatic matching option, a maximum matching is immediately displayed.
 
 <p align="center">
   <img src="images/screenshots/match-automatic.png" alt="Automatically-generated maximum matching displayed.">
 </p>
 
-Upon selecting the option to watch the algorithm, the steps of the algorithm will be displayed with changes occurring every few seconds (with a pause button available). The first image below is a still of the initial greedy matching generation and the second image below is a still of the identification of an augmenting path to increase the size of the matching.
+If the user selects the option to watch the algorithm, the steps of the algorithm will be displayed with changes occurring every few seconds (with a pause button available). The first image below is a still of the initial greedy matching generation and the second image below is a still of the identification of an augmenting path to increase the size of the matching.
 
 <p align="center">
   <img src="images/screenshots/matching-watch-A.png" alt="Greedy matching search view.">
