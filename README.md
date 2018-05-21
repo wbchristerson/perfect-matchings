@@ -12,11 +12,43 @@ This project was created using Python along with the `pygame` and `livewires` pa
 
 ## Navigating Through The Application
 
-Important: To navigate throughout the pages of the program, there are buttons which can be hovered over. To push the buttons, rather than clicking, you must push the space bar.
+Important: To navigate throughout the pages of the program, there are buttons which can be hovered over. To push the buttons you must push the space bar while hovered over, rather than clicking.
+
+The application begins with a page for selecting the left branch size.
+
+<p align="center">
+  <img src="images/screenshots/left-selection.png" alt="Left branch selection view.">
+</p>
+
+This is followed by a similar page for selecting the right branch size.
+
+<p align="center">
+ <img src="images/screenshots/right-selection.png" alt="Right branch selection view.">
+</p>
+
+The user may then elect to choose edges manual or to allow the program to randomly select edges, adding any individual edge using a pseudo-random number generator with probability 40%. Below is a view for making edge selections manually.
+
+<p align="center">
+  <img src="images/screenshots/edge-selection.png" alt="Edge selection view.">
+</p>
+
+The user is then taken to a page for selecting the type of operation to apply.
+
+<p align="center">
+  <img src="images/screenshots/operation-options.png" alt="Operations options view.">
+</p>
+
+Upon selecting the manual matching option, the user is allowed to select edges of the graph to try to find a maximum matching. Congratulations are given upon succeeding.
+
+<p align="center">
+  <img src="images/screenshots/manual-match.png" alt="Manual matching view.">
+</p>
 
 ## Downloading The Project
 
-* You will need to have Python installed, as well as the `pygame` and `livewires` libraries. The version of `livewires` used for this project was taken from this [download](http://www.delmarlearning.com/companions/content/1435455002/downloads/index.asp?isbn=1435455002) (which also contains downloads for Python and `pygame`), under "Book related software". To download Python only, visit this [page](https://www.python.org/downloads/). Note: I recommend using the versions of `livewires`, `pygame`, and Python provided at the first link; otherwise, you may encounter issues with compatibility between the standard `livewires` package and version 3.x or higher of Python.
+* You will need to have Python installed, as well as the `pygame` and `livewires` libraries. The version of `livewires` used for this project was taken from this [download](http://www.delmarlearning.com/companions/content/1435455002/downloads/index.asp?isbn=1435455002) (which also contains downloads for Python and `pygame`), under "Book related software". To download Python only, visit this [page](https://www.python.org/downloads/).
+
+  Note: I recommend using the versions of `livewires`, `pygame`, and Python provided at the first link; otherwise, you may encounter issues with compatibility between the standard `livewires` package and version 3.x or higher of Python.
 * To download, you can clone the repository using this terminal command:
 ```
 git clone https://github.com/wbchristerson/perfect-matchings.git
