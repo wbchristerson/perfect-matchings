@@ -1,5 +1,9 @@
 # Maximum Matchings
 
+<p align="center">
+  <img src="images/screenshots/main-sample.png" alt="Sample image of screen after having found maximum matching.">
+</p>
+
 This application demonstrates an algorithm for finding maximum matchings in bipartite graphs. For a detailed explanation of the concepts involved, see `Maximum_Matchings.pdf`. The project was created using Python along with the pygame and livewires libraries.
 
 ## Navigating Through The Application
