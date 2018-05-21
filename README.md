@@ -4,11 +4,13 @@
   <img src="images/screenshots/main-sample.png" alt="Sample image of screen after having found maximum matching.">
 </p>
 
-This application demonstrates an algorithm for finding maximum matchings in bipartite graphs. For a detailed explanation of the concepts involved, see `Maximum_Matchings.pdf`. The project was created using Python along with the pygame and livewires libraries.
+This application demonstrates an algorithm for finding maximum matchings in bipartite graphs. The general procedure used begins with finding any maximal matching greedily, then expanding the matching using augmenting paths via almost augmenting paths. For a detailed explanation of the concepts involved, see `Maximum_Matchings.pdf`.
+
+The user can choose the bipartite graph in various ways or add edges randomly. There is then a series of selection options for demonstrating the algorithm.
+
+This project was created using Python along with the `pygame` and `livewires` packages.
 
 ## Navigating Through The Application
-
-
 
 Important: To navigate throughout the pages of the program, there are buttons which can be hovered over. To push the buttons, rather than clicking, you must push the space bar.
 
