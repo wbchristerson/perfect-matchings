@@ -368,6 +368,7 @@ class AlgorithmDisplay(games.Sprite):
         self.state = 3
 
 
+    # generate the frame list of all steps in the algorithm
     def generate_steps(self):
         while (not (self.state == 4)):
             if (self.state == 1):

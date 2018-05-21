@@ -80,4 +80,4 @@ If you encounter errors involving `pygame` or `livewires`, make sure that those 
 ## Sources
 The content of `Maximum_Matchings.pdf` and the algorithm itself are largely based on "Discrete Mathematics: Elementary And Beyond", by L. Lovasz, J. Pelikan, K. Vesztergombi, Print, 2003 Springer-Verlag New York, Inc., p. 171-176.
 
-The background image used was publicly available through Unsplash and taken by user [bady qb](https://unsplash.com/@bady). Thank you, bady qb!
+The background image used was publicly available through [Unsplash](https://unsplash.com/) and taken by user [bady qb](https://unsplash.com/@bady). Thank you, bady qb!

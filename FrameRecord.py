@@ -1,10 +1,16 @@
 import copy
 
+# data for the appearance of text, vertex colors, and edge colors at a specific
+# step of the algorithm
+
+# Note: all lists are of numbers corresponding to vertex and edge objects, not
+# the vertex or edge objects themselves
+
 class FrameRecord(object):
     def __init__(self, title_text, statement_text_A, statement_text_B,
-                 statement_text_C, red_edges, green_edges,
-                 black_edges, blue_vertices, yellow_vertices,
-                 purple_vertices, left_black_vertices, right_black_vertices):
+                 statement_text_C, red_edges, green_edges, black_edges,
+                 blue_vertices, yellow_vertices, purple_vertices,
+                 left_black_vertices, right_black_vertices):
         self.title_text = title_text
         self.statement_text_A = statement_text_A
         self.statement_text_B = statement_text_B
