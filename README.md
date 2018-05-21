@@ -26,7 +26,7 @@ This is followed by a similar page for selecting the right branch size.
  <img src="images/screenshots/right-selection.png" alt="Right branch selection view.">
 </p>
 
-The user may then elect to choose edges manual or to allow the program to randomly select edges, adding any individual edge using a pseudo-random number generator with probability 40%. Below is a view for making edge selections manually.
+The user may then elect to choose edges manually or to allow the program to randomly select edges, adding any individual edge using a pseudo-random number generator with probability 40%. Below is a view for making edge selections manually.
 
 <p align="center">
   <img src="images/screenshots/edge-selection.png" alt="Edge selection view.">
@@ -50,7 +50,7 @@ Upon selecting the automatic matching option, a maximum matching is immediately 
   <img src="images/screenshots/match-automatic.png" alt="Automatically generated maximum matching displayed.">
 </p>
 
-Upon selecting the option to watch the algorithm, the steps of the algorithm will be displayed with changes occurring every few seconds (with a pause button available). The image below on the left is a still of the initial greedy matching generation and the image below on the right is a still of the identification of an augmenting path to increase the size of the matching.
+Upon selecting the option to watch the algorithm, the steps of the algorithm will be displayed with changes occurring every few seconds (with a pause button available). The first image below is a still of the initial greedy matching generation and the second image below is a still of the identification of an augmenting path to increase the size of the matching.
 
 <p align="center">
   <img src="images/screenshots/matching-watch-A.png" alt="Greedy matching search view.">
@@ -80,4 +80,4 @@ If you encounter errors involving `pygame` or `livewires`, make sure that those 
 ## Sources
 The content of `Maximum_Matchings.pdf` and the algorithm itself are largely based on "Discrete Mathematics: Elementary And Beyond", by L. Lovasz, J. Pelikan, K. Vesztergombi, Print, 2003 Springer-Verlag New York, Inc., p. 171-176.
 
-The background image used was publicly available through Unsplash and taken by user [bady qb](https://unsplash.com/@bady).
+The background image used was publicly available through Unsplash and taken by user [bady qb](https://unsplash.com/@bady). Thank you, bady qb!
