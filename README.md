@@ -63,7 +63,7 @@ The fourth option also displays the steps of the algorithm but with buttons to f
 
 * You will need to have Python installed, as well as the `pygame` and `livewires` libraries. The version of `livewires` used for this project was taken from this [download](http://www.delmarlearning.com/companions/content/1435455002/downloads/index.asp?isbn=1435455002) (which also contains downloads for Python and `pygame`), under "Book related software". To download Python only, visit this [page](https://www.python.org/downloads/).
 
-  Note: I recommend using the versions of `livewires`, `pygame`, and Python provided at the first link; otherwise, you may encounter issues with compatibility between the standard `livewires` package and version 3.x or higher of Python.
+  Note: I recommend using the versions of `livewires`, `pygame`, and Python provided at the first link; otherwise, you may encounter issues with compatibility between the standard `livewires` package and version 3.x or higher of Python. The downloads from both sites are free.
 * To download, you can clone the repository using this terminal command:
   ```
   git clone https://github.com/wbchristerson/perfect-matchings.git
