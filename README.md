@@ -6,6 +6,8 @@ This application demonstrates an algorithm for finding maximum matchings in bipa
 
 
 
+Important: To navigate throughout the pages of the program, there are buttons which can be hovered over. To push the buttons, rather than clicking, you must push the space bar.
+
 ## Downloading The Project
 
 * You will need to have Python installed, as well as the `pygame` and `livewires` libraries. The version of `livewires` used for this project was taken from this [download](http://www.delmarlearning.com/companions/content/1435455002/downloads/index.asp?isbn=1435455002) (which also contains downloads for Python and `pygame`), under "Book related software".
