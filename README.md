@@ -44,6 +44,21 @@ Upon selecting the manual matching option, the user is allowed to select edges o
   <img src="images/screenshots/manual-match.png" alt="Manual matching view.">
 </p>
 
+Upon selecting the automatic matching option, a maximum matching is immediately displayed.
+
+<p align="center">
+  <img src="images/screenshots/match-automatic.png" alt="Automatically generated maximum matching displayed.">
+</p>
+
+Upon selecting the option to watch the algorithm, the steps of the algorithm will be displayed with changes occurring every few seconds (with a pause button available). The image below on the left is a still of the initial greedy matching generation and the image below on the right is a still of the identification of an augmenting path to increase the size of the matching.
+
+<p align="center">
+  <img src="images/screenshots/matching-watch-A.png" alt="Greedy matching search view.">
+  <img src="images/screenshots/matching-watch-B.png" alt="Identification of an augmenting path.">
+</p>
+
+The fourth option also displays the steps of the algorithm but with buttons to follow the steps.
+
 ## Downloading The Project
 
 * You will need to have Python installed, as well as the `pygame` and `livewires` libraries. The version of `livewires` used for this project was taken from this [download](http://www.delmarlearning.com/companions/content/1435455002/downloads/index.asp?isbn=1435455002) (which also contains downloads for Python and `pygame`), under "Book related software". To download Python only, visit this [page](https://www.python.org/downloads/).
